@@ -9,9 +9,9 @@ public class MainActivity extends AppCompatActivity {
 
     //TODO: change images.
     private int[] imageResId = {
-            R.drawable.ic_dashboard_black_24dp,
-            R.drawable.ic_home_black_24dp,
-            R.drawable.ic_notifications_black_24dp,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
+            R.mipmap.ic_launcher,
             R.mipmap.ic_launcher,
             R.mipmap.ic_launcher_round};
 
