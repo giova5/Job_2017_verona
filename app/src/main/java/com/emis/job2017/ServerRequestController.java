@@ -4,8 +4,10 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +26,7 @@ public class ServerRequestController {
     public static final String POST_METHOD = "POST";
     public static final String PUT_METHOD = "PUT";
     public static final String DELETE_METHOD = "DELETE";
+    public static final int RETRIES = 3;
     private final static int CONNECTION_REFUSED = -999;
     private final static int SERVER_ERRORS = 500;
 

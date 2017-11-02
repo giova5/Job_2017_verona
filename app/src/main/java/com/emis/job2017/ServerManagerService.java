@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by jo5 on 23/10/17.
  */
@@ -12,8 +15,21 @@ import android.util.Log;
 public class ServerManagerService extends IntentService {
 
     private static final String TAG = "ServerManagerService";
-    public static final String COMMAND = "COMMAND";
 
+    private static final String RESPONSE_CODE = "responseCode";
+    public static final String OPERATION_SUCCESS_200_OK = "200";
+    public static final String OPERATION_SUCCESS_201_OK = "201";
+    public static final String OPERATION_SUCCESS_202_OK = "202";
+    private static final int NO_INTERNET_CONNECTION = -1000;
+
+    //commands switch case
+    public static final String COMMAND = "COMMAND";
+    public static final String COMMAND_AUTHENTICATE = "COMMAND_AUTHENTICATE";
+    public static final String GET_JOB_CALENDAR = "COMMAND_GET_JOB_CALENDAR";
+
+    //Requests parameters
+    public static final String AUTHENTICATE_EMAIL = "AUTHENTICATE_EMAIL";
+    public static final String AUTHENTICATE_PSW = "AUTHENTICATE_PSW";
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -37,7 +53,35 @@ public class ServerManagerService extends IntentService {
 
         switch (command){
             //All requests
+            case COMMAND_AUTHENTICATE:
+                String email = intent.getStringExtra(AUTHENTICATE_EMAIL);
+                String psw = intent.getStringExtra(AUTHENTICATE_PSW);
+
+                ServerOperations authenticateRequest = new ServerOperations(Utils.EventType.USER_AUTHENTICATE);
+                JSONObject authenticateResponse = authenticateRequest.userAuthenticate(email, psw);
+                //TODO: manage response
+                break;
+
+            case GET_JOB_CALENDAR:
+                ServerOperations getJobCalendarRequest = new ServerOperations(Utils.EventType.GET_PROGRAM);
+                JSONObject getJobCalendarResponse = getJobCalendarRequest.getJobCalendar();
+                //TODO: manage response
+                break;
         }
 
+    }
+
+    private void manageResponse(JSONObject jsonResponse){
+
+        try {
+
+            if (jsonResponse == null) {
+                jsonResponse = new JSONObject();
+                jsonResponse.put(RESPONSE_CODE, NO_INTERNET_CONNECTION);
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

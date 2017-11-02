@@ -32,7 +32,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return new QRCodeReader();
             case 3:
-                return new NewsPage();
+                return new CalendarPage();
             case 4:
                 return new NewsPage();
             default:
