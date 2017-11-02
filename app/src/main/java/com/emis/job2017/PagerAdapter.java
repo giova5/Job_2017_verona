@@ -26,7 +26,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return new NewsPage();
+//                return new NewsPage();
             case 1:
                 return new NewsPage();
             case 2:
@@ -34,7 +34,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return new CalendarPage();
             case 4:
-                return new NewsPage();
+//                return new NewsPage();
             default:
                 return null;
         }

@@ -156,7 +156,17 @@ public class ServerOperations {
         context.startService(smIntent);
     }
 
+    /*********************************** GET NEWS METHODS ************************************/
 
+    public JSONObject getNews(){
+        return sendRequest(Utils.EventType.NEWS, GET_METHOD, null, RETRIES);
+    }
+
+    public void sendGetNews(Context context){
+        Intent smIntent = new Intent(context, ServerManagerService.class);
+        smIntent.putExtra(ServerManagerService.COMMAND, ServerManagerService.NEWS);
+        context.startService(smIntent);
+    }
 
     /*********************************** SEND REQUEST METHOD ************************************/
 
