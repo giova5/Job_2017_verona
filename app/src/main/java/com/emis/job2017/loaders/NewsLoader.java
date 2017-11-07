@@ -75,13 +75,11 @@ public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
                 //TODO: check date 1970
                 Date date = new Date(Long.valueOf(current.getString("data")));
                 newsModel.setDate(date);
-                newsModel.setLink(new URL(current.getString("link")));
+                newsModel.setLink(current.getString("link"));
 
                 newsModelList.add(newsModel);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 

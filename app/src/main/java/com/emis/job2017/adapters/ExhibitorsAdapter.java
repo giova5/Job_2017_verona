@@ -102,9 +102,9 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> {
         holder.webSite.setText(item.getWebSite());
         holder.youtubeLink.setText(item.getYoutubeLink());
         holder.phone.setText(item.getPhoneNumber());
-        holder.firstEmail.setText((item.getArrayEmails() == null) ? "---" : item.getArrayEmails().get(0));
-        holder.secondEmail.setText(item.getArrayEmails() == null ? "---" : item.getArrayEmails().get(1));
-        holder.thirdEmail.setText(item.getArrayEmails() == null ? "---" : item.getArrayEmails().get(2));
+        holder.firstEmail.setText((item.getEmail1()));
+        holder.secondEmail.setText(item.getEmail2());
+        holder.thirdEmail.setText(item.getEmail3());
         holder.descriptionNoHtml.setText(item.getDescriptionNoHtml());
         holder.logoPath.setText(item.getLogoPath());
 

@@ -1,10 +1,12 @@
 package com.emis.job2017.models;
 
+import io.realm.RealmObject;
+
 /**
  * Created by jo5 on 25/10/17.
  */
 
-public class CalendarEventModel {
+public class CalendarEventModel extends RealmObject {
 
     //TODO: implement model
 

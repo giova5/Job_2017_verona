@@ -3,11 +3,13 @@ package com.emis.job2017.models;
 import java.net.URL;
 import java.util.Date;
 
+import io.realm.RealmObject;
+
 /**
  * Created by jo5 on 02/11/17.
  */
 
-public class NewsModel {
+public class NewsModel extends RealmObject {
 
     private int idArticle;
     private String title;
@@ -16,12 +18,12 @@ public class NewsModel {
     private String preview;
     private String author;
     private Date date;
-    private URL link;
+    private String link;
 
     public NewsModel(){
     }
 
-    public NewsModel(int idArticle, String title, String content, String contentNoHtml, String preview, String author, Date date, URL link){
+    public NewsModel(int idArticle, String title, String content, String contentNoHtml, String preview, String author, Date date, String link){
         this.idArticle = idArticle;
         this.title = title;
         this.content = content;
@@ -88,11 +90,11 @@ public class NewsModel {
         this.date = date;
     }
 
-    public URL getLink() {
+    public String getLink() {
         return link;
     }
 
-    public void setLink(URL link) {
+    public void setLink(String link) {
         this.link = link;
     }
 }

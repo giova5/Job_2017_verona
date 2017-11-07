@@ -2,11 +2,13 @@ package com.emis.job2017.models;
 
 import java.util.List;
 
+import io.realm.RealmObject;
+
 /**
  * Created by jo5 on 02/11/17.
  */
 
-public class ExhibitorsModel {
+public class ExhibitorsModel extends RealmObject{
 
     private int idExhibitor;
     private int idCategory;
@@ -24,7 +26,10 @@ public class ExhibitorsModel {
 //    private List<ExhibitorsPadiglione> padiglioneList;
     private String logoPath;
     private String descriptionNoHtml;
-    private List<String> arrayEmails;
+//    private List<String> arrayEmails;
+    private String email1;
+    private String email2;
+    private String email3;
 
     public ExhibitorsModel(){
 
@@ -143,13 +148,13 @@ public class ExhibitorsModel {
         this.descriptionNoHtml = descriptionNoHtml;
     }
 
-    public List<String> getArrayEmails() {
+  /*  public List<String> getArrayEmails() {
         return arrayEmails;
     }
 
     public void setArrayEmails(List<String> arrayEmails) {
         this.arrayEmails = arrayEmails;
-    }
+    }*/
 
     public String getMassima() {
         return massima;
@@ -157,5 +162,29 @@ public class ExhibitorsModel {
 
     public void setMassima(String massima) {
         this.massima = massima;
+    }
+
+    public String getEmail1() {
+        return email1;
+    }
+
+    public void setEmail1(String email1) {
+        this.email1 = email1;
+    }
+
+    public String getEmail2() {
+        return email2;
+    }
+
+    public void setEmail2(String email2) {
+        this.email2 = email2;
+    }
+
+    public String getEmail3() {
+        return email3;
+    }
+
+    public void setEmail3(String email3) {
+        this.email3 = email3;
     }
 }
