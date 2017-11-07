@@ -168,6 +168,18 @@ public class ServerOperations {
         context.startService(smIntent);
     }
 
+    /*********************************** GET EXHIBITORS METHODS ************************************/
+
+    public JSONObject getExhibitors(){
+        return sendRequest(Utils.EventType.GET_EXHIBITORS_INFO, GET_METHOD, null, RETRIES);
+    }
+
+    public void sendGetExhibitors(Context context){
+        Intent smIntent = new Intent(context, ServerManagerService.class);
+        smIntent.putExtra(ServerManagerService.COMMAND, ServerManagerService.GET_EXHIBITORS_INFO);
+        context.startService(smIntent);
+    }
+
     /*********************************** SEND REQUEST METHOD ************************************/
 
     synchronized private JSONObject sendRequest(Utils.EventType eventType, String method, String jsonObject, int maxRetries) {

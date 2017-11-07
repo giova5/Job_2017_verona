@@ -27,6 +27,7 @@ public class ServerManagerService extends IntentService {
     public static final String COMMAND_AUTHENTICATE = "COMMAND_AUTHENTICATE";
     public static final String GET_JOB_CALENDAR = "COMMAND_GET_JOB_CALENDAR";
     public static final String NEWS = "COMMAND_NEWS";
+    public static final String GET_EXHIBITORS_INFO = "COMMAND_EXHIBITORS_INFO";
 
     //Requests parameters
     public static final String AUTHENTICATE_EMAIL = "AUTHENTICATE_EMAIL";

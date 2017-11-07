@@ -28,6 +28,7 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
         // Required empty public constructor
     }
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -39,6 +40,7 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
         View view = inflater.inflate(R.layout.fragment_news_page, container, false);
         newsList = (ListView) view.findViewById(R.id.news_list);
         newsSpinner = (ProgressBar) view.findViewById(R.id.news_progress_bar);
+        newsSpinner.setVisibility(View.VISIBLE);
         newsAdapter = new NewsAdapter(null, getActivity());
         newsList.setOnItemClickListener(this);
         newsList.setAdapter(newsAdapter);
