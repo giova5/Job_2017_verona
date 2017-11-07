@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.emis.job2017.utils.Utils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

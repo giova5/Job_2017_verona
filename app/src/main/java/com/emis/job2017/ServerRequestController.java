@@ -4,10 +4,10 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import org.json.JSONArray;
+import com.emis.job2017.utils.Utils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.io.InputStream;

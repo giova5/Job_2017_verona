@@ -1,6 +1,6 @@
 package com.emis.job2017.models;
 
-import com.emis.job2017.Utils;
+import com.emis.job2017.utils.Utils;
 
 /**
  * Created by jo5 on 17/10/17.

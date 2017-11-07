@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.emis.job2017.BaseAsyncLoader;
 import com.emis.job2017.ServerOperations;
-import com.emis.job2017.Utils;
+import com.emis.job2017.utils.Utils;
 import com.emis.job2017.models.ExhibitorsModel;
 
 import org.json.JSONArray;
