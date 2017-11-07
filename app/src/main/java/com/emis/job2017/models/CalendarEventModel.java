@@ -1,4 +1,4 @@
-package com.emis.job2017;
+package com.emis.job2017.models;
 
 /**
  * Created by jo5 on 25/10/17.

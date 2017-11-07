@@ -1,6 +1,11 @@
-package com.emis.job2017;
+package com.emis.job2017.loaders;
 
 import android.content.Context;
+
+import com.emis.job2017.BaseAsyncLoader;
+import com.emis.job2017.ServerOperations;
+import com.emis.job2017.Utils;
+import com.emis.job2017.models.NewsModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;

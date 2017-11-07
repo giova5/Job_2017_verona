@@ -1,9 +1,7 @@
-package com.emis.job2017;
+package com.emis.job2017.view;
 
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.Loader;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +11,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
+
+import com.emis.job2017.R;
+import com.emis.job2017.adapters.CalendarAdapter;
+import com.emis.job2017.loaders.CalendarLoader;
+import com.emis.job2017.models.CalendarEventModel;
 
 import java.util.List;
 

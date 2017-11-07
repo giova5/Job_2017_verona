@@ -1,4 +1,4 @@
-package com.emis.job2017;
+package com.emis.job2017.view;
 
 import android.app.LoaderManager;
 import android.content.Loader;
@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import com.emis.job2017.R;
+import com.emis.job2017.adapters.ExhibitorsAdapter;
+import com.emis.job2017.loaders.ExhibitorsLoader;
+import com.emis.job2017.models.ExhibitorsModel;
 
 import java.util.List;
 

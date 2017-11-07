@@ -1,21 +1,24 @@
-package com.emis.job2017;
+package com.emis.job2017.loaders;
 
 import android.content.Context;
-import android.util.Log;
+
+import com.emis.job2017.BaseAsyncLoader;
+import com.emis.job2017.ServerOperations;
+import com.emis.job2017.Utils;
+import com.emis.job2017.models.CalendarEventModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by jo5 on 25/10/17.
  */
 
-public class CalendarLoader extends BaseAsyncLoader<List<CalendarEventModel>>{
+public class CalendarLoader extends BaseAsyncLoader<List<CalendarEventModel>> {
 
     public CalendarLoader(Context c) {
         super(c);

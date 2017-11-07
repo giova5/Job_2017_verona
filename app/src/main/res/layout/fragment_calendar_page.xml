@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.emis.job2017.CalendarPage">
+    tools:context="com.emis.job2017.view.CalendarPage">
 
     <ListView
         android:id="@+id/calendar_list"

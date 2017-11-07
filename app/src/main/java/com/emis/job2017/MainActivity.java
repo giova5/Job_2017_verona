@@ -5,9 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.zxing.Result;
-
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import com.emis.job2017.adapters.PagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

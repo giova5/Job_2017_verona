@@ -1,8 +1,13 @@
-package com.emis.job2017;
+package com.emis.job2017.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.emis.job2017.view.CalendarPage;
+import com.emis.job2017.view.ExhibitorsPage;
+import com.emis.job2017.view.NewsPage;
+import com.emis.job2017.QRCodeReader;
 
 /**
  * Created by jo5 on 17/10/17.

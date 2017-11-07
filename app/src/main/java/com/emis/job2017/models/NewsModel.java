@@ -1,4 +1,4 @@
-package com.emis.job2017;
+package com.emis.job2017.models;
 
 import java.net.URL;
 import java.util.Date;

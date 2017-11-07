@@ -1,8 +1,7 @@
-package com.emis.job2017;
+package com.emis.job2017.view;
 
 import android.app.LoaderManager;
 import android.content.Loader;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import com.emis.job2017.R;
+import com.emis.job2017.adapters.NewsAdapter;
+import com.emis.job2017.loaders.NewsLoader;
+import com.emis.job2017.models.NewsModel;
 
 import java.util.List;
 
