@@ -41,7 +41,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 4:
 //                return new ExhibitorsPage();
             default:
-                return null;
+                return new CalendarPage();
         }
     }
 

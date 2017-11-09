@@ -79,7 +79,7 @@ public class NewsAdapter extends ArrayAdapter<NewsModel> {
         holder.review.setText(item.getPreview());
         holder.author.setText(item.getAuthor());
         holder.date.setText(item.getDate().toString());
-        holder.link.setText(item.getLink().toString());
+        holder.link.setText(item.getLink());
 
         return convertView;
 

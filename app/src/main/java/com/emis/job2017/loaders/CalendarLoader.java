@@ -1,9 +1,11 @@
 package com.emis.job2017.loaders;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.emis.job2017.BaseAsyncLoader;
 import com.emis.job2017.ServerOperations;
+import com.emis.job2017.utils.RealmUtils;
 import com.emis.job2017.utils.Utils;
 import com.emis.job2017.models.CalendarEventModel;
 
@@ -26,13 +28,15 @@ public class CalendarLoader extends BaseAsyncLoader<List<CalendarEventModel>> {
 
     @Override
     public List<CalendarEventModel> loadInBackground() {
-
+        Log.d("Crash test", " -------- CalendarLoader class --------");
         List<CalendarEventModel> calendarList;
 
         ServerOperations getProgram = new ServerOperations(Utils.EventType.GET_PROGRAM);
         JSONObject getProgramResponse = getProgram.getJobCalendar();
 
         calendarList = parseGetProgramResponse(getProgramResponse);
+
+        RealmUtils.saveCalendarList(calendarList);
 
         return calendarList;
     }

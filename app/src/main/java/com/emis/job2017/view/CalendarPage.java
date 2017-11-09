@@ -5,6 +5,7 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +46,15 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        Log.d("Crash test", " -------- CalendarPage onCreateView() --------");
+
         View view = inflater.inflate(R.layout.fragment_calendar_page, container, false);
         calendarList = (ListView) view.findViewById(R.id.calendar_list);
         calendarSpinner = (ProgressBar) view.findViewById(R.id.calendar_progress_bar);
+        Log.d("Crash test", " -------- CalendarPage before create CalendarAdapter --------");
         calendarAdapter = new CalendarAdapter(null, getActivity());
         calendarList.setOnItemClickListener(this);
+        Log.d("Crash test", " -------- CalendarPage before call setAdapter(...) --------");
         calendarList.setAdapter(calendarAdapter);
 
         return view;
@@ -58,7 +63,7 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Log.d("Crash test", " -------- CalendarPage before call initLoader --------");
         getActivity().getLoaderManager().initLoader(CALENDAR_LOADER_ID, null, this);
 
     }

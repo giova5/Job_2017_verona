@@ -35,14 +35,14 @@ public class JobApplication extends Application {
 
     private static void initRealm(Context context){
         Realm.init(context);
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                .name("job.realm")
-                .schemaVersion(42)
-                .build();
+//        RealmConfiguration config = new RealmConfiguration.Builder()
+//                .name("job.realm")
+//                .schemaVersion(42)
+//                .build();
 
-        Realm.setDefaultConfiguration(config);
+//        Realm.setDefaultConfiguration(config);
         // Use the config
-        realmInstance = Realm.getInstance(config);
+//        realmInstance = Realm.getInstance(config);
     }
 
 }

@@ -1,17 +1,119 @@
 package com.emis.job2017.utils;
 
+import android.util.Log;
+
 import com.emis.job2017.JobApplication;
+import com.emis.job2017.models.CalendarEventModel;
+import com.emis.job2017.models.ExhibitorsModel;
+import com.emis.job2017.models.NewsModel;
+
+import java.util.Iterator;
+import java.util.List;
 
 import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmMigration;
+import io.realm.RealmResults;
 
 /**
  * Created by jo5 on 07/11/17.
  */
 
 public class RealmUtils {
+
+    public static void saveCalendarList(List<CalendarEventModel> calendarList){
+
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+
+        Iterator<CalendarEventModel> iterator = calendarList.iterator();
+        while(iterator.hasNext()) {
+            CalendarEventModel currentCalendarEventModel = iterator.next();
+
+            CalendarEventModel calendarEventModel = realm.createObject(CalendarEventModel.class);
+            calendarEventModel.setIdProgram(currentCalendarEventModel.getIdProgram());
+            calendarEventModel.setStartTime(currentCalendarEventModel.getStartTime());
+            calendarEventModel.setEndTime(currentCalendarEventModel.getEndTime());
+            calendarEventModel.setLocation(currentCalendarEventModel.getLocation());
+            calendarEventModel.setTypeOfProgramString(currentCalendarEventModel.getTypeOfProgramString());
+            calendarEventModel.setTitle(currentCalendarEventModel.getTitle());
+            calendarEventModel.setDescription(currentCalendarEventModel.getDescription());
+        }
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    public static void saveNewsList(List<NewsModel> newsList){
+
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+
+        Iterator<NewsModel> iterator = newsList.iterator();
+        while(iterator.hasNext()) {
+
+            NewsModel currentCalendarEventModel = iterator.next();
+            NewsModel newsModel= realm.createObject(NewsModel.class);
+
+            newsModel.setIdArticle(currentCalendarEventModel.getIdArticle());
+            newsModel.setTitle(currentCalendarEventModel.getTitle());
+            newsModel.setContent(currentCalendarEventModel.getContent());
+            newsModel.setContentNoHtml(currentCalendarEventModel.getContentNoHtml());
+            newsModel.setPreview(currentCalendarEventModel.getPreview());
+            newsModel.setAuthor(currentCalendarEventModel.getAuthor());
+            newsModel.setDate(currentCalendarEventModel.getDate());
+            newsModel.setLink(currentCalendarEventModel.getLink());
+        }
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    public static void saveExhibitorsList(List<ExhibitorsModel> newsExhibitors){
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+
+        Iterator<ExhibitorsModel> iterator = newsExhibitors.iterator();
+        while(iterator.hasNext()) {
+
+            ExhibitorsModel currentExhibitorModel = iterator.next();
+
+            ExhibitorsModel exhibitorsModel = realm.createObject(ExhibitorsModel.class);
+
+            exhibitorsModel.setIdExhibitor(currentExhibitorModel.getIdExhibitor());
+            exhibitorsModel.setIdCategory(currentExhibitorModel.getIdCategory());
+            exhibitorsModel.setIdPadiglione(currentExhibitorModel.getIdPadiglione());
+            exhibitorsModel.setName(currentExhibitorModel.getName());
+            exhibitorsModel.setMassima(currentExhibitorModel.getMassima());
+            exhibitorsModel.setDescription(currentExhibitorModel.getDescription());
+            exhibitorsModel.setStandNumber(currentExhibitorModel.getStandNumber());
+            exhibitorsModel.setStandCoordinates((currentExhibitorModel.getStandCoordinates()));
+            exhibitorsModel.setWebSite(currentExhibitorModel.getWebSite());
+            exhibitorsModel.setYoutubeLink(currentExhibitorModel.getYoutubeLink());
+            exhibitorsModel.setPhoneNumber(currentExhibitorModel.getPhoneNumber());
+            exhibitorsModel.setLogoPath(currentExhibitorModel.getLogoPath());
+            exhibitorsModel.setDescriptionNoHtml(currentExhibitorModel.getDescriptionNoHtml());
+            exhibitorsModel.setEmail1(currentExhibitorModel.getEmail1());
+            exhibitorsModel.setEmail2(currentExhibitorModel.getEmail2());
+            exhibitorsModel.setEmail3(currentExhibitorModel.getEmail3());
+        }
+        realm.commitTransaction();
+        realm.close();
+    }
+
+
+
+//    public static void showCalendarRealmList(){
+//        Realm realm = Realm.getDefaultInstance();
+//        realm.beginTransaction();
+//        RealmResults<CalendarEventModel> calendarEventModels = realm.where(CalendarEventModel.class).findAll();
+//        for(CalendarEventModel current : calendarEventModels){
+//            Log.d("CalendarList from Realm", String.valueOf(current.getIdProgram()));
+//        }
+//    }
 
 }
 
