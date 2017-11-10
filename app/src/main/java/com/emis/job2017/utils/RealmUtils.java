@@ -23,6 +23,10 @@ import io.realm.RealmResults;
 
 public class RealmUtils {
 
+    /**
+     * ********************* Methods for saving contents to Realm *********************
+     */
+
     public static void saveCalendarList(List<CalendarEventModel> calendarList){
 
         Realm realm = Realm.getDefaultInstance();
@@ -104,6 +108,9 @@ public class RealmUtils {
         realm.close();
     }
 
+    /**
+     * ********************* Methods for getting contents from Realm  *********************
+     */
 
     public static CalendarEventModel getCalendarPrograms(int calendarID){
         Realm realm = Realm.getDefaultInstance();
@@ -121,6 +128,14 @@ public class RealmUtils {
         return cloned;
     }
 
+    public static ExhibitorsModel getExhibitors(int idExhib){
+        Realm realm = Realm.getDefaultInstance();
+        ExhibitorsModel exhibModel = realm.where(ExhibitorsModel.class).equalTo("idExhibitor", idExhib).findFirst();
+        ExhibitorsModel cloned = ExhibitorsModel.cloneObject(exhibModel);
+        realm.close();
+
+        return cloned;
+    }
 
 //    public static void showCalendarRealmList(){
 //        Realm realm = Realm.getDefaultInstance();

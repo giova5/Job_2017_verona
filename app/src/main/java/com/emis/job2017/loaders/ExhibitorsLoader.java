@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.emis.job2017.BaseAsyncLoader;
 import com.emis.job2017.ServerOperations;
+import com.emis.job2017.utils.RealmUtils;
 import com.emis.job2017.utils.Utils;
 import com.emis.job2017.models.ExhibitorsModel;
 
@@ -48,6 +49,8 @@ public class ExhibitorsLoader extends BaseAsyncLoader<List<ExhibitorsModel>> {
         JSONObject getExhibitorsResponse = getExhibitors.getExhibitors();
 
         exhibitorsList = parseGetExhibitorsResponse(getExhibitorsResponse);
+
+        RealmUtils.saveExhibitorsList(exhibitorsList);
 
         return exhibitorsList;
     }

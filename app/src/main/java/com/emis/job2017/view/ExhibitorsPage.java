@@ -5,6 +5,8 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.emis.job2017.adapters.ExhibitorsAdapter;
 import com.emis.job2017.loaders.ExhibitorsLoader;
 import com.emis.job2017.models.ExhibitorsModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -29,6 +32,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
     private static int EXHIBITORS_LOADER_ID = 3;
     private ExhibitorsAdapter exhibitorsAdapter;
     private ProgressBar exhibitorsSpinner;
+    private List<ExhibitorsModel> fullExhibitorsList = new LinkedList<>();
 
 
     public ExhibitorsPage(){
@@ -71,6 +75,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<List<ExhibitorsModel>> loader, List<ExhibitorsModel> data) {
         exhibitorsSpinner.setVisibility(View.GONE);
         exhibitorsAdapter.switchItems(data);
+        fullExhibitorsList.addAll(data);
     }
 
     @Override
@@ -80,6 +85,16 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ExhibitorsModel exhibitorsModel = fullExhibitorsList.get(position);
+        startFragment(exhibitorsModel.getIdExhibitor());
+    }
 
+    private void startFragment(int exhibID){
+        ExhibitorDetailPage fragment2 = ExhibitorDetailPage.newInstance(exhibID);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment2);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

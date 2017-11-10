@@ -35,6 +35,28 @@ public class ExhibitorsModel extends RealmObject{
 
     }
 
+    public ExhibitorsModel(int idExhibitor, int idCategory, int idPadiglione, String name, String massima, String description, String standNumber, String standCoordinates,
+                           String webSite, String youtubeLink, String phoneNumber, String logoPath, String descriptionNoHtml, String email1, String email2, String email3){
+
+        this.idExhibitor = idExhibitor;
+        this.idCategory = idCategory;
+        this.idPadiglione = idPadiglione;
+        this.name = name;
+        this.massima = massima;
+        this.description = description;
+        this.standNumber = standNumber;
+        this.standCoordinates = standCoordinates;
+        this.webSite = webSite;
+        this.youtubeLink = youtubeLink;
+        this.phoneNumber = phoneNumber;
+        this.logoPath = logoPath;
+        this.descriptionNoHtml = descriptionNoHtml;
+        this.email1 = email1;
+        this.email2 = email2;
+        this.email3 = email3;
+
+    }
+
     public int getIdExhibitor() {
         return idExhibitor;
     }
@@ -186,5 +208,29 @@ public class ExhibitorsModel extends RealmObject{
 
     public void setEmail3(String email3) {
         this.email3 = email3;
+    }
+
+    /*
+* Avoids issues with Realm's thread policy
+* */
+    public static ExhibitorsModel cloneObject(ExhibitorsModel exhibitorsModel) {
+        return new ExhibitorsModel(
+                exhibitorsModel.getIdExhibitor(),
+                exhibitorsModel.getIdCategory(),
+                exhibitorsModel.getIdPadiglione(),
+                exhibitorsModel.getName(),
+                exhibitorsModel.getMassima(),
+                exhibitorsModel.getDescription(),
+                exhibitorsModel.getStandNumber(),
+                exhibitorsModel.getStandCoordinates(),
+                exhibitorsModel.getWebSite(),
+                exhibitorsModel.getStandNumber(),
+                exhibitorsModel.getPhoneNumber(),
+                exhibitorsModel.getLogoPath(),
+                exhibitorsModel.getDescriptionNoHtml(),
+                exhibitorsModel.getEmail1(),
+                exhibitorsModel.getEmail2(),
+                exhibitorsModel.getEmail3()
+        );
     }
 }
