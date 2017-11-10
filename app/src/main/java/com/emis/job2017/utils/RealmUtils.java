@@ -105,6 +105,22 @@ public class RealmUtils {
     }
 
 
+    public static CalendarEventModel getCalendarPrograms(int calendarID){
+        Realm realm = Realm.getDefaultInstance();
+        CalendarEventModel calendarEventModel = realm.where(CalendarEventModel.class).equalTo("idProgram", calendarID).findFirst();
+        CalendarEventModel cloned = CalendarEventModel.cloneObject(calendarEventModel);
+        realm.close();
+        return cloned;
+    }
+
+    public static NewsModel getNews(int idArticle){
+        Realm realm = Realm.getDefaultInstance();
+        NewsModel newsModel = realm.where(NewsModel.class).equalTo("idArticle", idArticle).findFirst();
+        NewsModel cloned = NewsModel.cloneObject(newsModel);
+        realm.close();
+        return cloned;
+    }
+
 
 //    public static void showCalendarRealmList(){
 //        Realm realm = Realm.getDefaultInstance();

@@ -97,4 +97,20 @@ public class NewsModel extends RealmObject {
     public void setLink(String link) {
         this.link = link;
     }
+
+    /*
+* Avoids issues with Realm's thread policy
+* */
+    public static NewsModel cloneObject(NewsModel newsModel) {
+        return new NewsModel(
+                newsModel.getIdArticle(),
+                newsModel.getTitle(),
+                newsModel.getContent(),
+                newsModel.getContentNoHtml(),
+                newsModel.getPreview(),
+                newsModel.getAuthor(),
+                newsModel.getDate(),
+                newsModel.getLink()
+        );
+    }
 }

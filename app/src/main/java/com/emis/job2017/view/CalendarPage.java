@@ -5,6 +5,8 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.emis.job2017.adapters.CalendarAdapter;
 import com.emis.job2017.loaders.CalendarLoader;
 import com.emis.job2017.models.CalendarEventModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -31,6 +34,7 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
     private CalendarAdapter calendarAdapter;
     private ListView calendarList;
     private ProgressBar calendarSpinner;
+    private List<CalendarEventModel> fullCalendarList = new LinkedList<>();
 
     public CalendarPage() {
         // Required empty public constructor
@@ -80,6 +84,7 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
         //TODO: put in adapter
         calendarSpinner.setVisibility(View.GONE);
         calendarAdapter.switchItems(data);
+        fullCalendarList.addAll(data);
     }
 
     @Override
@@ -89,6 +94,17 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //TODO: go to
+        CalendarEventModel calendarEventModel = fullCalendarList.get(position);
+        startFragment(calendarEventModel.getIdProgram());
     }
+
+    private void startFragment(int calendarID){
+        CalendarDetailPage fragment2 = CalendarDetailPage.newInstance(calendarID);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment2);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 }

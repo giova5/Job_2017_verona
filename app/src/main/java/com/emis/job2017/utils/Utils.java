@@ -33,6 +33,10 @@ public class Utils {
         NEWS;
     }
 
+    public enum ExhibitorsTypeOfID{
+
+    }
+
     public static SecretKey generateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
         return new SecretKeySpec(SHARED_SECRET.getBytes(), "AES");
     }

@@ -5,6 +5,8 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.emis.job2017.adapters.NewsAdapter;
 import com.emis.job2017.loaders.NewsLoader;
 import com.emis.job2017.models.NewsModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -26,6 +29,7 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
     private NewsAdapter newsAdapter;
     private ListView newsList;
     private ProgressBar newsSpinner;
+    private List<NewsModel> fullNewsList = new LinkedList<>();
 
 
     public NewsPage(){
@@ -69,7 +73,7 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
     public void onLoadFinished(Loader<List<NewsModel>> loader, List<NewsModel> data) {
         newsSpinner.setVisibility(View.GONE);
         newsAdapter.switchItems(data);
-
+        fullNewsList.addAll(data);
     }
 
     @Override
@@ -79,6 +83,16 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        NewsModel newsEventModel = fullNewsList.get(position);
+        startFragment(newsEventModel.getIdArticle());
+    }
 
+    private void startFragment(int newsID){
+        NewsDetailPage fragment2 = NewsDetailPage.newInstance(newsID);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment2);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

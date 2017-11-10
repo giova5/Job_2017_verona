@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.emis.job2017.BaseAsyncLoader;
 import com.emis.job2017.ServerOperations;
+import com.emis.job2017.utils.RealmUtils;
 import com.emis.job2017.utils.Utils;
 import com.emis.job2017.models.NewsModel;
 
@@ -16,6 +17,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import io.realm.Realm;
 
 /**
  * Created by jo5 on 02/11/17.
@@ -51,6 +54,8 @@ public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
         JSONObject getNewsResponse = getNews.getNews();
 
         newsList = parseGetNewsResponse(getNewsResponse);
+
+        RealmUtils.saveNewsList(newsList);
 
         return newsList;
     }

@@ -1,5 +1,6 @@
 package com.emis.job2017.models;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
 /**
@@ -87,6 +88,21 @@ public class CalendarEventModel extends RealmObject {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    /*
+    * Avoids issues with Realm's thread policy
+    * */
+    public static CalendarEventModel cloneObject(CalendarEventModel calendarEventModel) {
+        return new CalendarEventModel(
+                calendarEventModel.getIdProgram(),
+                calendarEventModel.getStartTime(),
+                calendarEventModel.getEndTime(),
+                calendarEventModel.getLocation(),
+                calendarEventModel.getTitle(),
+                calendarEventModel.getDescription(),
+                calendarEventModel.getTypeOfProgramString()
+        );
     }
 }
 
