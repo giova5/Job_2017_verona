@@ -2,13 +2,19 @@ package com.emis.job2017;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.emis.job2017.view.ExhibitorDetailPage;
 import com.google.zxing.Result;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -95,5 +101,29 @@ public class QRCodeReader extends Fragment implements ZXingScannerView.ResultHan
     public void handleResult(Result result) {
 
         Log.d("QrCodeReader ", result.getText());
+
+        try {
+            URL urlFromQrCode =  new URL(result.getText());
+            String query = urlFromQrCode.getQuery();
+            //TODO: parse URL
+            //TOdo: check onBack
+
+            mScannerView.stopCamera();
+            startFragment(60);
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void startFragment(int exhibID){
+        ExhibitorDetailPage fragment2 = ExhibitorDetailPage.newInstance(exhibID);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment2);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

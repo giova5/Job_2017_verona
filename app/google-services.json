@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "524735229209",
+    "firebase_url": "https://job-orienta-2017.firebaseio.com",
+    "project_id": "job-orienta-2017",
+    "storage_bucket": "job-orienta-2017.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524735229209:android:1b90c3bf3c2745d8",
+        "android_client_info": {
+          "package_name": "com.emis.job2017"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524735229209-ftr717ph66shmt2pordbmr7vs306v62p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.emis.job2017",
+            "certificate_hash": "b93d56561182f5a737737c8ae8b6d397fcaff913"
+          }
+        },
+        {
+          "client_id": "524735229209-fplj0pa1pv9io51knie3amrnhevb5tlq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUllvbg8H1RY2Ruk3hiG4zsscdMdanQ68"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "524735229209-fplj0pa1pv9io51knie3amrnhevb5tlq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,8 @@ package com.emis.job2017;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -22,6 +24,8 @@ public class JobApplication extends Application {
         appInstance = this;
 
         initRealm(this);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("notifiche");
 
     }
 
