@@ -9,9 +9,11 @@ import com.emis.job2017.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -82,16 +84,80 @@ public class ServerRequestController {
             conn.setReadTimeout(5000);
 
             //TODO: check headers
-//            conn.setRequestProperty("Content-Type", contentType);
-//
+            conn.setRequestProperty("Content-Type", "application/json");
 //            conn.setRequestProperty("Accept-Charset", "utf-8");
 //            conn.setRequestProperty("Connection", "keep-alive");
+
 ////            conn.setRequestProperty("market", "");
 //            conn.setRequestProperty("app_uuid", Utils.getPhoneUuid());
 //            conn.setRequestProperty("os", "android");
 //            conn.setRequestProperty("os_version", Build.VERSION.RELEASE);
 //            conn.setRequestProperty("app_version", context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName);
 //            conn.setRequestProperty("X-Authorization", accessToken);
+
+            conn.connect();
+
+
+            if(body != null)
+                writeOutputStream();
+
+            responseCode = conn.getResponseCode();
+
+            Log.d("ServerRequestControl","Request response code: " + String.valueOf(responseCode));
+
+            String response = receivedResponse();
+            if(response == null)
+                return null;
+
+            Log.d("ServerRequestController", "Request response: " + response);
+
+            if (responseCode >= SERVER_ERRORS)
+                retry(url);
+
+            jsonResponse = (!response.isEmpty()) ? new JSONObject(response) : new JSONObject();
+            jsonResponse.put("responseCode", responseCode);
+
+        }catch(java.net.SocketTimeoutException e) {
+            e.printStackTrace();
+            retry(url);
+        }catch (UnknownHostException e){
+            retry(url);
+        } catch (IOException e) {
+            try {
+                jsonResponse = new JSONObject();
+                jsonResponse.put("responseCode", CONNECTION_REFUSED);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+        }
+        catch (JSONException e) {
+            try {
+                jsonResponse = new JSONObject();
+                jsonResponse.put("responseCode", CONNECTION_REFUSED);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        return jsonResponse;
+    }
+
+    public JSONObject performGetWithParamsConnection(URL url){
+
+        Log.d("ServerRequestController", "Request Body -- " + body);
+
+        try {
+
+            JSONObject jsonObject = new JSONObject(body);
+
+            String getUrl = url.toString() + "?refresh_token=" + jsonObject.getString("refresh_token");
+
+            conn = getHTTPConnectionObject(new URL(getUrl));
+
+            conn.setRequestMethod(method);
+            conn.setConnectTimeout(8000);
+            conn.setReadTimeout(5000);
 
             conn.connect();
 
@@ -137,12 +203,28 @@ public class ServerRequestController {
         return jsonResponse;
     }
 
-    public JSONObject sendRequest(URL url){
+    public JSONObject sendRequest(URL url, String method){
 
-        //TODO: switch - case for access_token
+        return (method.equals(GET_METHOD)) ? performGetWithParamsConnection(url) : performConnection(url);
 
-        return performConnection(url);
+    }
 
+    private void writeOutputStream(){
+        OutputStream os = null;
+        try {
+            os = new BufferedOutputStream(conn.getOutputStream());
+            os.write(body.getBytes());
+            os.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (os != null)
+                    os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private String receivedResponse() throws IOException {

@@ -2,6 +2,7 @@ package com.emis.job2017;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.emis.job2017.utils.Utils;
 
@@ -51,6 +52,7 @@ public class ServerOperations {
     private static String GET_EXHIBITORS_INFO = "json_espositori.php?app=1";
     private static String GET_PROGRAM = "json.php?app=1";
     private static String NEWS = "json.php";
+    private static String PROFILE_LOGGED_USER = "json_profilo_loggato.php";
 
 
 
@@ -62,10 +64,10 @@ public class ServerOperations {
 
             switch (eventType) {
                 case GET_ACCESS_TOKEN:
-                    currentEndPointForRequest = urlHeaderAsString + ACVISLOGIN + AUTHENTICATE;
+                    currentEndPointForRequest = urlHeaderAsString + ACVISLOGIN + GET_ACCESS_TOKEN;
                     break;
                 case USER_AUTHENTICATE:
-                    currentEndPointForRequest = urlHeaderAsString + ACVISLOGIN + GET_ACCESS_TOKEN;
+                    currentEndPointForRequest = urlHeaderAsString + ACVISLOGIN + AUTHENTICATE;
                     break;
                 case GET_EVENT_INFO:
                     currentEndPointForRequest = urlHeaderAsString + ACORGPROFILO + GET_EVENT_INFO;
@@ -85,7 +87,9 @@ public class ServerOperations {
                 case NEWS:
                     currentEndPointForRequest = urlHeaderAsString + ACORGNOTIFICHE + NEWS;
                     break;
-                    //TODO: TO BE CONTINUED
+                case GET_USER_PROFILE_INFO:
+                    currentEndPointForRequest = urlHeaderAsString + ACORGPROFILO + PROFILE_LOGGED_USER;
+                    break;
                 default:
                     currentEndPointForRequest = null;
                     break;
@@ -102,7 +106,7 @@ public class ServerOperations {
 
     /*********************************** USER AUTHENTICATE METHODS ************************************/
 
-    public void sendUserAuthenticate(Context context, String email, String psw){
+    public static void sendUserAuthenticate(Context context, String email, String psw){
         Intent smIntent = new Intent(context, ServerManagerService.class);
         smIntent.putExtra(ServerManagerService.COMMAND, ServerManagerService.COMMAND_AUTHENTICATE);
         smIntent.putExtra(ServerManagerService.AUTHENTICATE_EMAIL, email);
@@ -115,10 +119,20 @@ public class ServerOperations {
         JSONObject jsonObject = new JSONObject();
         JSONObject jsonResponse = new JSONObject();
 
+        byte[] emailByteArray, pswByteArray;
+
         try {
-            jsonObject.put("app", APP_1);
-            jsonObject.put("email", Utils.encryptMsg(email, Utils.generateKey()));
-            jsonObject.put("password", Utils.encryptMsg(psw, Utils.generateKey()));
+            emailByteArray = Utils.encryptMsg(email, Utils.generateKey());
+            pswByteArray = Utils.encryptMsg(psw, Utils.generateKey());
+
+            String hexEmail = Utils.toHexString(emailByteArray);
+            String hexPsw = Utils.toHexString(pswByteArray);
+
+            Log.d("Encrypt", hexEmail);
+            Log.d("Encrypt", hexPsw);
+
+            jsonObject.put("acemail", hexEmail);
+            jsonObject.put("acpass", hexPsw);
 
             jsonResponse = sendRequest(Utils.EventType.USER_AUTHENTICATE, POST_METHOD, jsonObject.toString(), RETRIES);
 
@@ -145,6 +159,31 @@ public class ServerOperations {
         return jsonResponse;
 
     }
+
+    /*********************************** USER GET PROFILE METHODS ************************************/
+
+
+    public JSONObject getUserProfile(){
+        return sendRequest(Utils.EventType.GET_USER_PROFILE_INFO, GET_METHOD, null, RETRIES);
+    }
+
+    /*********************************** GET ACCESS TOKEN METHODS ************************************/
+
+    public JSONObject getAccessToken(String refreshToken) {
+
+        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonResponse = new JSONObject();
+
+        try {
+            jsonObject.put("refresh_token", refreshToken);
+            jsonResponse = sendRequest(Utils.EventType.GET_ACCESS_TOKEN, GET_METHOD, jsonObject.toString(), RETRIES);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonResponse;
+    }
+
 
     /*********************************** GET JOB CALENDAR METHODS ************************************/
 
@@ -189,7 +228,7 @@ public class ServerOperations {
         //TODO: switch case access token!?
 
         ServerRequestController serverRequestManager = new ServerRequestController(eventType, method, jsonObject, maxRetries, null);
-        return serverRequestManager.performConnection(url);
+        return serverRequestManager.sendRequest(url, method);
     }
 
 }

@@ -19,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
 
     //TODO: change images.
     private int[] imageResId = {
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher_round,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher};
+            R.drawable.news,
+            R.drawable.espositori,
+            R.drawable.qrcode,
+            R.drawable.calendar,
+            R.drawable.mappa};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -6,6 +6,7 @@ import com.emis.job2017.JobApplication;
 import com.emis.job2017.models.CalendarEventModel;
 import com.emis.job2017.models.ExhibitorsModel;
 import com.emis.job2017.models.NewsModel;
+import com.emis.job2017.models.UserProfileModel;
 
 import java.util.Iterator;
 import java.util.List;
@@ -137,14 +138,34 @@ public class RealmUtils {
         return cloned;
     }
 
-//    public static void showCalendarRealmList(){
-//        Realm realm = Realm.getDefaultInstance();
-//        realm.beginTransaction();
-//        RealmResults<CalendarEventModel> calendarEventModels = realm.where(CalendarEventModel.class).findAll();
-//        for(CalendarEventModel current : calendarEventModels){
-//            Log.d("CalendarList from Realm", String.valueOf(current.getIdProgram()));
-//        }
-//    }
+    /**
+     * ********************* END Methods for getting contents from Realm  *********************
+     */
+
+    public static void firstUserCreation(String email, String refreshToken){
+
+        Realm realm = Realm.getDefaultInstance();
+
+        UserProfileModel userProfileModel = new UserProfileModel();
+        userProfileModel.setUserEmail(email);
+        userProfileModel.setRefreshToken(refreshToken);
+
+        realm.beginTransaction();
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    public static void saveAccessToken(String accessToken){
+        Realm realm = Realm.getDefaultInstance();
+
+        UserProfileModel userProfileModel = new UserProfileModel();
+        userProfileModel.setAccessToken(accessToken);
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(userProfileModel);
+        realm.commitTransaction();
+        realm.close();
+    }
 
 }
 

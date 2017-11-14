@@ -3,6 +3,7 @@ package com.emis.job2017.utils;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -10,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
 
@@ -18,6 +20,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -36,7 +39,8 @@ public class Utils {
         USER_AUTHENTICATE,
         GET_ACCESS_TOKEN,
         GET_PROGRAM,
-        NEWS;
+        NEWS,
+        GET_USER_PROFILE_INFO;
     }
 
     public enum ExhibitorsTypeOfID{
@@ -44,18 +48,40 @@ public class Utils {
     }
 
     public static SecretKey generateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        return new SecretKeySpec(SHARED_SECRET.getBytes(), "AES");
+        return new SecretKeySpec(SHARED_SECRET.getBytes(), "AES/CBC/PKCS5Padding");
     }
 
+    @Nullable
     public static byte[] encryptMsg(String message, SecretKey secret)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException
     {
-        /* Encrypt the message. */
         Cipher cipher = null;
-        cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, secret);
+        byte[] newEncryptedBytes;
 
-        return cipher.doFinal(message.getBytes("UTF-8"));
+        try {
+            /* Encrypt the message. */
+            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            //Creating IV
+            SecureRandom r = new SecureRandom();
+            byte[] ivBytes = new byte[16];
+            r.nextBytes(ivBytes);
+
+            cipher.init(Cipher.ENCRYPT_MODE, secret, new IvParameterSpec(ivBytes));
+
+            byte[] encryptedBytes = cipher.doFinal(message.getBytes("UTF-8"));
+
+            newEncryptedBytes = new byte[encryptedBytes.length + ivBytes.length];
+//
+            System.arraycopy(ivBytes, 0, newEncryptedBytes, 0, ivBytes.length);
+            System.arraycopy(encryptedBytes, 0, newEncryptedBytes, ivBytes.length, encryptedBytes.length);
+        }
+
+        catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return newEncryptedBytes;
     }
 
     public static String decryptMsg(byte[] cipherText, SecretKey secret)
@@ -66,6 +92,20 @@ public class Utils {
         cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secret);
         return new String(cipher.doFinal(cipherText), "UTF-8");
+    }
+
+    public static String toHexString(byte[] bytes) {
+        StringBuilder hexString = new StringBuilder();
+
+        for (int i = 0; i < bytes.length; i++) {
+            String hex = Integer.toHexString(0xFF & bytes[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+
+        return hexString.toString();
     }
 
 }
