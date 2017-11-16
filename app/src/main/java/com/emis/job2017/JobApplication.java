@@ -16,6 +16,7 @@ public class JobApplication extends Application {
 
     private static JobApplication appInstance;
     private static Realm realmInstance;
+    private static String accessToken;
 
     @Override
     public void onCreate() {
@@ -27,6 +28,14 @@ public class JobApplication extends Application {
 
         FirebaseMessaging.getInstance().subscribeToTopic("notifiche");
 
+    }
+
+    public static String getAccessToken() {
+        return accessToken;
+    }
+
+    public static void setAccessToken(String accessToken) {
+        JobApplication.accessToken = accessToken;
     }
 
     public static JobApplication getAppInstance() {

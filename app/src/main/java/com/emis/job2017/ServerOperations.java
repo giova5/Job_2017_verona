@@ -35,7 +35,7 @@ public class ServerOperations {
     private URL url;
     private static String urlHeaderAsString = "http://job2017.webiac.it/access/";
     private static String ACVISESPELENCO = "acvisespelenco/";
-    private static String ACORGPROFILO = "acorgprofilo/";
+    private static String ACORGPROFILO = "acvisprofilo/";
     private static String ACVISLOGIN = "acvislogin/";
     private static String ACVISPROGRAMMA = "acvisprogramma/";
     private static String ACVISQUESTIONARIO = "acvisquestionario/";
@@ -176,7 +176,7 @@ public class ServerOperations {
 
         try {
             jsonObject.put("refresh_token", refreshToken);
-            jsonResponse = sendRequest(Utils.EventType.GET_ACCESS_TOKEN, GET_METHOD, jsonObject.toString(), RETRIES);
+            jsonResponse = sendGetRequestWithParams(Utils.EventType.GET_ACCESS_TOKEN, GET_METHOD, jsonObject.toString(), RETRIES);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -225,10 +225,24 @@ public class ServerOperations {
 
     synchronized private JSONObject sendRequest(Utils.EventType eventType, String method, String jsonObject, int maxRetries) {
 
+        String accessToken = null;
+
+        switch (eventType) {
+            case GET_USER_PROFILE_INFO:
+                accessToken = JobApplication.getAccessToken();
+                break;
+        }
+
+        ServerRequestController serverRequestManager = new ServerRequestController(eventType, method, jsonObject, maxRetries, accessToken);
+        return serverRequestManager.sendRequest(url, accessToken);
+    }
+
+    synchronized private JSONObject sendGetRequestWithParams(Utils.EventType eventType, String method, String jsonObject, int maxRetries) {
+
         //TODO: switch case access token!?
 
         ServerRequestController serverRequestManager = new ServerRequestController(eventType, method, jsonObject, maxRetries, null);
-        return serverRequestManager.sendRequest(url, method);
+        return serverRequestManager.sendGetRequestWithParams(url);
     }
 
 }

@@ -66,7 +66,7 @@ public class ServerRequestController {
         return null;
     }
 
-    public JSONObject performConnection(URL url) {
+    public JSONObject performConnection(URL url, String accessToken) {
 
         Log.d("ServerRequestController", "Request Body -- " + body);
 
@@ -83,20 +83,12 @@ public class ServerRequestController {
             conn.setConnectTimeout(8000);
             conn.setReadTimeout(5000);
 
-            //TODO: check headers
-            conn.setRequestProperty("Content-Type", "application/json");
-//            conn.setRequestProperty("Accept-Charset", "utf-8");
-//            conn.setRequestProperty("Connection", "keep-alive");
+            if (accessToken != null)
+                conn.setRequestProperty("Authorization", accessToken);
 
-////            conn.setRequestProperty("market", "");
-//            conn.setRequestProperty("app_uuid", Utils.getPhoneUuid());
-//            conn.setRequestProperty("os", "android");
-//            conn.setRequestProperty("os_version", Build.VERSION.RELEASE);
-//            conn.setRequestProperty("app_version", context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName);
-//            conn.setRequestProperty("X-Authorization", accessToken);
+            conn.setRequestProperty("Content-Type", "application/json");
 
             conn.connect();
-
 
             if(body != null)
                 writeOutputStream();
@@ -203,11 +195,16 @@ public class ServerRequestController {
         return jsonResponse;
     }
 
-    public JSONObject sendRequest(URL url, String method){
+    public JSONObject sendRequest(URL url, String accessToken){
 
-        return (method.equals(GET_METHOD)) ? performGetWithParamsConnection(url) : performConnection(url);
+        return performConnection(url, accessToken);
 
     }
+
+    public JSONObject sendGetRequestWithParams(URL url){
+        return performGetWithParamsConnection(url);
+    }
+
 
     private void writeOutputStream(){
         OutputStream os = null;
@@ -268,7 +265,7 @@ public class ServerRequestController {
             Log.d("ServerRequestController", "Retry number " + currentRetry);
             SystemClock.sleep(2 ^ currentRetry * 1000);
             currentRetry++;
-            performConnection(url);
+            performConnection(url, accessToken);
         }
     }
 

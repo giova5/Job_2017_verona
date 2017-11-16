@@ -138,6 +138,7 @@ public class RealmUtils {
         return cloned;
     }
 
+
     /**
      * ********************* END Methods for getting contents from Realm  *********************
      */
@@ -165,6 +166,16 @@ public class RealmUtils {
         realm.copyToRealmOrUpdate(userProfileModel);
         realm.commitTransaction();
         realm.close();
+    }
+
+    public static void saveUserProfileInfo(UserProfileModel userFromJson){
+        Realm realm = Realm.getDefaultInstance();
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(userFromJson);
+        realm.commitTransaction();
+        realm.close();
+
     }
 
 }

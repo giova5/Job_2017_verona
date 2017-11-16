@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.emis.job2017.models.UserProfileModel;
 import com.emis.job2017.utils.RealmUtils;
 import com.emis.job2017.utils.Utils;
+import com.emis.job2017.view.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +41,11 @@ public class ServerManagerService extends IntentService {
 
     //Utils
     public static final String REFRESH_TOKEN = "REFRESH_TOKEN";
+
+    public static final String AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
+    public static final String AUTHENTICATION_FAILURE = "AUTHENTICATION_FAILURE";
+    public static final String ACCESS_TOKEN_FAILURE = "ACCESS_TOKEN_FAILURE";
+    public static final String LOGIN_FAILURE = "LOGIN_FAILURE";
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -83,11 +90,22 @@ public class ServerManagerService extends IntentService {
                             //save the access token
                             String accessToken = getAccessTokenFromResponse(getAccessTokenResponse);
                             RealmUtils.saveAccessToken(accessToken);
-
-                        //sendCallbackToListener();
+                            JobApplication.setAccessToken(accessToken);
+                            ServerOperations getUserProfileRequest = new ServerOperations(Utils.EventType.GET_USER_PROFILE_INFO);
+                            JSONObject getUserProfileResponse = getUserProfileRequest.getUserProfile();
+                            getUserProfileResponse = checkIfInitResponse(getUserProfileResponse);
+                            if(getUserProfileResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
+                                parseAndSaveGetUserProfileResponse(getUserProfileResponse);
+                                sendCallbackToListener(LoginActivity.ResponseReceiver.LOCAL_ACTION, AUTHENTICATION_SUCCESS, getUserProfileResponse);
+                            }else{
+                                sendCallbackToListener(LoginActivity.ResponseReceiver.LOCAL_ACTION, AUTHENTICATION_FAILURE, getUserProfileResponse);
+                            }
+                        }else{
+                            sendCallbackToListener(LoginActivity.ResponseReceiver.LOCAL_ACTION, ACCESS_TOKEN_FAILURE, getAccessTokenResponse);
                         }
+                    }else {
+                        sendCallbackToListener(LoginActivity.ResponseReceiver.LOCAL_ACTION, LOGIN_FAILURE, authenticateResponse);
                     }
-                    //TODO: manage !200 responses.
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -150,6 +168,37 @@ public class ServerManagerService extends IntentService {
         }
     }
 
+    private void parseAndSaveGetUserProfileResponse(JSONObject getUserProfileResponse){
+
+        UserProfileModel userProfileModel = new UserProfileModel();
+
+        try {
+
+            JSONObject profileObj = getUserProfileResponse.getJSONObject("DatiVisitatore");
+            userProfileModel.setUserID(profileObj.getInt("idvisitatore"));
+            userProfileModel.setUserName(profileObj.getString("nome"));
+            userProfileModel.setUserSurname(profileObj.getString("cognome"));
+            userProfileModel.setUserEmail(profileObj.getString("email"));
+            userProfileModel.setBirthPlace(profileObj.getString("nascita_luogo"));
+            userProfileModel.setDayOfBirth(profileObj.getString("nascita_dataf"));
+            userProfileModel.setGender(profileObj.getString("sesso"));
+            userProfileModel.setCity(profileObj.getString("citta"));
+            userProfileModel.setProvincia(profileObj.getString("provincia"));
+            userProfileModel.setVisibleProfile(profileObj.getString("profilo_visibile"));
+            userProfileModel.setGruppoPartecipanti(profileObj.getString("gruppo_partecipanti"));
+            userProfileModel.setTitoloDiStudio(profileObj.getString("titolo_studio"));
+            userProfileModel.setProfession(profileObj.getString("professione"));
+            userProfileModel.setUrlTicket(profileObj.getString("url_biglietto"));
+            userProfileModel.setDataRegistrazionTimestamp(profileObj.getString("registrazione_data_timestamp"));
+
+            RealmUtils.saveUserProfileInfo(userProfileModel);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     /** ************************************** END REQUESTS PARSING METHODS ************************************** */
 
@@ -179,8 +228,8 @@ public class ServerManagerService extends IntentService {
             if(responseObject != null){
                 broadcastIntentSuccess.putExtra("CODE", responseObject.get("responseCode").toString());
                 broadcastIntentSuccess.putExtra("RESPONSE_BODY", responseObject.toString());
+                broadcastIntentSuccess.putExtra("CALLBACK", callbackString);
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
