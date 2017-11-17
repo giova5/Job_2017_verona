@@ -17,13 +17,13 @@ import com.emis.job2017.R;
  * Created by jo5 on 17/11/17.
  */
 
-public class RegistrationPage extends Fragment {
+public class MapPage extends Fragment {
 
     private WebView webView;
     private ProgressBar progressBar;
-    private static final String registrationUrl = "http://job2017.webiac.it/index.php?s=83";
+    private static final String mapUrl = "http://job2017.webiac.it/access/acvisespmappa/mappa_mobile.php?app=1";
 
-    public RegistrationPage(){
+    public MapPage(){
 
     }
 
@@ -35,17 +35,17 @@ public class RegistrationPage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_already_have_ticket, container, false);
-        progressBar = (ProgressBar) view.findViewById(R.id.registration_page_pb) ;
+        View view = inflater.inflate(R.layout.fragment_map_page, container, false);
+        progressBar = (ProgressBar) view.findViewById(R.id.map_page_pb) ;
 
-        webView = (WebView) view.findViewById(R.id.already_have_ticket_webview);
+        webView = (WebView) view.findViewById(R.id.map_page_webview);
 
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setWebViewClient(new WebViewClientImpl());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
-        webView.loadUrl(registrationUrl);
+        webView.loadUrl(mapUrl);
 
         return view;
     }

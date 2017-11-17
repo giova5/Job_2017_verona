@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.emis.job2017.view.AlreadyHaveTicketPage;
 import com.emis.job2017.view.LoginActivity;
+import com.emis.job2017.view.MapPage;
 import com.emis.job2017.view.RegistrationPage;
 
 public class ProfilingActivity extends AppCompatActivity implements View.OnClickListener{
