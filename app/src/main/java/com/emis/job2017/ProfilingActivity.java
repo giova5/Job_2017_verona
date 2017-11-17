@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.emis.job2017.view.AlreadyHaveTicketPage;
 import com.emis.job2017.view.LoginActivity;
+import com.emis.job2017.view.RegistrationPage;
 
 public class ProfilingActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -44,8 +45,7 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                 startActivity(loginIntent);
                 break;
             case R.id.registerBtn:
-//                Intent registrationIntent = new Intent(ProfilingActivity.this, RegistrationActivity.class);
-//                startActivity(loginIntent);
+                startRegistrationFragment();
                 break;
             case R.id.alreadyHaveTicket:
                 startAlreadyHaveTicketFragment();
@@ -56,6 +56,13 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
     private void startAlreadyHaveTicketFragment(){
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container_ticket, new AlreadyHaveTicketPage())
+                .addToBackStack("TAG")
+                .commit();
+    }
+
+    private void startRegistrationFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container_ticket, new RegistrationPage())
                 .addToBackStack("TAG")
                 .commit();
     }

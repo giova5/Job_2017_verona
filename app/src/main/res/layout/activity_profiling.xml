@@ -8,4 +8,5 @@
     android:id="@+id/container_ticket">
 
     <include layout="@layout/content_profiling" />
+
 </android.support.design.widget.CoordinatorLayout>
