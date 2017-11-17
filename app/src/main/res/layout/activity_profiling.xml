@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.emis.job2017.ProfilingActivity">
+    tools:context="com.emis.job2017.ProfilingActivity"
+    android:id="@+id/container_ticket">
 
     <include layout="@layout/content_profiling" />
 </android.support.design.widget.CoordinatorLayout>
