@@ -19,7 +19,10 @@ import javax.annotation.Nullable;
 public class ExhibitorDetailPage extends Fragment {
 
     public static final String EXHIB_ID = "EXHIB_ID";
+    public static final String QR_CODE_READER = "QR_CODE_READER";
+
     private int exhibID;
+    private boolean qrCodeReader;
     private TextView exhibIDTextView;
 
     public ExhibitorDetailPage(){
@@ -31,6 +34,7 @@ public class ExhibitorDetailPage extends Fragment {
         super.onCreate(savedInstanceState);
 
         exhibID = getArguments().getInt(EXHIB_ID, -1);
+        qrCodeReader = getArguments().getBoolean(QR_CODE_READER, false);
     }
 
     @Override
@@ -48,14 +52,18 @@ public class ExhibitorDetailPage extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        exhibIDTextView.setText(String.valueOf(RealmUtils.getExhibitors(exhibID).getIdExhibitor()));
+        exhibIDTextView.setText(String.valueOf(RealmUtils.getExhibitor(exhibID).getIdExhibitor()));
     }
-
-    public static ExhibitorDetailPage newInstance(int exhibID){
+/**
+ * @param qrCodeReader boolean that indicates if ExhibitorFragmen is open from QrCodeFragment or not.
+ *
+ * */
+    public static ExhibitorDetailPage newInstance(int exhibID, boolean qrCodeReader){
         ExhibitorDetailPage exhibDetailPage = new ExhibitorDetailPage();
 
         Bundle args = new Bundle();
         args.putInt(EXHIB_ID, exhibID);
+        args.putBoolean(QR_CODE_READER, qrCodeReader);
         exhibDetailPage.setArguments(args);
         return exhibDetailPage;
     }

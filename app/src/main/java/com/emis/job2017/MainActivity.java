@@ -2,20 +2,31 @@ package com.emis.job2017;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.emis.job2017.adapters.PagerAdapter;
+import com.emis.job2017.view.ExhibitorDetailPage;
+import com.emis.job2017.view.UserProfilePage;
+import com.emis.job2017.view.UserTicketPage;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public final static int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+    private ImageButton ticketBtn;
+    private ImageButton profileBtn;
 
     //TODO: change images.
     private int[] imageResId = {
@@ -31,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkPermissions();
+
+        ticketBtn = (ImageButton) findViewById(R.id.user_ticket_btn);
+        profileBtn = (ImageButton) findViewById(R.id.profile_page_btn);
+
+        ticketBtn.setOnClickListener(this);
+        profileBtn.setOnClickListener(this);
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items.
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -70,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkPermissions(){
+    private void checkPermissions() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
@@ -97,5 +114,21 @@ public class MainActivity extends AppCompatActivity {
                 // result of the request.
             }
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.profile_page_btn:
+                Intent profileIntent = new Intent(MainActivity.this, UserProfilePage.class);
+                startActivity(profileIntent);
+                break;
+            case R.id.user_ticket_btn:
+                Intent ticketIntent = new Intent(MainActivity.this, UserTicketPage.class);
+                startActivity(ticketIntent);
+                break;
+        }
+
     }
 }

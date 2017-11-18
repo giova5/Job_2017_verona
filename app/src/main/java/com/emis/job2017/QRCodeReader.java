@@ -1,5 +1,6 @@
 package com.emis.job2017;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.emis.job2017.utils.RealmUtils;
 import com.emis.job2017.view.ExhibitorDetailPage;
+import com.emis.job2017.view.GeneralWebView;
 import com.google.zxing.Result;
 
 import java.net.MalformedURLException;
@@ -26,6 +29,7 @@ public class QRCodeReader extends Fragment implements ZXingScannerView.ResultHan
 
     private ZXingScannerView mScannerView;
     private LinearLayout qrCameraLayout;
+    private static final String HOST_JOB = "job2017.webiac.it";
 
     public QRCodeReader() {
         // Required empty public constructor
@@ -101,28 +105,49 @@ public class QRCodeReader extends Fragment implements ZXingScannerView.ResultHan
     public void handleResult(Result result) {
 
         Log.d("QrCodeReader ", result.getText());
+        //TOdo: check onBack
 
-        try {
-            URL urlFromQrCode =  new URL(result.getText());
-            String query = urlFromQrCode.getQuery();
-            //TODO: parse URL
-            //TOdo: check onBack
+        Uri uri = Uri.parse(result.getText());
+        String idEsp = uri.getQueryParameter("idesp");
 
-            mScannerView.stopCamera();
-            startFragment(60);
-
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        if(checkJobLink(uri)) {
+            //Link contains job2017
+            if (RealmUtils.getExhibitor(Integer.valueOf(idEsp)) == null) {
+                //webview
+                mScannerView.stopCamera();
+                startGeneralWebviewFragment(result.getText());
+            } else {
+                //startFragment(Integer.valueOf(idEsp));
+                mScannerView.stopCamera();
+                startFragment(60);
+            }
+        }else{
+            //Link does not contain job2017
+            //webView
+            startGeneralWebviewFragment(result.getText());
         }
+
 
     }
 
+    private boolean checkJobLink(Uri link){
+        return (link.getHost().equals(HOST_JOB));
+    }
+
     private void startFragment(int exhibID){
-        ExhibitorDetailPage fragment2 = ExhibitorDetailPage.newInstance(exhibID);
+        ExhibitorDetailPage fragment2 = ExhibitorDetailPage.newInstance(exhibID, true);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment2);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void startGeneralWebviewFragment(String qrCodeLink){
+        GeneralWebView fragment2 = GeneralWebView.newInstance(qrCodeLink);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.container, fragment2);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

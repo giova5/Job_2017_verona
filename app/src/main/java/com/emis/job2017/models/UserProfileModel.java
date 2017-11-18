@@ -33,6 +33,31 @@ public class UserProfileModel extends RealmObject {
 
     }
 
+    public static UserProfileModel cloneObject(UserProfileModel userProfileModel) {
+
+        UserProfileModel cloned = new UserProfileModel();
+
+        cloned.setUserID(userProfileModel.getUserID());
+        cloned.setUserName(userProfileModel.getUserName());
+        cloned.setUserSurname(userProfileModel.getUserSurname());
+        cloned.setUserEmail(userProfileModel.getUserEmail());
+        cloned.setBirthPlace(userProfileModel.getBirthPlace());
+        cloned.setDayOfBirth(userProfileModel.getDayOfBirth());
+        cloned.setGender(userProfileModel.getGender());
+        cloned.setCity(userProfileModel.getCity());
+        cloned.setProvincia(userProfileModel.getProvincia());
+        cloned.setVisibleProfile(userProfileModel.getVisibleProfile());
+        cloned.setGruppoPartecipanti(userProfileModel.getGruppoPartecipanti());
+        cloned.setTitoloDiStudio(userProfileModel.getTitoloDiStudio());
+        cloned.setProfession(userProfileModel.getProfession());
+        cloned.setUrlTicket(userProfileModel.getUrlTicket());
+        cloned.setDataRegistrazionTimestamp(userProfileModel.getDataRegistrazionTimestamp());
+        cloned.setRefreshToken(userProfileModel.getRefreshToken());
+        cloned.setAccessToken(userProfileModel.getAccessToken());
+
+        return cloned;
+    }
+
     public int getRealmId() {
         return realmId;
     }

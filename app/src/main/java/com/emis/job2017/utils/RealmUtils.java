@@ -1,5 +1,7 @@
 package com.emis.job2017.utils;
 
+import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.emis.job2017.JobApplication;
@@ -7,6 +9,10 @@ import com.emis.job2017.models.CalendarEventModel;
 import com.emis.job2017.models.ExhibitorsModel;
 import com.emis.job2017.models.NewsModel;
 import com.emis.job2017.models.UserProfileModel;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +23,9 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmMigration;
 import io.realm.RealmResults;
+
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
 
 /**
  * Created by jo5 on 07/11/17.
@@ -129,15 +138,29 @@ public class RealmUtils {
         return cloned;
     }
 
-    public static ExhibitorsModel getExhibitors(int idExhib){
+    @Nullable
+    public static ExhibitorsModel getExhibitor(int idExhib){
+
+        ExhibitorsModel cloned;
         Realm realm = Realm.getDefaultInstance();
         ExhibitorsModel exhibModel = realm.where(ExhibitorsModel.class).equalTo("idExhibitor", idExhib).findFirst();
-        ExhibitorsModel cloned = ExhibitorsModel.cloneObject(exhibModel);
-        realm.close();
-
-        return cloned;
+        if(exhibModel != null) {
+            cloned = ExhibitorsModel.cloneObject(exhibModel);
+            realm.close();
+            return cloned;
+        }else {
+            realm.close();
+            return null;
+        }
     }
 
+    public static UserProfileModel getUser(){
+        Realm realm = Realm.getDefaultInstance();
+        UserProfileModel userProfileModel= realm.where(UserProfileModel.class).findFirst();
+        UserProfileModel cloned = UserProfileModel.cloneObject(userProfileModel);
+        realm.close();
+        return cloned;
+    }
 
     /**
      * ********************* END Methods for getting contents from Realm  *********************
@@ -176,6 +199,29 @@ public class RealmUtils {
         realm.commitTransaction();
         realm.close();
 
+    }
+
+    public static Bitmap encodeAsBitmap(String str) throws WriterException {
+        BitMatrix result;
+        try {
+            result = new MultiFormatWriter().encode(str,
+                    BarcodeFormat.QR_CODE, 100, 100, null);
+        } catch (IllegalArgumentException iae) {
+            // Unsupported format
+            return null;
+        }
+        int w = result.getWidth();
+        int h = result.getHeight();
+        int[] pixels = new int[w * h];
+        for (int y = 0; y < h; y++) {
+            int offset = y * w;
+            for (int x = 0; x < w; x++) {
+                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, 100, 0, 0, w, h);
+        return bitmap;
     }
 
 }
