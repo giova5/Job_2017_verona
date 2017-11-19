@@ -198,8 +198,9 @@ public class RealmUtils {
         realm.copyToRealmOrUpdate(userFromJson);
         realm.commitTransaction();
         realm.close();
-
     }
+
+
 
     public static Bitmap encodeAsBitmap(String str) throws WriterException {
         BitMatrix result;

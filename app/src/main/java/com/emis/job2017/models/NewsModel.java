@@ -12,6 +12,7 @@ import io.realm.RealmObject;
 public class NewsModel extends RealmObject {
 
     private int idArticle;
+    private boolean notification;
     private String title;
     private String content;
     private String contentNoHtml;
@@ -32,6 +33,14 @@ public class NewsModel extends RealmObject {
         this.author = author;
         this.date = date;
         this.link = link;
+    }
+
+    public boolean getNotification() {
+        return notification;
+    }
+
+    public void setNotification(boolean notification) {
+        this.notification = notification;
     }
 
     public int getIdArticle() {

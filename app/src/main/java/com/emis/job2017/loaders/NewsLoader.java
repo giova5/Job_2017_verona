@@ -26,6 +26,8 @@ import io.realm.Realm;
 
 public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
 
+    private static final String NOTIFICHE = "Notifiche";
+
     public NewsLoader(Context c) {
         super(c);
     }
@@ -72,6 +74,7 @@ public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
 
                 NewsModel newsModel = new NewsModel();
                 newsModel.setIdArticle(current.getInt("idarticolo"));
+                newsModel.setNotification(checkIfIsNotification(current));
                 newsModel.setTitle(current.getString("titolo"));
                 newsModel.setContent(current.getString("testo"));
                 newsModel.setContentNoHtml(current.getString("testo_nohtml"));
@@ -89,6 +92,22 @@ public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
         }
 
         return newsModelList;
+    }
+
+    private boolean checkIfIsNotification(JSONObject currentNews){
+
+        boolean isNotification = false;
+        try {
+            JSONArray categories = currentNews.getJSONArray("categorie_stringhe");
+            for(int i = 0; i < categories.length(); i++){
+                String currentCategory = categories.getString(i);
+                if(currentCategory.equals(NOTIFICHE))
+                    isNotification = true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return isNotification;
     }
 
 }

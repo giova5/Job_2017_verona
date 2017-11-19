@@ -138,12 +138,17 @@ public class ServerRequestController {
     public JSONObject performGetWithParamsConnection(URL url){
 
         Log.d("ServerRequestController", "Request Body -- " + body);
+        String getUrl = null;
 
         try {
 
             JSONObject jsonObject = new JSONObject(body);
 
-            String getUrl = url.toString() + "?refresh_token=" + jsonObject.getString("refresh_token");
+            if(requestName.equals(Utils.EventType.GET_ACCESS_TOKEN))
+                getUrl = url.toString() + "?refresh_token=" + jsonObject.getString("refresh_token");
+            else if(requestName.equals(Utils.EventType.PREFERITI_CONTROLLA)){
+                getUrl = url.toString() + "?idespositore=" + jsonObject.getString("exhibitorID");
+            }
 
             conn = getHTTPConnectionObject(new URL(getUrl));
 

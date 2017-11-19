@@ -40,7 +40,10 @@ public class Utils {
         GET_ACCESS_TOKEN,
         GET_PROGRAM,
         NEWS,
-        GET_USER_PROFILE_INFO;
+        GET_USER_PROFILE_INFO,
+        PREFERITI_ELENCO,
+        PREFERITI_CONTROLLA,
+        GET_ATTESTATION;
     }
 
     public enum ExhibitorsTypeOfID{

@@ -10,9 +10,14 @@ import com.emis.job2017.models.UserProfileModel;
 import com.emis.job2017.utils.RealmUtils;
 import com.emis.job2017.utils.Utils;
 import com.emis.job2017.view.LoginActivity;
+import com.emis.job2017.view.UserProfilePage;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jo5 on 23/10/17.
@@ -34,6 +39,9 @@ public class ServerManagerService extends IntentService {
     public static final String GET_JOB_CALENDAR = "COMMAND_GET_JOB_CALENDAR";
     public static final String NEWS = "COMMAND_NEWS";
     public static final String GET_EXHIBITORS_INFO = "COMMAND_EXHIBITORS_INFO";
+    public static final String GET_FAVORITES_LIST = "GET_FAVORITES_LIST";
+    public static final String CHECK_FAVORITE = "CHECK_FAVORITE";
+    public static final String GET_ATTESTATION = "GET_ATTESTATION";
 
     //Requests parameters
     public static final String AUTHENTICATE_EMAIL = "AUTHENTICATE_EMAIL";
@@ -46,6 +54,9 @@ public class ServerManagerService extends IntentService {
     public static final String AUTHENTICATION_FAILURE = "AUTHENTICATION_FAILURE";
     public static final String ACCESS_TOKEN_FAILURE = "ACCESS_TOKEN_FAILURE";
     public static final String LOGIN_FAILURE = "LOGIN_FAILURE";
+    public static final String GET_ATTESTATION_SUCCESS = "GET_ATTESTATION_SUCCESS";
+    public static final String GET_ATTESTATION_FAILURE = "GET_ATTESTATION_FAILURE";
+
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -116,6 +127,43 @@ public class ServerManagerService extends IntentService {
                 ServerOperations getJobCalendarRequest = new ServerOperations(Utils.EventType.GET_PROGRAM);
                 JSONObject getJobCalendarResponse = getJobCalendarRequest.getJobCalendar();
                 //TODO: manage response
+                break;
+
+            case GET_FAVORITES_LIST:
+
+                try {
+                    ServerOperations getFavoritesRequest = new ServerOperations(Utils.EventType.PREFERITI_ELENCO);
+                    JSONObject getFavoritesResponse = getFavoritesRequest.getFavoritesList();
+                    getFavoritesResponse = checkIfInitResponse(getFavoritesResponse);
+                    if(getFavoritesResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
+                        parseAndSaveGetFavoritesList(getFavoritesResponse);
+                    }else{
+                        //TODO: !200ok
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
+            case CHECK_FAVORITE:
+                break;
+
+            case GET_ATTESTATION:
+                try {
+                    ServerOperations getAttestationRequest = new ServerOperations(Utils.EventType.GET_ATTESTATION);
+                    JSONObject getAttestationResponse = getAttestationRequest.getAttestation();
+                    getAttestationResponse = checkIfInitResponse(getAttestationResponse);
+                    if(getAttestationResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
+                        String attestationLink = parseGetAttestationResponse(getAttestationResponse);
+                        sendCallbackToListener(UserProfilePage.ResponseReceiver.LOCAL_ACTION, GET_ATTESTATION_SUCCESS, getAttestationResponse);
+                    }else{
+                        //TODO: !200ok
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 break;
 
         }
@@ -196,8 +244,37 @@ public class ServerManagerService extends IntentService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    private void parseAndSaveGetFavoritesList(JSONObject getFavoritesListResponse){
 
+        List<Integer> favoritesIDs = new ArrayList<>();
+
+        try {
+            JSONArray favoritesJsonArray = getFavoritesListResponse.getJSONArray("EspositoriPreferiti");
+
+            for(int i = 0; i < favoritesJsonArray.length(); i++){
+                JSONObject current = favoritesJsonArray.getJSONObject(i);
+                favoritesIDs.add(current.getInt("idespositore"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Nullable
+    private String parseGetAttestationResponse(JSONObject getAttestationResponse){
+
+        JSONObject attestationObj = null;
+        String attestationLink = null;
+
+        try {
+            attestationObj = getAttestationResponse.getJSONObject("Attestato");
+            attestationLink = attestationObj.getString("attestato_link");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return attestationLink;
     }
 
     /** ************************************** END REQUESTS PARSING METHODS ************************************** */

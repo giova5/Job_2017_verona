@@ -34,7 +34,6 @@ public class ServerOperations {
 
     private URL url;
     private static String urlHeaderAsString = "http://job2017.webiac.it/access/";
-    private static String ACVISESPELENCO = "acvisespelenco/";
     private static String ACORGPROFILO = "acvisprofilo/";
     private static String ACVISLOGIN = "acvislogin/";
     private static String ACVISPROGRAMMA = "acvisprogramma/";
@@ -42,6 +41,8 @@ public class ServerOperations {
     private static String ACORGVISINGRESSOREGISTRA = "acorgvisingressoregistra/";
     private static String ACVISPROFILO = "acvisprofilo/";
     private static String ACORGNOTIFICHE = "acorgnotifiche/";
+    private static String ACVISESPELENCO = "acvisespelenco/";
+
     private static String APP_1 = "?app=1";
 
     private static String AUTHENTICATE = "json_login.php";
@@ -53,6 +54,9 @@ public class ServerOperations {
     private static String GET_PROGRAM = "json.php?app=1";
     private static String NEWS = "json.php";
     private static String PROFILE_LOGGED_USER = "json_profilo_loggato.php";
+    private static String PREFERITI_ELENCO = "json_preferiti_elenco.php";
+    private static String PREFERITI_CONTROLLA = "json_preferiti.php";
+    private static String ATTESTATION = "attestato.php";
 
 
 
@@ -89,6 +93,15 @@ public class ServerOperations {
                     break;
                 case GET_USER_PROFILE_INFO:
                     currentEndPointForRequest = urlHeaderAsString + ACORGPROFILO + PROFILE_LOGGED_USER;
+                    break;
+                case PREFERITI_ELENCO:
+                    currentEndPointForRequest = urlHeaderAsString + ACVISESPELENCO + PREFERITI_ELENCO;
+                    break;
+                case PREFERITI_CONTROLLA:
+                    currentEndPointForRequest = urlHeaderAsString + ACVISESPELENCO + PREFERITI_CONTROLLA;
+                    break;
+                case GET_ATTESTATION:
+                    currentEndPointForRequest = urlHeaderAsString + ACVISQUESTIONARIO + ATTESTATION + APP_1;
                     break;
                 default:
                     currentEndPointForRequest = null;
@@ -221,6 +234,50 @@ public class ServerOperations {
         context.startService(smIntent);
     }
 
+    /*********************************** GET PREFERITI METHODS ************************************/
+
+    public JSONObject getFavoritesList(){
+        return sendRequest(Utils.EventType.PREFERITI_ELENCO, GET_METHOD, null, RETRIES);
+    }
+
+    public static void sendGetFavoritesList(Context context){
+        Intent smIntent = new Intent(context, ServerManagerService.class);
+        smIntent.putExtra(ServerManagerService.COMMAND, ServerManagerService.GET_FAVORITES_LIST);
+        context.startService(smIntent);
+    }
+
+    public JSONObject checkFavorite(int exhibitorID){
+
+        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonResponse = new JSONObject();
+
+        try {
+            jsonObject.put("exhibitorID", exhibitorID);
+            jsonResponse = sendGetRequestWithParams(Utils.EventType.PREFERITI_CONTROLLA, GET_METHOD, jsonObject.toString(), RETRIES);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonResponse;
+    }
+
+    public static void sendCheckFavorites(Context context, int exhibitorID){
+        Intent smIntent = new Intent(context, ServerManagerService.class);
+        smIntent.putExtra(ServerManagerService.COMMAND, ServerManagerService.GET_FAVORITES_LIST);
+        context.startService(smIntent);
+    }
+
+    /*********************************** GET ATTESTATION METHODS ************************************/
+
+    public JSONObject getAttestation(){
+        return sendRequest(Utils.EventType.GET_ATTESTATION, GET_METHOD, null, RETRIES);
+    }
+
+    public static void sendGetAttestation(Context context){
+        Intent smIntent = new Intent(context, ServerManagerService.class);
+        smIntent.putExtra(ServerManagerService.COMMAND, ServerManagerService.GET_ATTESTATION);
+        context.startService(smIntent);
+    }
+
     /*********************************** SEND REQUEST METHOD ************************************/
 
     synchronized private JSONObject sendRequest(Utils.EventType eventType, String method, String jsonObject, int maxRetries) {
@@ -229,6 +286,9 @@ public class ServerOperations {
 
         switch (eventType) {
             case GET_USER_PROFILE_INFO:
+            case PREFERITI_ELENCO:
+            case PREFERITI_CONTROLLA:
+            case GET_ATTESTATION:
                 accessToken = JobApplication.getAccessToken();
                 break;
         }
@@ -239,9 +299,14 @@ public class ServerOperations {
 
     synchronized private JSONObject sendGetRequestWithParams(Utils.EventType eventType, String method, String jsonObject, int maxRetries) {
 
-        //TODO: switch case access token!?
+        String accessToken = null;
 
-        ServerRequestController serverRequestManager = new ServerRequestController(eventType, method, jsonObject, maxRetries, null);
+        switch (eventType) {
+            case PREFERITI_CONTROLLA:
+                accessToken = JobApplication.getAccessToken();
+                break;
+        }
+        ServerRequestController serverRequestManager = new ServerRequestController(eventType, method, jsonObject, maxRetries, accessToken);
         return serverRequestManager.sendGetRequestWithParams(url);
     }
 

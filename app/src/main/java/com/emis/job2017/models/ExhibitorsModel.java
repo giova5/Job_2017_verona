@@ -30,6 +30,7 @@ public class ExhibitorsModel extends RealmObject{
     private String email1;
     private String email2;
     private String email3;
+    private boolean favorite;
 
     public ExhibitorsModel(){
 
@@ -55,6 +56,14 @@ public class ExhibitorsModel extends RealmObject{
         this.email2 = email2;
         this.email3 = email3;
 
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     public int getIdExhibitor() {
