@@ -67,6 +67,8 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.user_attestation_button:
                 //check e fai vedere webview
+                Intent attestationIntent = new Intent(UserProfilePage.this, AttestationActivity.class);
+                startActivity(attestationIntent);
                 break;
         }
 
