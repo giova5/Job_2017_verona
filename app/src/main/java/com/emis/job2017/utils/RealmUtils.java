@@ -14,6 +14,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -199,8 +200,6 @@ public class RealmUtils {
         realm.commitTransaction();
         realm.close();
     }
-
-
 
     public static Bitmap encodeAsBitmap(String str) throws WriterException {
         BitMatrix result;

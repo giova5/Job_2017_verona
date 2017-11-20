@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.emis.job2017.R;
@@ -18,9 +20,10 @@ import java.util.List;
  * Created by jo5 on 03/11/17.
  */
 
-public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> {
+public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> implements Filterable {
 
     private List<ExhibitorsModel> items;
+    List<ExhibitorsModel> listFiltered = new ArrayList<ExhibitorsModel>();
     Context mContext;
 
     private static class ExhibitorsViewHolder {
@@ -50,12 +53,13 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> {
 
     public void switchItems(List<ExhibitorsModel> newItems){
         items = newItems;
+        listFiltered = newItems;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return items != null ? items.size() : 0;
+        return listFiltered != null ? listFiltered.size() : 0;
     }
 
     @NonNull
@@ -89,7 +93,7 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> {
             holder = (ExhibitorsViewHolder) convertView.getTag();
         }
 
-        final ExhibitorsModel item = items.get(position);
+        final ExhibitorsModel item = listFiltered.get(position);
 
         holder.idExhibitors.setText(String.valueOf(item.getIdExhibitor()));
         holder.idCategory.setText(String.valueOf(item.getIdCategory()));
@@ -112,4 +116,39 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> {
 
     }
 
+    @NonNull
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+
+                if (constraint == null || constraint.length() == 0) {
+                    //no constraint given, just return all the data. (no search)
+                    results.count = items.size();
+                    results.values = items;
+                }else{
+                    List<ExhibitorsModel> resultsData = new ArrayList<>();
+                    String searchStr = constraint.toString().toUpperCase();
+
+                    for(ExhibitorsModel current : items){
+                        String exhibName = current.getName();
+                        if (exhibName.toUpperCase().contains(searchStr))
+                            resultsData.add(current);
+                    }
+                    results.count = resultsData.size();
+                    results.values = resultsData;
+                }
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                listFiltered = (ArrayList<ExhibitorsModel>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
 }

@@ -7,10 +7,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -29,6 +32,7 @@ import java.util.List;
 public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCallbacks<List<ExhibitorsModel>>, ListView.OnItemClickListener {
 
     private ListView exhibitorsList;
+    private EditText exhibitorsSearchBar;
     private static int EXHIBITORS_LOADER_ID = 3;
     private ExhibitorsAdapter exhibitorsAdapter;
     private ProgressBar exhibitorsSpinner;
@@ -50,11 +54,15 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
 
         View view = inflater.inflate(R.layout.fragment_exhibitors_page, container, false);
         exhibitorsList = (ListView) view.findViewById(R.id.exhibitors_list);
+        exhibitorsSearchBar = (EditText) view.findViewById(R.id.exhibitors_search_bar);
         exhibitorsSpinner = (ProgressBar) view.findViewById(R.id.exhibitors_progress_bar);
         exhibitorsSpinner.setVisibility(View.VISIBLE);
         exhibitorsAdapter = new ExhibitorsAdapter(null, getActivity());
+        exhibitorsList.setTextFilterEnabled(true);
         exhibitorsList.setOnItemClickListener(this);
         exhibitorsList.setAdapter(exhibitorsAdapter);
+
+        setUpTextChangedListener();
 
         return view;
     }
@@ -96,5 +104,26 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
         fragmentTransaction.replace(R.id.container, fragment2);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    private void setUpTextChangedListener(){
+        exhibitorsSearchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //When text chanes this method is called.
+//                MainActivity.this.adapter.getFilter().filter(cs);
+                exhibitorsAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }
