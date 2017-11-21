@@ -18,8 +18,9 @@
     </WebView>
 
     <ProgressBar
-        android:id="@+id/progressBar3"
+        android:id="@+id/already_have_ticket_pb"
         style="?android:attr/progressBarStyle"
+        android:indeterminateTint="@color/colorYellow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

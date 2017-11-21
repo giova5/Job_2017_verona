@@ -27,11 +27,12 @@ public class ServerManagerService extends IntentService {
 
     private static final String TAG = "ServerManagerService";
 
-    private static final String RESPONSE_CODE = "responseCode";
+    public static final String RESPONSE_CODE = "responseCode";
     public static final String OPERATION_SUCCESS_200_OK = "200";
     public static final String OPERATION_SUCCESS_201_OK = "201";
     public static final String OPERATION_SUCCESS_202_OK = "202";
-    private static final int NO_INTERNET_CONNECTION = -1000;
+    public static final int NO_INTERNET_CONNECTION = -999;
+    public static final String OPERATION_FAILURE_401 = "401";
 
     //commands switch case
     public static final String COMMAND = "COMMAND";

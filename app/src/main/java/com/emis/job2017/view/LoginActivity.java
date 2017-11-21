@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -17,14 +18,22 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.emis.job2017.MainActivity;
 import com.emis.job2017.R;
+import com.emis.job2017.ServerManagerService;
 import com.emis.job2017.ServerOperations;
+import com.emis.job2017.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.emis.job2017.ServerManagerService.ACCESS_TOKEN_FAILURE;
 import static com.emis.job2017.ServerManagerService.AUTHENTICATION_FAILURE;
 import static com.emis.job2017.ServerManagerService.AUTHENTICATION_SUCCESS;
 import static com.emis.job2017.ServerManagerService.LOGIN_FAILURE;
+import static com.emis.job2017.ServerManagerService.OPERATION_FAILURE_401;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -43,31 +52,67 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            JSONObject jsonResponse;
             String callback = intent.getStringExtra("CALLBACK");
+            String responseBody = intent.getStringExtra("RESPONSE_BODY");
 
-            Log.d("LoginActivity", "LoginActivity response receiver called");
+            try {
+                jsonResponse = new JSONObject(responseBody);
 
-            switch (callback){
-                case AUTHENTICATION_SUCCESS:
-                    loginProgressBar.setVisibility(View.GONE);
-                    Intent mainActivityIntent = new Intent(context, MainActivity.class);
-                    startActivity(mainActivityIntent);
-                    break;
-                case AUTHENTICATION_FAILURE:
-                    //Error during last getUserProfile
-                    break;
-                case ACCESS_TOKEN_FAILURE:
-                    //Error during getAccessToken
-                    break;
-                case LOGIN_FAILURE:
-                    //Error during login with username and psw
-                    break;
+
+                Log.d("LoginActivity", "LoginActivity response receiver called");
+
+                switch (callback){
+                    case AUTHENTICATION_SUCCESS:
+                        loginProgressBar.setVisibility(View.GONE);
+                        Intent mainActivityIntent = new Intent(context, MainActivity.class);
+                        startActivity(mainActivityIntent);
+                        break;
+                    case AUTHENTICATION_FAILURE:
+                        //Error during last getUserProfile
+                        loginProgressBar.setVisibility(View.GONE);
+                        showErrorDialog("Errore durante la richiesta.");
+                        break;
+                    case ACCESS_TOKEN_FAILURE:
+                        //Error during getAccessToken
+                        loginProgressBar.setVisibility(View.GONE);
+                        showErrorDialog("Errore durante la richiesta.");
+                        break;
+                    case LOGIN_FAILURE:
+                        loginProgressBar.setVisibility(View.GONE);
+                        if(jsonResponse.getString(ServerManagerService.RESPONSE_CODE).equals(ServerManagerService.OPERATION_FAILURE_401))
+                            showErrorDialog("Email o password errati.");
+                        else
+                            showErrorDialog("Errore durante la richiesta.");
+                        break;
+            }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
         }
     }
 
-        @Override
+    private void showErrorDialog(String message){
+        new AwesomeErrorDialog(this)
+                .setTitle(R.string.title_popup_app)
+                .setMessage(message)
+                .setColoredCircle(R.color.colorYellow)
+                .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
+                .setCancelable(true).setButtonText(getString(R.string.dialog_ok_button))
+                .setButtonBackgroundColor(R.color.colorYellow)
+                .setButtonText(getString(R.string.dialog_ok_button))
+                .setErrorButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        // click
+                                            }
+                })
+                .show();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -104,8 +149,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.login_button:
                 //API login
-                loginProgressBar.setVisibility(View.VISIBLE);
-                ServerOperations.sendUserAuthenticate(this, textViewEmail.getText().toString(), textViewPassword.getText().toString());
+                if(Utils.isValidEmail(textViewEmail.getText().toString())) {
+                    loginProgressBar.setVisibility(View.VISIBLE);
+                    ServerOperations.sendUserAuthenticate(this, textViewEmail.getText().toString(), textViewPassword.getText().toString());
+                }else{
+                    textViewEmail.setError("Errore compilazione campo.");
+                }
                 break;
         }
     }

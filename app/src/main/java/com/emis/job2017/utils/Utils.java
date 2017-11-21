@@ -3,6 +3,8 @@ package com.emis.job2017.utils;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -129,6 +131,25 @@ public class Utils {
         double dist = earthRadius * c;
 
         return dist*1000; // output distance, in metri
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        // Get Connectivity Manager class object from Systems Service
+        ConnectivityManager cm = (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get Network Info from connectivity Manager
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        // if no network is available networkInfo will be null
+        // otherwise check if we are connected
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isValidEmail(CharSequence target) {
+        return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
 }

@@ -6,4 +6,8 @@
     <string name="title_activity_profiling">ProfilingActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_popup_app">Job&amp;Orienta</string>
+    <string name="title_no_internet_popup">Nessuna connessione a Internet.</string>
+
 </resources>

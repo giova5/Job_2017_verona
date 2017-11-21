@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.emis.job2017.R;
+import com.emis.job2017.utils.Utils;
 
 /**
  * Created by jo5 on 17/11/17.
@@ -35,19 +38,45 @@ public class RegistrationPage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_already_have_ticket, container, false);
+        View view = inflater.inflate(R.layout.fragment_registration_page, container, false);
         progressBar = (ProgressBar) view.findViewById(R.id.registration_page_pb) ;
 
-        webView = (WebView) view.findViewById(R.id.already_have_ticket_webview);
+        webView = (WebView) view.findViewById(R.id.registration_page_webview);
 
+        if(Utils.isNetworkAvailable(getActivity()))
+            setupWebview();
+        else
+            showErrorDialog();
+
+        return view;
+    }
+
+    private void showErrorDialog(){
+        new AwesomeErrorDialog(getActivity())
+                .setTitle(R.string.title_popup_app)
+                .setMessage(R.string.title_no_internet_popup)
+                .setColoredCircle(R.color.colorYellow)
+                .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
+                .setCancelable(true).setButtonText(getString(R.string.dialog_ok_button))
+                .setButtonBackgroundColor(R.color.colorYellow)
+                .setButtonText(getString(R.string.dialog_ok_button))
+                .setErrorButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        // click
+                        getActivity().onBackPressed();                    }
+                })
+                .show();
+    }
+
+
+    private void setupWebview(){
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setWebViewClient(new WebViewClientImpl());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.loadUrl(registrationUrl);
-
-        return view;
     }
 
     @Override
@@ -59,12 +88,12 @@ public class RegistrationPage extends Fragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-//            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
             super.onPageStarted(view, url, favicon);
         }
 
         public void onPageFinished(WebView view, String url) {
-//            progressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
         }
 
         @Override

@@ -30,6 +30,12 @@ buildscript {
     }
 }
 
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
 dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.0.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -43,6 +49,7 @@ dependencies {
     compile 'me.dm7.barcodescanner:zxing:1.8.4'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.github.blennerSilva:AwesomeDialog:087273c6b4'
     testCompile 'junit:junit:4.12'
 }
 
