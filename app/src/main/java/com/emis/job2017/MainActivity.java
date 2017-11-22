@@ -25,8 +25,8 @@ import com.emis.job2017.view.UserTicketPage;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public final static int MY_PERMISSIONS_REQUEST_CAMERA = 1;
-    private ImageButton ticketBtn;
-    private ImageButton profileBtn;
+    private ImageView ticketBtn;
+    private ImageView profileBtn;
 
     //TODO: change images.
     private int[] imageResId = {
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         checkPermissions();
 
-        ticketBtn = (ImageButton) findViewById(R.id.user_ticket_btn);
-        profileBtn = (ImageButton) findViewById(R.id.profile_page_btn);
+        ticketBtn = (ImageView) findViewById(R.id.user_ticket_btn);
+        profileBtn = (ImageView) findViewById(R.id.profile_page_btn);
 
         ticketBtn.setOnClickListener(this);
         profileBtn.setOnClickListener(this);
@@ -113,5 +113,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        moveTaskToBack(true);
     }
 }

@@ -71,19 +71,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     case AUTHENTICATION_FAILURE:
                         //Error during last getUserProfile
                         loginProgressBar.setVisibility(View.GONE);
-                        showErrorDialog("Errore durante la richiesta.");
+                        showErrorDialog("Errore di connessione.");
                         break;
                     case ACCESS_TOKEN_FAILURE:
                         //Error during getAccessToken
                         loginProgressBar.setVisibility(View.GONE);
-                        showErrorDialog("Errore durante la richiesta.");
+                        showErrorDialog("Errore di connessione.");
                         break;
                     case LOGIN_FAILURE:
                         loginProgressBar.setVisibility(View.GONE);
                         if(jsonResponse.getString(ServerManagerService.RESPONSE_CODE).equals(ServerManagerService.OPERATION_FAILURE_401))
                             showErrorDialog("Email o password errati.");
                         else
-                            showErrorDialog("Errore durante la richiesta.");
+                            showErrorDialog("Errore di connessione.");
                         break;
             }
 

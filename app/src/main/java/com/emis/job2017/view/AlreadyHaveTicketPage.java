@@ -61,7 +61,7 @@ public class AlreadyHaveTicketPage extends Fragment {
                 .setMessage(R.string.title_no_internet_popup)
                 .setColoredCircle(R.color.colorYellow)
                 .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
-                .setCancelable(true).setButtonText(getString(R.string.dialog_ok_button))
+                .setCancelable(false).setButtonText(getString(R.string.dialog_ok_button))
                 .setButtonBackgroundColor(R.color.colorYellow)
                 .setButtonText(getString(R.string.dialog_ok_button))
                 .setErrorButtonClick(new Closure() {

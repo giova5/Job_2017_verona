@@ -2,6 +2,8 @@ package com.emis.job2017.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import com.emis.job2017.R;
 import com.emis.job2017.models.CalendarEventModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,23 +58,38 @@ public class CalendarAdapter extends ArrayAdapter<CalendarEventModel> {
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.calendar_list_item, parent, false);
             holder = new CalendarViewHolder();
-            holder.idProgram = (TextView) convertView.findViewById(R.id.event_id_program);
             holder.title = (TextView) convertView.findViewById(R.id.event_title);
-            holder.description = (TextView) convertView.findViewById(R.id.event_description);
-            holder.typeOfProgramString = (TextView) convertView.findViewById(R.id.event_type_of_program);
-            holder.dateTimestamp= (TextView) convertView.findViewById(R.id.event_date);
+            holder.dateTimestamp = (TextView) convertView.findViewById(R.id.calendar_date);
             convertView.setTag(holder);
         } else {
             holder = (CalendarViewHolder) convertView.getTag();
         }
 
         final CalendarEventModel item = items.get(position);
-        holder.idProgram.setText(String.valueOf(item.getIdProgram()));
-        holder.title.setText(item.getTitle());
-        holder.description.setText(item.getDescription());
-        holder.typeOfProgramString.setText(item.getTypeOfProgramString());
+
+        holder.title.setText(Html.fromHtml(item.getTitle()));
+        Log.d("Title", item.getTitle());
+
+        Date firstDate = new Date(Long.valueOf(item.getStartTime() + "000"));
+        Date secondDate = new Date(Long.valueOf(item.getEndTime() + "000"));
+        String startTime = String.valueOf(firstDate.getHours()) + ":" + parseMinutes(String.valueOf(firstDate.getMinutes()));
+        String endTime = String.valueOf(secondDate.getHours()) + ":" + parseMinutes(String.valueOf(secondDate.getMinutes()));
+        String calendarDate = startTime + " - " + endTime;
+
+        holder.dateTimestamp.setText(calendarDate);
 
         return convertView;
+    }
+
+    private String replaceApostrophe(String title){
+        if (title.contains("'")) {
+            title = title.replaceAll("'", "\'");
+        }
+        return title;
+    }
+
+    private String parseMinutes(String minutes){
+        return (minutes.equals("0")) ? minutes + "0" : minutes;
     }
 
 }

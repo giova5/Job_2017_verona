@@ -47,8 +47,7 @@
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:textColor="@color/colorYellow"
-            android:textColorHighlight="@color/colorYellow"
+            android:textColor="@color/colorGrey"
             app:errorEnabled="true"/>
 
         <!--<item name="textColor">?textColorPrimary</item>-->
@@ -81,8 +80,8 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColorLink="@color/colorYellow"
-            app:errorEnabled="true"/>
+            app:errorEnabled="true"
+            android:textColor="@color/colorGrey"/>
 
     </android.support.design.widget.TextInputLayout>
 

@@ -65,7 +65,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:windowSoftInputMode="stateHidden|adjustPan"
+        android:theme="@style/AppTheme.NoActionBar"/>
 
 
     </application>

@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.emis.job2017.MainActivity">
+    tools:context="com.emis.job2017.MainActivity"
+    android:background="@color/white">
 
 
     <android.support.design.widget.TabLayout
         android:id="@+id/sliding_tabs"
-        android:layout_width="344dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.90" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/user_ticket_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,7 +48,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@drawable/qrcode" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline7"
@@ -56,9 +57,9 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.20" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/profile_page_btn"
-        android:layout_width="63dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="32dp"
@@ -66,7 +67,20 @@
         app:layout_constraintBottom_toBottomOf="@+id/user_ticket_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/user_ticket_btn"
-        app:layout_constraintVertical_bias="0.304"
         app:srcCompat="@drawable/profilo" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewpager"
+        app:layout_constraintEnd_toStartOf="@+id/profile_page_btn"
+        app:layout_constraintStart_toEndOf="@+id/user_ticket_btn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_job" />
 
 </android.support.constraint.ConstraintLayout>

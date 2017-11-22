@@ -69,8 +69,8 @@ public class CalendarLoader extends BaseAsyncLoader<List<CalendarEventModel>> {
 
                 CalendarEventModel calendarEventModel = new CalendarEventModel();
                 calendarEventModel.setIdProgram(current.getInt("idprogramma"));
-                calendarEventModel.setStartTime(Double.valueOf(current.getString("dataora_inizio_timestamp")));
-                calendarEventModel.setEndTime(Double.valueOf(current.getString("dataora_fine_timestamp")));
+                calendarEventModel.setStartTime(current.getString("dataora_inizio_timestamp"));
+                calendarEventModel.setEndTime(current.getString("dataora_fine_timestamp"));
                 calendarEventModel.setLocation(current.getString("location"));
                 calendarEventModel.setTypeOfProgramString(current.getString("tipi_stringa"));
                 calendarEventModel.setTitle(current.getString("titolo"));
