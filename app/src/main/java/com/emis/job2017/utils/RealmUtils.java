@@ -19,6 +19,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import io.realm.DynamicRealm;
@@ -166,6 +167,19 @@ public class RealmUtils {
         return cloned;
     }
 
+    public static List<CalendarEventModel> getOrderedCalendar(){
+
+        List<CalendarEventModel> clonedList = new LinkedList<>();
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<CalendarEventModel> calendarEventModels = realm.where(CalendarEventModel.class).findAllSorted("startTime");
+
+        for(CalendarEventModel current : calendarEventModels){
+            clonedList.add(CalendarEventModel.cloneObject(current));
+        }
+
+        return clonedList;
+    }
     /**
      * ********************* END Methods for getting contents from Realm  *********************
      */

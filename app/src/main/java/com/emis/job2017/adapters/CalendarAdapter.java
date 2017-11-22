@@ -14,6 +14,7 @@ import com.emis.job2017.R;
 import com.emis.job2017.models.CalendarEventModel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -67,29 +68,35 @@ public class CalendarAdapter extends ArrayAdapter<CalendarEventModel> {
 
         final CalendarEventModel item = items.get(position);
 
-        holder.title.setText(Html.fromHtml(item.getTitle()));
+        holder.title.setText(Html.fromHtml(item.getTitle().replace("\n", "<br>")));
         Log.d("Title", item.getTitle());
 
-        Date firstDate = new Date(Long.valueOf(item.getStartTime() + "000"));
-        Date secondDate = new Date(Long.valueOf(item.getEndTime() + "000"));
+        Date firstDate = new Date(item.getStartTime() * 1000);
+        Date secondDate = new Date(item.getEndTime() * 1000);
+
+        Log.d("Start date", String.valueOf(item.getStartTime() * 1000));
+
         String startTime = String.valueOf(firstDate.getHours()) + ":" + parseMinutes(String.valueOf(firstDate.getMinutes()));
         String endTime = String.valueOf(secondDate.getHours()) + ":" + parseMinutes(String.valueOf(secondDate.getMinutes()));
-        String calendarDate = startTime + " - " + endTime;
+
+        Calendar dateCalendar = toCalendar(firstDate);
+
+        String dateForTesting = String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(dateCalendar.get(Calendar.MONTH) + "/" + String.valueOf(dateCalendar.get(Calendar.YEAR)));
+        String calendarDate = dateForTesting + " --- " + startTime + " - " + endTime;
 
         holder.dateTimestamp.setText(calendarDate);
 
         return convertView;
     }
 
-    private String replaceApostrophe(String title){
-        if (title.contains("'")) {
-            title = title.replaceAll("'", "\'");
-        }
-        return title;
-    }
-
     private String parseMinutes(String minutes){
         return (minutes.equals("0")) ? minutes + "0" : minutes;
+    }
+
+    public static Calendar toCalendar(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
     }
 
 }

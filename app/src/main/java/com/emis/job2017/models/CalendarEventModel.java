@@ -12,8 +12,8 @@ public class CalendarEventModel extends RealmObject {
     //TODO: implement model
 
     private int idProgram;
-    private String startTime;
-    private String endTime;
+    private long startTime;
+    private long endTime;
     private String location;
     private String typeOfProgramString;
     private String title;
@@ -23,7 +23,7 @@ public class CalendarEventModel extends RealmObject {
 
     }
 
-    public CalendarEventModel(int idProgram, String startTime, String endTime, String location, String typeOfProgramString, String title, String description){
+    public CalendarEventModel(int idProgram, long startTime, long endTime, String location, String typeOfProgramString, String title, String description){
         this.idProgram = idProgram;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -66,19 +66,19 @@ public class CalendarEventModel extends RealmObject {
         this.description = description;
     }
 
-    public String getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
 
@@ -99,9 +99,9 @@ public class CalendarEventModel extends RealmObject {
                 calendarEventModel.getStartTime(),
                 calendarEventModel.getEndTime(),
                 calendarEventModel.getLocation(),
+                calendarEventModel.getTypeOfProgramString(),
                 calendarEventModel.getTitle(),
-                calendarEventModel.getDescription(),
-                calendarEventModel.getTypeOfProgramString()
+                calendarEventModel.getDescription()
         );
     }
 }
