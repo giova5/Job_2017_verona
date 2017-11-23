@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jo5 on 02/11/17.
+ * Created by jo5 on 23/11/17.
  */
 
-public class NewsAdapter extends ArrayAdapter<NewsModel> {
+public class OtherNewsAdapter extends ArrayAdapter<NewsModel> {
 
     private List<NewsModel> items;
     Context mContext;
@@ -34,7 +34,7 @@ public class NewsAdapter extends ArrayAdapter<NewsModel> {
         TextView link;
     }
 
-    public NewsAdapter(ArrayList<NewsModel> data, Context context) {
+    public OtherNewsAdapter(ArrayList<NewsModel> data, Context context) {
         super(context, 0);
         this.items = data;
         this.mContext = context;
@@ -60,6 +60,12 @@ public class NewsAdapter extends ArrayAdapter<NewsModel> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.news_list_item, parent, false);
             holder = new NewsViewHolder();
             holder.title = (TextView) convertView.findViewById(R.id.news_title);
+//            holder.content = (TextView) convertView.findViewById(R.id.news_content);
+//            holder.contentNoHtml = (TextView) convertView.findViewById(R.id.news_content_nohtml);
+//            holder.review = (TextView) convertView.findViewById(R.id.news_anteprima);
+//            holder.author= (TextView) convertView.findViewById(R.id.news_author);
+//            holder.date = (TextView) convertView.findViewById(R.id.news_date);
+//            holder.link = (TextView) convertView.findViewById(R.id.news_link);
             convertView.setTag(holder);
         } else {
             holder = (NewsViewHolder) convertView.getTag();
@@ -68,9 +74,14 @@ public class NewsAdapter extends ArrayAdapter<NewsModel> {
         final NewsModel item = items.get(position);
 
         holder.title.setText(item.getTitle());
+//        holder.content.setText(item.getContent());
+//        holder.contentNoHtml.setText(item.getContentNoHtml());
+//        holder.review.setText(item.getPreview());
+//        holder.author.setText(item.getAuthor());
+//        holder.date.setText(item.getDate().toString());
+//        holder.link.setText(item.getLink());
 
         return convertView;
 
     }
-
 }

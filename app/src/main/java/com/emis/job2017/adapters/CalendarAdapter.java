@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.emis.job2017.R;
 import com.emis.job2017.models.CalendarEventModel;
+import com.emis.job2017.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,8 +60,8 @@ public class CalendarAdapter extends ArrayAdapter<CalendarEventModel> {
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.calendar_list_item, parent, false);
             holder = new CalendarViewHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.event_title);
-            holder.dateTimestamp = (TextView) convertView.findViewById(R.id.calendar_date);
+            holder.title = (TextView) convertView.findViewById(R.id.dealer_name);
+            holder.dateTimestamp = (TextView) convertView.findViewById(R.id.dealer_category);
             convertView.setTag(holder);
         } else {
             holder = (CalendarViewHolder) convertView.getTag();
@@ -76,8 +77,8 @@ public class CalendarAdapter extends ArrayAdapter<CalendarEventModel> {
 
         Log.d("Start date", String.valueOf(item.getStartTime() * 1000));
 
-        String startTime = String.valueOf(firstDate.getHours()) + ":" + parseMinutes(String.valueOf(firstDate.getMinutes()));
-        String endTime = String.valueOf(secondDate.getHours()) + ":" + parseMinutes(String.valueOf(secondDate.getMinutes()));
+        String startTime = String.valueOf(firstDate.getHours()) + ":" + Utils.parseMinutes(String.valueOf(firstDate.getMinutes()));
+        String endTime = String.valueOf(secondDate.getHours()) + ":" + Utils.parseMinutes(String.valueOf(secondDate.getMinutes()));
 
         Calendar dateCalendar = toCalendar(firstDate);
 
@@ -89,9 +90,6 @@ public class CalendarAdapter extends ArrayAdapter<CalendarEventModel> {
         return convertView;
     }
 
-    private String parseMinutes(String minutes){
-        return (minutes.equals("0")) ? minutes + "0" : minutes;
-    }
 
     public static Calendar toCalendar(Date date){
         Calendar cal = Calendar.getInstance();

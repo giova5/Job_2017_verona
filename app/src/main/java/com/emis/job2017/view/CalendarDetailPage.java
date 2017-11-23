@@ -41,7 +41,6 @@ public class CalendarDetailPage extends Fragment{
         View view = inflater.inflate(R.layout.fragment_calendar_detail, container, false);
         calendarIDTextView = (TextView) view.findViewById(R.id.calendar_id);
 
-
         return view;
     }
 

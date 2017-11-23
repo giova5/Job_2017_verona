@@ -6,4 +6,13 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#9E9E9E</color>
+
+    <color name="colorLingue">#a9d61e</color>
+    <color name="colorFormazioneAccademica">#008ead</color>
+    <color name="colorFormazioneProfessionale">#bdc4cd</color>
+    <color name="colorEducazione">#ffae00</color>
+    <color name="colorLavoro">#f00000</color>
+    <color name="colorTecnologia">#c5b487</color>
+    <color name="colorSalaConvegni">#ffea00</color>
+    <color name="colorGreen">#66BB6A</color>
 </resources>

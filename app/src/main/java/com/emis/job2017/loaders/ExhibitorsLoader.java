@@ -50,9 +50,11 @@ public class ExhibitorsLoader extends BaseAsyncLoader<List<ExhibitorsModel>> {
 
         exhibitorsList = parseGetExhibitorsResponse(getExhibitorsResponse);
 
+        RealmUtils.removeAllDealerObj();
+
         RealmUtils.saveExhibitorsList(exhibitorsList);
 
-        return exhibitorsList;
+        return RealmUtils.getSortedDealers();
     }
 
     private List<ExhibitorsModel> parseGetExhibitorsResponse(JSONObject getExhibitorsResponse) {

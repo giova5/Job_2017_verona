@@ -57,7 +57,11 @@ public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
 
         newsList = parseGetNewsResponse(getNewsResponse);
 
+        RealmUtils.removeAllNewsObj();
+
         RealmUtils.saveNewsList(newsList);
+
+        //TODO:Order
 
         return newsList;
     }
@@ -69,7 +73,7 @@ public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
         try {
             JSONArray getNewsResponseArray = getNewsResponse.getJSONArray("News");
 
-            for(int i = 0; i < getNewsResponse.length(); i++){
+            for(int i = 0; i < getNewsResponseArray.length(); i++){
                 JSONObject current = getNewsResponseArray.getJSONObject(i);
 
                 NewsModel newsModel = new NewsModel();

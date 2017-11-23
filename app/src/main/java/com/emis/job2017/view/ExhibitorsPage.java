@@ -54,7 +54,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
 
         View view = inflater.inflate(R.layout.fragment_exhibitors_page, container, false);
         exhibitorsList = (ListView) view.findViewById(R.id.exhibitors_list);
-        exhibitorsSearchBar = (EditText) view.findViewById(R.id.exhibitors_search_bar);
+//        exhibitorsSearchBar = (EditText) view.findViewById(R.id.exhibitors_search_bar);
         exhibitorsSpinner = (ProgressBar) view.findViewById(R.id.exhibitors_progress_bar);
         exhibitorsSpinner.setVisibility(View.VISIBLE);
         exhibitorsAdapter = new ExhibitorsAdapter(null, getActivity());
@@ -62,7 +62,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
         exhibitorsList.setOnItemClickListener(this);
         exhibitorsList.setAdapter(exhibitorsAdapter);
 
-        setUpTextChangedListener();
+//        setUpTextChangedListener();
 
         return view;
     }

@@ -16,8 +16,10 @@ import android.widget.ProgressBar;
 
 import com.emis.job2017.R;
 import com.emis.job2017.adapters.NewsAdapter;
+import com.emis.job2017.adapters.OtherNewsAdapter;
 import com.emis.job2017.loaders.NewsLoader;
 import com.emis.job2017.models.NewsModel;
+import com.emis.job2017.utils.RealmUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,9 +29,12 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
 
     private static int NEWS_LOADER_ID = 2;
     private NewsAdapter newsAdapter;
+    private OtherNewsAdapter otherNewsAdapter;
     private ListView newsList;
+    private ListView otherNewsList;
     private ProgressBar newsSpinner;
     private List<NewsModel> fullNewsList = new LinkedList<>();
+    private List<NewsModel> fullOtherNewsList = new LinkedList<>();
 
 
     public NewsPage(){
@@ -47,11 +52,17 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_page, container, false);
         newsList = (ListView) view.findViewById(R.id.news_list);
+        otherNewsList = (ListView) view.findViewById(R.id.notifications_list);
         newsSpinner = (ProgressBar) view.findViewById(R.id.news_progress_bar);
         newsSpinner.setVisibility(View.VISIBLE);
+
         newsAdapter = new NewsAdapter(null, getActivity());
         newsList.setOnItemClickListener(this);
         newsList.setAdapter(newsAdapter);
+
+        otherNewsAdapter = new OtherNewsAdapter(null, getActivity());
+        otherNewsList.setAdapter(otherNewsAdapter);
+        otherNewsList.setOnItemClickListener(this);
 
         return view;
     }
@@ -72,8 +83,12 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
     @Override
     public void onLoadFinished(Loader<List<NewsModel>> loader, List<NewsModel> data) {
         newsSpinner.setVisibility(View.GONE);
-        newsAdapter.switchItems(data);
+
+        newsAdapter.switchItems(RealmUtils.getNotifications(true));
+        otherNewsAdapter.switchItems(RealmUtils.getNotifications(false));
+
         fullNewsList.addAll(data);
+        fullOtherNewsList.addAll(data);
     }
 
     @Override
@@ -83,6 +98,7 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //TODO: check two adapters here
         NewsModel newsEventModel = fullNewsList.get(position);
         startFragment(newsEventModel.getIdArticle());
     }

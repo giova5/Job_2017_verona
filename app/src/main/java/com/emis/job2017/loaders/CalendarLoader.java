@@ -36,9 +36,11 @@ public class CalendarLoader extends BaseAsyncLoader<List<CalendarEventModel>> {
 
         calendarList = parseGetProgramResponse(getProgramResponse);
 
+        RealmUtils.removeAllCalendarObj();
+
         RealmUtils.saveCalendarList(calendarList);
 
-        return RealmUtils.getOrderedCalendar();
+        return RealmUtils.getSortedCalendar();
     }
 
     @Override

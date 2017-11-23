@@ -42,6 +42,36 @@ public class RealmUtils {
      * ********************* Methods for saving contents to Realm *********************
      */
 
+    public static void removeAllCalendarObj(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        RealmResults<CalendarEventModel> calendarEventModel = realm.where(CalendarEventModel.class).findAll();
+        calendarEventModel.deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    public static void removeAllNewsObj(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        RealmResults<NewsModel> newsModels = realm.where(NewsModel.class).findAll();
+        newsModels.deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    public static void removeAllDealerObj(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        RealmResults<ExhibitorsModel> exhibitorsModels = realm.where(ExhibitorsModel.class).findAll();
+        exhibitorsModels.deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();
+    }
+
     public static void saveCalendarList(List<CalendarEventModel> calendarList){
 
         Realm realm = Realm.getDefaultInstance();
@@ -85,6 +115,7 @@ public class RealmUtils {
             newsModel.setAuthor(currentCalendarEventModel.getAuthor());
             newsModel.setDate(currentCalendarEventModel.getDate());
             newsModel.setLink(currentCalendarEventModel.getLink());
+            newsModel.setNotification(currentCalendarEventModel.getNotification());
         }
         realm.commitTransaction();
         realm.close();
@@ -167,7 +198,20 @@ public class RealmUtils {
         return cloned;
     }
 
-    public static List<CalendarEventModel> getOrderedCalendar(){
+    public static List<NewsModel> getNotifications(boolean isNotification){
+        List<NewsModel> clonedList = new LinkedList<>();
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<NewsModel> exhibitorsModels = realm.where(NewsModel.class).equalTo("notification", isNotification).findAll();
+
+        for(NewsModel current : exhibitorsModels){
+            clonedList.add(NewsModel.cloneObject(current));
+        }
+
+        return clonedList;
+    }
+
+    public static List<CalendarEventModel> getSortedCalendar(){
 
         List<CalendarEventModel> clonedList = new LinkedList<>();
 
@@ -180,6 +224,21 @@ public class RealmUtils {
 
         return clonedList;
     }
+
+    public static List<ExhibitorsModel> getSortedDealers(){
+        List<ExhibitorsModel> clonedList = new LinkedList<>();
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<ExhibitorsModel> exhibitorsModels = realm.where(ExhibitorsModel.class).findAllSorted("name");
+
+        for(ExhibitorsModel current : exhibitorsModels){
+            clonedList.add(ExhibitorsModel.cloneObject(current));
+        }
+
+        return clonedList;
+    }
+
+
     /**
      * ********************* END Methods for getting contents from Realm  *********************
      */

@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/event_title"
+            android:id="@+id/dealer_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -30,22 +30,22 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.541"
-            app:layout_constraintStart_toStartOf="@+id/guideline10"
+            app:layout_constraintStart_toStartOf="@+id/guideline11"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/calendar_date"
+            android:id="@+id/dealer_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorGrey"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/event_title"
+            app:layout_constraintEnd_toEndOf="@+id/dealer_name"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/event_title"
-            app:layout_constraintTop_toBottomOf="@+id/event_title" />
+            app:layout_constraintStart_toStartOf="@+id/dealer_name"
+            app:layout_constraintTop_toBottomOf="@+id/dealer_name" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -53,14 +53,14 @@
             android:layout_height="0dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/calendar_date"
-            app:layout_constraintEnd_toStartOf="@+id/guideline10"
+            app:layout_constraintBottom_toBottomOf="@+id/dealer_category"
+            app:layout_constraintEnd_toStartOf="@+id/guideline11"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/event_title"
+            app:layout_constraintTop_toTopOf="@+id/dealer_name"
             app:srcCompat="@drawable/btn_yellow" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/guideline10"
+            android:id="@+id/guideline11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"

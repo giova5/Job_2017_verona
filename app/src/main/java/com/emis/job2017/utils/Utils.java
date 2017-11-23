@@ -152,4 +152,8 @@ public class Utils {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
+    public static String parseMinutes(String minutes){
+        return (minutes.equals("0")) ? minutes + "0" : minutes;
+    }
+
 }

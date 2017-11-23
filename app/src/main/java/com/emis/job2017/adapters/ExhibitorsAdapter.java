@@ -2,12 +2,14 @@ package com.emis.job2017.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.emis.job2017.R;
@@ -43,6 +45,7 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> implements 
         TextView thirdEmail;
         TextView descriptionNoHtml;
         TextView logoPath;
+        ImageView dealer_icon;
     }
 
         public ExhibitorsAdapter(ArrayList<ExhibitorsModel> data, Context context) {
@@ -71,23 +74,9 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> implements 
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.exhibitors_list_item, parent, false);
             holder = new ExhibitorsViewHolder();
-            holder.idExhibitors = (TextView) convertView.findViewById(R.id.id_exhibitor);
-            holder.idCategory = (TextView) convertView.findViewById(R.id.id_category);
-            holder.idPadiglione = (TextView) convertView.findViewById(R.id.idPadiglione);
-            holder.name = (TextView) convertView.findViewById(R.id.exhibitor_name);
-            holder.massima = (TextView) convertView.findViewById(R.id.exhibitor_massima);
-            holder.description = (TextView) convertView.findViewById(R.id.exhibitor_description);
-            holder.standNumber = (TextView) convertView.findViewById(R.id.stand_number);
-            holder.standCoordinates = (TextView) convertView.findViewById(R.id.stand_coordinates);
-            holder.webSite = (TextView) convertView.findViewById(R.id.web_site);
-            holder.youtubeLink = (TextView) convertView.findViewById(R.id.youtube_link);
-            holder.phone = (TextView) convertView.findViewById(R.id.phone_number);
-            holder.firstEmail = (TextView) convertView.findViewById(R.id.first_email);
-            holder.secondEmail = (TextView) convertView.findViewById(R.id.second_email);
-            holder.thirdEmail = (TextView) convertView.findViewById(R.id.third_email);
-            holder.descriptionNoHtml= (TextView) convertView.findViewById(R.id.description_no_html);
-            holder.logoPath = (TextView) convertView.findViewById(R.id.logo_path);
-
+            holder.name = (TextView) convertView.findViewById(R.id.dealer_name);
+            holder.idCategory = (TextView) convertView.findViewById(R.id.dealer_category);
+            holder.dealer_icon = (ImageView) convertView.findViewById(R.id.dealer_icon);
             convertView.setTag(holder);
         } else {
             holder = (ExhibitorsViewHolder) convertView.getTag();
@@ -95,22 +84,9 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> implements 
 
         final ExhibitorsModel item = listFiltered.get(position);
 
-        holder.idExhibitors.setText(String.valueOf(item.getIdExhibitor()));
-        holder.idCategory.setText(String.valueOf(item.getIdCategory()));
-        holder.idPadiglione.setText(String.valueOf(item.getIdPadiglione()));
-        holder.name.setText(item.getName());
-        holder.massima.setText(item.getMassima());
-        holder.description.setText(item.getDescription());
-        holder.standNumber.setText(item.getStandNumber());
-        holder.standCoordinates.setText(item.getStandCoordinates());
-        holder.webSite.setText(item.getWebSite());
-        holder.youtubeLink.setText(item.getYoutubeLink());
-        holder.phone.setText(item.getPhoneNumber());
-        holder.firstEmail.setText((item.getEmail1()));
-        holder.secondEmail.setText(item.getEmail2());
-        holder.thirdEmail.setText(item.getEmail3());
-        holder.descriptionNoHtml.setText(item.getDescriptionNoHtml());
-        holder.logoPath.setText(item.getLogoPath());
+        holder.name.setText(Html.fromHtml(item.getName().replace("\n", "<br>")));
+        holder.idCategory.setText(parseCategory(item.getIdCategory()));
+        holder.dealer_icon.setBackgroundColor(parseColor(item.getIdCategory()));
 
         return convertView;
 
@@ -150,5 +126,47 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> implements 
                 notifyDataSetChanged();
             }
         };
+    }
+
+    private String parseCategory(int category){
+        switch (category){
+            case 1:
+                return "Lingue straniere e turismo";
+            case 2:
+                return "Formazione Accademica";
+            case 3:
+                return "Formazione Professionale";
+            case 4:
+                return "Educazione e Scuole medie";
+            case 5:
+                return "Lavoro e alta formazione";
+            case 6:
+                return "Tecnologia e media";
+            case 7:
+                return "Sala Convegni";
+            default:
+                return "Nessuna categoria selezionata";
+        }
+    }
+
+    private int parseColor(int category){
+        switch (category){
+            case 1:
+                return mContext.getResources().getColor(R.color.colorLingue);
+            case 2:
+                return mContext.getResources().getColor(R.color.colorFormazioneAccademica);
+            case 3:
+                return mContext.getResources().getColor(R.color.colorFormazioneProfessionale);
+            case 4:
+                return mContext.getResources().getColor(R.color.colorEducazione);
+            case 5:
+                return mContext.getResources().getColor(R.color.colorLavoro);
+            case 6:
+                return mContext.getResources().getColor(R.color.colorTecnologia);
+            case 7:
+                return mContext.getResources().getColor(R.color.colorSalaConvegni);
+            default:
+                return mContext.getResources().getColor(R.color.colorGreen);
+        }
     }
 }

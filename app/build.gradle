@@ -51,7 +51,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.github.blennerSilva:AwesomeDialog:087273c6b4'
     testCompile 'junit:junit:4.12'
-    implementation files('build/libs/universal-image-loader-1.9.5.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'
