@@ -8,6 +8,7 @@ import com.emis.job2017.view.CalendarPage;
 import com.emis.job2017.view.ExhibitorsPage;
 import com.emis.job2017.view.NewsPage;
 import com.emis.job2017.QRCodeReader;
+import com.emis.job2017.view.VenuesPage;
 
 /**
  * Created by jo5 on 17/10/17.
@@ -41,7 +42,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 4:
 //                return new ExhibitorsPage();
             default:
-                return new CalendarPage();
+                return new VenuesPage();
         }
     }
 

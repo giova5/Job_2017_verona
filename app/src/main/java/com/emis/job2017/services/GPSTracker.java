@@ -22,8 +22,8 @@ import java.security.PublicKey;
 
 public class GPSTracker extends Service implements LocationListener {
 
-//    public static final double VERONA_LATIDUDE = 45.418255;
-//    public static final double VERONA_LONGITUDE = 10.979716;
+    public static final double VERONA_LATIDUDE = 45.418255;
+    public static final double VERONA_LONGITUDE = 10.979716;
 
     public static final double TEST_LATITUDE = 45.07796405987709;
     public static final double TEST_LONGITUDE = 7.684052906044058;
