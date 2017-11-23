@@ -281,7 +281,7 @@ public class RealmUtils {
         BitMatrix result;
         try {
             result = new MultiFormatWriter().encode(str,
-                    BarcodeFormat.QR_CODE, 100, 100, null);
+                    BarcodeFormat.QR_CODE, 900, 900, null);
         } catch (IllegalArgumentException iae) {
             // Unsupported format
             return null;
@@ -296,7 +296,7 @@ public class RealmUtils {
             }
         }
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(pixels, 0, 100, 0, 0, w, h);
+        bitmap.setPixels(pixels, 0, 900, 0, 0, w, h);
         return bitmap;
     }
 

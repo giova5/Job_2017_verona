@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.emis.job2017.R;
 import com.emis.job2017.models.UserProfileModel;
@@ -21,8 +22,10 @@ import com.google.zxing.WriterException;
 
 public class UserTicketPage extends AppCompatActivity {
 
-    ImageView ticketImageView;
+    private ImageView ticketImageView;
+    private TextView userInfo;
     private String urlToTicket;
+
 
     public UserTicketPage(){
 
@@ -35,9 +38,12 @@ public class UserTicketPage extends AppCompatActivity {
         setContentView(R.layout.fragment_user_ticket);
 
         ticketImageView = (ImageView) findViewById(R.id.ticket_imageview);
+        userInfo = (TextView) findViewById(R.id.user_info);
 
         UserProfileModel userProfileModel = RealmUtils.getUser();
         urlToTicket = userProfileModel.getUrlTicket();
+        String userInfoS = userProfileModel.getUserName() + " " + userProfileModel.getUserSurname();
+        userInfo.setText(userInfoS);
 
         Bitmap bitmap = null;
         try {
