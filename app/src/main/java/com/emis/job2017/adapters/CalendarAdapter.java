@@ -80,9 +80,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarEventModel> {
         String startTime = String.valueOf(firstDate.getHours()) + ":" + Utils.parseMinutes(String.valueOf(firstDate.getMinutes()));
         String endTime = String.valueOf(secondDate.getHours()) + ":" + Utils.parseMinutes(String.valueOf(secondDate.getMinutes()));
 
-        Calendar dateCalendar = toCalendar(firstDate);
+        Calendar dateCalendar = Utils.toCalendar(firstDate);
 
-        String dateForTesting = String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(dateCalendar.get(Calendar.MONTH) + "/" + String.valueOf(dateCalendar.get(Calendar.YEAR)));
+        String dateForTesting = String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(dateCalendar.get(Calendar.MONTH) + "-" + String.valueOf(dateCalendar.get(Calendar.YEAR)));
         String calendarDate = dateForTesting + " --- " + startTime + " - " + endTime;
 
         holder.dateTimestamp.setText(calendarDate);
@@ -91,10 +91,6 @@ public class CalendarAdapter extends ArrayAdapter<CalendarEventModel> {
     }
 
 
-    public static Calendar toCalendar(Date date){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return cal;
-    }
+
 
 }

@@ -2,6 +2,7 @@ package com.emis.job2017.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,14 @@ import android.widget.TextView;
 
 import com.emis.job2017.R;
 import com.emis.job2017.models.NewsModel;
+import com.emis.job2017.utils.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import io.realm.internal.Util;
 
 /**
  * Created by jo5 on 23/11/17.
@@ -57,15 +63,11 @@ public class OtherNewsAdapter extends ArrayAdapter<NewsModel> {
         NewsViewHolder holder;
 
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.news_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.other_news_list_item, parent, false);
             holder = new NewsViewHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.news_title);
-//            holder.content = (TextView) convertView.findViewById(R.id.news_content);
-//            holder.contentNoHtml = (TextView) convertView.findViewById(R.id.news_content_nohtml);
-//            holder.review = (TextView) convertView.findViewById(R.id.news_anteprima);
-//            holder.author= (TextView) convertView.findViewById(R.id.news_author);
-//            holder.date = (TextView) convertView.findViewById(R.id.news_date);
-//            holder.link = (TextView) convertView.findViewById(R.id.news_link);
+            holder.title = (TextView) convertView.findViewById(R.id.other_news_title);
+            holder.date = (TextView) convertView.findViewById(R.id.other_news_date);
+            holder.content = (TextView) convertView.findViewById(R.id.other_news_description);
             convertView.setTag(holder);
         } else {
             holder = (NewsViewHolder) convertView.getTag();
@@ -74,12 +76,12 @@ public class OtherNewsAdapter extends ArrayAdapter<NewsModel> {
         final NewsModel item = items.get(position);
 
         holder.title.setText(item.getTitle());
-//        holder.content.setText(item.getContent());
-//        holder.contentNoHtml.setText(item.getContentNoHtml());
-//        holder.review.setText(item.getPreview());
-//        holder.author.setText(item.getAuthor());
-//        holder.date.setText(item.getDate().toString());
-//        holder.link.setText(item.getLink());
+        Calendar dateCalendar = Utils.toCalendar(item.getDate());
+//        String otherNewsDate = String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(dateCalendar.get(Calendar.MONTH) + "-" + String.valueOf(dateCalendar.get(Calendar.YEAR)));
+
+        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+        holder.date.setText(format1.format(dateCalendar.getTime()));
+        holder.content.setText(Html.fromHtml(item.getContent().replace("\n", "<br>")));
 
         return convertView;
 

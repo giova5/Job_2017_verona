@@ -85,7 +85,7 @@ public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
                 newsModel.setPreview(current.getString("anteprima"));
                 newsModel.setAuthor(current.getString("autore"));
                 //TODO: check date 1970
-                Date date = new Date(Long.valueOf(current.getString("data")));
+                Date date = new Date(Long.valueOf(current.getString("data")) * 1000);
                 newsModel.setDate(date);
                 newsModel.setLink(current.getString("link"));
 

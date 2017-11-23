@@ -51,8 +51,10 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_page, container, false);
-        newsList = (ListView) view.findViewById(R.id.news_list);
-        otherNewsList = (ListView) view.findViewById(R.id.notifications_list);
+
+        newsList = (ListView) view.findViewById(R.id.notifications_list);
+        otherNewsList = (ListView) view.findViewById(R.id.other_news_list);
+
         newsSpinner = (ProgressBar) view.findViewById(R.id.news_progress_bar);
         newsSpinner.setVisibility(View.VISIBLE);
 
@@ -61,8 +63,8 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
         newsList.setAdapter(newsAdapter);
 
         otherNewsAdapter = new OtherNewsAdapter(null, getActivity());
-        otherNewsList.setAdapter(otherNewsAdapter);
         otherNewsList.setOnItemClickListener(this);
+        otherNewsList.setAdapter(otherNewsAdapter);
 
         return view;
     }
