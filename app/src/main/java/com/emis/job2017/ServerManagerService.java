@@ -10,6 +10,7 @@ import com.emis.job2017.models.UserProfileModel;
 import com.emis.job2017.utils.RealmUtils;
 import com.emis.job2017.utils.Utils;
 import com.emis.job2017.view.LoginActivity;
+import com.emis.job2017.view.SplashScreen;
 import com.emis.job2017.view.UserProfilePage;
 
 import org.json.JSONArray;
@@ -43,6 +44,7 @@ public class ServerManagerService extends IntentService {
     public static final String GET_FAVORITES_LIST = "GET_FAVORITES_LIST";
     public static final String CHECK_FAVORITE = "CHECK_FAVORITE";
     public static final String GET_ATTESTATION = "GET_ATTESTATION";
+    public static final String GET_ACCESS_TOKEN = "GET_ACCESS_TOKEN";
 
     //Requests parameters
     public static final String AUTHENTICATE_EMAIL = "AUTHENTICATE_EMAIL";
@@ -57,7 +59,8 @@ public class ServerManagerService extends IntentService {
     public static final String LOGIN_FAILURE = "LOGIN_FAILURE";
     public static final String GET_ATTESTATION_SUCCESS = "GET_ATTESTATION_SUCCESS";
     public static final String GET_ATTESTATION_FAILURE = "GET_ATTESTATION_FAILURE";
-
+    public static final String GET_ACCESS_TOKEN_SUCCESS = "GET_ACCESS_TOKEN_SUCCESS";
+    public static final String GET_ACCESS_TOKEN_FAILURE = "GET_ACCESS_TOKEN_FAILURE";
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -124,6 +127,23 @@ public class ServerManagerService extends IntentService {
                 }
                 break;
 
+            case GET_ACCESS_TOKEN:
+                try {
+                    ServerOperations getAccessTokenRequest = new ServerOperations(Utils.EventType.GET_ACCESS_TOKEN);
+                    JSONObject getAccessTokenResponse = getAccessTokenRequest.getAccessToken(RealmUtils.getUser().getRefreshToken());
+                    getAccessTokenResponse = checkIfInitResponse(getAccessTokenResponse);
+                    if(getAccessTokenResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
+
+                        sendCallbackToListener(SplashScreen.ResponseReceiver.LOCAL_ACTION, GET_ACCESS_TOKEN_SUCCESS, getAccessTokenResponse);
+                    }else{
+                        sendCallbackToListener(SplashScreen.ResponseReceiver.LOCAL_ACTION, GET_ACCESS_TOKEN_FAILURE, getAccessTokenResponse);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
             case GET_JOB_CALENDAR:
                 ServerOperations getJobCalendarRequest = new ServerOperations(Utils.EventType.GET_PROGRAM);
                 JSONObject getJobCalendarResponse = getJobCalendarRequest.getJobCalendar();
@@ -166,7 +186,6 @@ public class ServerManagerService extends IntentService {
                 }
 
                 break;
-
         }
 
     }
@@ -219,7 +238,7 @@ public class ServerManagerService extends IntentService {
 
     private void parseAndSaveGetUserProfileResponse(JSONObject getUserProfileResponse){
 
-        UserProfileModel userProfileModel = new UserProfileModel();
+        UserProfileModel userProfileModel = RealmUtils.getUser();
 
         try {
 

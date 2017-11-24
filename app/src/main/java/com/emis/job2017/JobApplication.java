@@ -17,6 +17,7 @@ public class JobApplication extends Application {
     private static JobApplication appInstance;
     private static Realm realmInstance;
     private static String accessToken;
+    private static String refreshToken;
 
     @Override
     public void onCreate() {
@@ -36,6 +37,14 @@ public class JobApplication extends Application {
 
     public static void setAccessToken(String accessToken) {
         JobApplication.accessToken = accessToken;
+    }
+
+    public static String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public static void setRefreshToken(String refreshToken) {
+        JobApplication.refreshToken = refreshToken;
     }
 
     public static JobApplication getAppInstance() {

@@ -22,7 +22,7 @@
             android:value="barcode" />
 
         <activity
-            android:name=".ProfilingActivity"
+            android:name=".view.SplashScreen"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -74,6 +74,13 @@
 
         <activity
             android:name=".view.MapPage"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".ProfilingActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="stateHidden|adjustPan"
             android:theme="@style/AppTheme.NoActionBar"

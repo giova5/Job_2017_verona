@@ -197,6 +197,11 @@ public class ServerOperations {
         return jsonResponse;
     }
 
+    public static void sendGetAccessToken(Context context){
+        Intent smIntent = new Intent(context, ServerManagerService.class);
+        smIntent.putExtra(ServerManagerService.COMMAND, ServerManagerService.GET_ACCESS_TOKEN);
+        context.startService(smIntent);
+    }
 
     /*********************************** GET JOB CALENDAR METHODS ************************************/
 

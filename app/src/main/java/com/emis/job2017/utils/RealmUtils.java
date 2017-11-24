@@ -193,9 +193,14 @@ public class RealmUtils {
     public static UserProfileModel getUser(){
         Realm realm = Realm.getDefaultInstance();
         UserProfileModel userProfileModel= realm.where(UserProfileModel.class).findFirst();
-        UserProfileModel cloned = UserProfileModel.cloneObject(userProfileModel);
-        realm.close();
-        return cloned;
+        if(userProfileModel != null) {
+            UserProfileModel cloned = UserProfileModel.cloneObject(userProfileModel);
+            realm.close();
+            return cloned;
+        }else {
+            realm.close();
+            return null;
+        }
     }
 
     public static List<NewsModel> getNotifications(boolean isNotification){
@@ -238,6 +243,12 @@ public class RealmUtils {
         return clonedList;
     }
 
+//    public static void getUsers(){
+//        Realm realm = Realm.getDefaultInstance();
+//        RealmResults<UserProfileModel> exhibitorsModels = realm.where(UserProfileModel.class).findAll();
+//        realm.close();
+//    }
+
 
     /**
      * ********************* END Methods for getting contents from Realm  *********************
@@ -245,23 +256,26 @@ public class RealmUtils {
 
     public static void firstUserCreation(String email, String refreshToken){
 
-        Realm realm = Realm.getDefaultInstance();
-
-        UserProfileModel userProfileModel = new UserProfileModel();
+        UserProfileModel userProfileModel = getUser();
+        if(userProfileModel == null)
+            userProfileModel = new UserProfileModel();
         userProfileModel.setUserEmail(email);
         userProfileModel.setRefreshToken(refreshToken);
 
+        Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
+        realm.copyToRealmOrUpdate(userProfileModel);
         realm.commitTransaction();
         realm.close();
     }
 
     public static void saveAccessToken(String accessToken){
-        Realm realm = Realm.getDefaultInstance();
 
-        UserProfileModel userProfileModel = new UserProfileModel();
+        UserProfileModel userProfileModel = getUser();
         userProfileModel.setAccessToken(accessToken);
+        JobApplication.setAccessToken(accessToken);
 
+        Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(userProfileModel);
         realm.commitTransaction();
