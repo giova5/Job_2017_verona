@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.emis.job2017.MainActivity;
@@ -27,6 +28,7 @@ import static com.emis.job2017.ServerManagerService.GET_ACCESS_TOKEN_SUCCESS;
 public class SplashScreen extends Activity {
 
     private ResponseReceiver receiver;
+    Context context;
 
     public class ResponseReceiver extends BroadcastReceiver {
 
@@ -48,18 +50,23 @@ public class SplashScreen extends Activity {
         }
     }
 
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash_screen);
+        context = this;
 
-
-        if(RealmUtils.getUser() == null){
-            startProfilingActivity();
-        }else{
-            ServerOperations.sendGetAccessToken(this);
-        }
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+                if(RealmUtils.getUser() == null){
+                    startProfilingActivity();
+                }else{
+                    ServerOperations.sendGetAccessToken(context);
+                }
+//            }
+//        }, 2000);
     }
 
     @Override
