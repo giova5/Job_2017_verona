@@ -9,14 +9,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.emis.job2017.MainActivity;
 import com.emis.job2017.ProfilingActivity;
 import com.emis.job2017.R;
 import com.emis.job2017.ServerManagerService;
 import com.emis.job2017.ServerOperations;
 import com.emis.job2017.utils.RealmUtils;
+import com.emis.job2017.utils.Utils;
 
 import org.json.JSONObject;
+
+import io.realm.internal.Util;
 
 import static com.emis.job2017.ServerManagerService.GET_ACCESS_TOKEN_FAILURE;
 import static com.emis.job2017.ServerManagerService.GET_ACCESS_TOKEN_SUCCESS;
@@ -56,17 +61,30 @@ public class SplashScreen extends Activity {
 
         setContentView(R.layout.activity_splash_screen);
         context = this;
+        //TODO: check why popup is not showed
+        if (RealmUtils.getUser() == null) {
+            startProfilingActivity();
+        } else {
+            ServerOperations.sendGetAccessToken(context);
+        }
+    }
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-                if(RealmUtils.getUser() == null){
-                    startProfilingActivity();
-                }else{
-                    ServerOperations.sendGetAccessToken(context);
-                }
-//            }
-//        }, 2000);
+    private void showErrorDialog(String message){
+        new AwesomeErrorDialog(context)
+                .setTitle(R.string.title_popup_app)
+                .setMessage(message)
+                .setColoredCircle(R.color.colorYellow)
+                .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
+                .setCancelable(false).setButtonText(getString(R.string.dialog_ok_button))
+                .setButtonBackgroundColor(R.color.colorYellow)
+                .setButtonText(getString(R.string.dialog_ok_button))
+                .setErrorButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        finish();
+                    }
+                })
+                .show();
     }
 
     @Override
