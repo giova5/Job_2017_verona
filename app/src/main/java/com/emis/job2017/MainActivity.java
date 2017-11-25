@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int[] imageResId = {
             R.drawable.news,
             R.drawable.espositori,
-            R.drawable.qrcode,
+            R.drawable.foto,
             R.drawable.calendar,
             R.drawable.mappa};
 
@@ -118,6 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        moveTaskToBack(true);
+//        moveTaskToBack(true);
     }
 }
