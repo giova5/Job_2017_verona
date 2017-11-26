@@ -16,6 +16,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.emis.job2017.ServerManagerService.OPERATION_SUCCESS_200_OK;
+import static com.emis.job2017.ServerManagerService.RESPONSE_CODE;
+
 /**
  * Created by jo5 on 03/11/17.
  */
@@ -48,13 +51,18 @@ public class ExhibitorsLoader extends BaseAsyncLoader<List<ExhibitorsModel>> {
         ServerOperations getExhibitors = new ServerOperations(Utils.EventType.GET_EXHIBITORS_INFO);
         JSONObject getExhibitorsResponse = getExhibitors.getExhibitors();
 
-        exhibitorsList = parseGetExhibitorsResponse(getExhibitorsResponse);
-
-        RealmUtils.removeAllDealerObj();
-
-        RealmUtils.saveExhibitorsList(exhibitorsList);
-
-        return RealmUtils.getSortedDealers();
+        try {
+            if(getExhibitorsResponse != null && getExhibitorsResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
+                exhibitorsList = parseGetExhibitorsResponse(getExhibitorsResponse);
+                RealmUtils.removeAllDealerObj();
+                RealmUtils.saveExhibitorsList(exhibitorsList);
+                return RealmUtils.getSortedDealers();
+            }else
+                return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private List<ExhibitorsModel> parseGetExhibitorsResponse(JSONObject getExhibitorsResponse) {

@@ -148,6 +148,8 @@ public class ServerRequestController {
                 getUrl = url.toString() + "?refresh_token=" + jsonObject.getString("refresh_token");
             else if(requestName.equals(Utils.EventType.PREFERITI_CONTROLLA)){
                 getUrl = url.toString() + "?idespositore=" + jsonObject.getString("exhibitorID");
+            }else if(requestName.equals(Utils.EventType.GET_EXHIBITORS_INFO)){
+                getUrl = url.toString() + "?idespositore=" + jsonObject.getString("exhibitorID");
             }
 
             conn = getHTTPConnectionObject(new URL(getUrl));

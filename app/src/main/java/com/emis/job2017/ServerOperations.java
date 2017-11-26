@@ -51,6 +51,7 @@ public class ServerOperations {
     private static String GET_EXHIBITORS_CATEGORIES = "json_categorie.php?app=1";
     private static String GET_EXHIBITORS_PADIGLIONI = "json_padiglioni.php?app=1";
     private static String GET_EXHIBITORS_INFO = "json_espositori.php?app=1";
+    private static String GET_EXHIBITORS_INFO_WITHOUT_APP = "json_espositori.php";
     private static String GET_PROGRAM = "json.php?app=1";
     private static String NEWS = "json.php";
     private static String PROFILE_LOGGED_USER = "json_profilo_loggato.php";
@@ -84,6 +85,9 @@ public class ServerOperations {
                     break;
                 case GET_EXHIBITORS_INFO:
                     currentEndPointForRequest = urlHeaderAsString + ACVISESPELENCO + GET_EXHIBITORS_INFO;
+                    break;
+                case GET_EXHIBITORS_INFO_WITH_PARAMS:
+                    currentEndPointForRequest = urlHeaderAsString + ACVISESPELENCO + GET_EXHIBITORS_INFO_WITHOUT_APP;
                     break;
                 case GET_PROGRAM:
                     currentEndPointForRequest = urlHeaderAsString + ACVISPROGRAMMA + GET_PROGRAM;
@@ -233,9 +237,25 @@ public class ServerOperations {
         return sendRequest(Utils.EventType.GET_EXHIBITORS_INFO, GET_METHOD, null, RETRIES);
     }
 
-    public void sendGetExhibitors(Context context){
+    public JSONObject getExhibitorsWithParams(String exhibitorID){
+
+        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonResponse = new JSONObject();
+
+        try {
+            jsonObject.put("exhibitorID", exhibitorID);
+            jsonResponse = sendGetRequestWithParams(Utils.EventType.GET_EXHIBITORS_INFO, GET_METHOD, jsonObject.toString(), RETRIES);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonResponse;
+    }
+
+    public static void sendGetExhibitorsWithParams(Context context, String dealerID){
         Intent smIntent = new Intent(context, ServerManagerService.class);
         smIntent.putExtra(ServerManagerService.COMMAND, ServerManagerService.GET_EXHIBITORS_INFO);
+        smIntent.putExtra(ServerManagerService.DEALER_ID, dealerID);
         context.startService(smIntent);
     }
 
@@ -308,6 +328,7 @@ public class ServerOperations {
 
         switch (eventType) {
             case PREFERITI_CONTROLLA:
+            case GET_EXHIBITORS_INFO:
                 accessToken = JobApplication.getAccessToken();
                 break;
         }

@@ -21,6 +21,7 @@ import com.emis.job2017.R;
 import com.emis.job2017.adapters.ExhibitorsAdapter;
 import com.emis.job2017.loaders.ExhibitorsLoader;
 import com.emis.job2017.models.ExhibitorsModel;
+import com.emis.job2017.utils.RealmUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().getLoaderManager().initLoader(EXHIBITORS_LOADER_ID, null, this);
+        getActivity().getLoaderManager().restartLoader(EXHIBITORS_LOADER_ID, null, this);
     }
 
     @Override
@@ -82,6 +83,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<List<ExhibitorsModel>> loader, List<ExhibitorsModel> data) {
         exhibitorsSpinner.setVisibility(View.GONE);
+        data = (data == null) ? RealmUtils.getSortedDealers() : data;
         exhibitorsAdapter.switchItems(data);
         fullExhibitorsList.addAll(data);
     }

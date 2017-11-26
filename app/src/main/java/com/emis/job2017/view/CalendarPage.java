@@ -15,10 +15,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.emis.job2017.R;
 import com.emis.job2017.adapters.CalendarAdapter;
 import com.emis.job2017.loaders.CalendarLoader;
 import com.emis.job2017.models.CalendarEventModel;
+import com.emis.job2017.utils.RealmUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -68,8 +71,7 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d("Crash test", " -------- CalendarPage before call initLoader --------");
-        getActivity().getLoaderManager().initLoader(CALENDAR_LOADER_ID, null, this);
-
+        getActivity().getLoaderManager().restartLoader(CALENDAR_LOADER_ID, null, this);
     }
 
     @Override
@@ -81,8 +83,8 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onLoadFinished(Loader<List<CalendarEventModel>> loader, List<CalendarEventModel> data) {
-        //TODO: put in adapter
         calendarSpinner.setVisibility(View.GONE);
+        data = (data == null) ? RealmUtils.getSortedCalendar() : data;
         calendarAdapter.switchItems(data);
         fullCalendarList.addAll(data);
     }

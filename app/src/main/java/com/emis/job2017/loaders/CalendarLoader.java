@@ -16,6 +16,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.emis.job2017.ServerManagerService.OPERATION_SUCCESS_200_OK;
+import static com.emis.job2017.ServerManagerService.RESPONSE_CODE;
+
 /**
  * Created by jo5 on 25/10/17.
  */
@@ -34,13 +37,18 @@ public class CalendarLoader extends BaseAsyncLoader<List<CalendarEventModel>> {
         ServerOperations getProgram = new ServerOperations(Utils.EventType.GET_PROGRAM);
         JSONObject getProgramResponse = getProgram.getJobCalendar();
 
-        calendarList = parseGetProgramResponse(getProgramResponse);
-
-        RealmUtils.removeAllCalendarObj();
-
-        RealmUtils.saveCalendarList(calendarList);
-
-        return RealmUtils.getSortedCalendar();
+        try {
+            if(getProgramResponse != null && getProgramResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
+                calendarList = parseGetProgramResponse(getProgramResponse);
+                RealmUtils.removeAllCalendarObj();
+                RealmUtils.saveCalendarList(calendarList);
+                return RealmUtils.getSortedCalendar();
+            }else
+                return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

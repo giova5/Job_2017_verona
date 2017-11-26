@@ -49,6 +49,7 @@ public class ServerManagerService extends IntentService {
     //Requests parameters
     public static final String AUTHENTICATE_EMAIL = "AUTHENTICATE_EMAIL";
     public static final String AUTHENTICATE_PSW = "AUTHENTICATE_PSW";
+    public static final String DEALER_ID = "DEALER_ID";
 
     //Utils
     public static final String REFRESH_TOKEN = "REFRESH_TOKEN";
@@ -133,7 +134,8 @@ public class ServerManagerService extends IntentService {
                     JSONObject getAccessTokenResponse = getAccessTokenRequest.getAccessToken(RealmUtils.getUser().getRefreshToken());
                     getAccessTokenResponse = checkIfInitResponse(getAccessTokenResponse);
                     if(getAccessTokenResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
-
+                        String accessToken = getAccessTokenFromResponse(getAccessTokenResponse);
+                        JobApplication.setAccessToken(accessToken);
                         sendCallbackToListener(SplashScreen.ResponseReceiver.LOCAL_ACTION, GET_ACCESS_TOKEN_SUCCESS, getAccessTokenResponse);
                     }else{
                         sendCallbackToListener(SplashScreen.ResponseReceiver.LOCAL_ACTION, GET_ACCESS_TOKEN_FAILURE, getAccessTokenResponse);
@@ -184,6 +186,13 @@ public class ServerManagerService extends IntentService {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                break;
+            case GET_EXHIBITORS_INFO:
+                String dealerID = intent.getStringExtra(DEALER_ID);
+
+                ServerOperations getDealersInfo = new ServerOperations(Utils.EventType.GET_EXHIBITORS_INFO_WITH_PARAMS);
+                JSONObject getDealersResponse = getDealersInfo.getExhibitorsWithParams(dealerID);
 
                 break;
         }

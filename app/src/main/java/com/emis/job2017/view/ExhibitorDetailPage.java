@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.emis.job2017.R;
+import com.emis.job2017.ServerOperations;
 import com.emis.job2017.models.ExhibitorsModel;
 import com.emis.job2017.utils.RealmUtils;
 import com.squareup.picasso.Picasso;
@@ -74,7 +75,7 @@ public class ExhibitorDetailPage extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        exhibIDTextView.setText(String.valueOf(RealmUtils.getExhibitor(exhibID).getIdExhibitor()));
+        ServerOperations.sendGetExhibitorsWithParams(getActivity(), String.valueOf(exhibID));
 
         ExhibitorsModel currentDealer = RealmUtils.getExhibitor(exhibID);
 
