@@ -61,7 +61,7 @@ public class SplashScreen extends Activity {
 
         setContentView(R.layout.activity_splash_screen);
         context = this;
-        //TODO: check why popup is not showed
+        //TODO: check why popup is not showed (Needs a timer!?)
         if (RealmUtils.getUser() == null) {
             startProfilingActivity();
         } else {

@@ -18,7 +18,9 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline14" />
+        app:layout_constraintTop_toTopOf="@+id/guideline14"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/black"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline14"
