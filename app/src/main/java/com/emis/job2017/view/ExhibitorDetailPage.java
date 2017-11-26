@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import javax.annotation.Nullable;
  * Created by jo5 on 10/11/17.
  */
 
-public class ExhibitorDetailPage extends Fragment {
+public class ExhibitorDetailPage extends Fragment implements View.OnClickListener{
 
     public static final String EXHIB_ID = "EXHIB_ID";
     public static final String QR_CODE_READER = "QR_CODE_READER";
@@ -110,5 +111,9 @@ public class ExhibitorDetailPage extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        Log.d("FRAGMENT", "ONCLICK");
 
+    }
 }

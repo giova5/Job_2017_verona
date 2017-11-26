@@ -28,6 +28,7 @@ public class UserProfileModel extends RealmObject {
     private String dataRegistrazionTimestamp;
     private String refreshToken;
     private String accessToken;
+    private String urlToAttestation;
 
     public UserProfileModel(){
 
@@ -54,8 +55,17 @@ public class UserProfileModel extends RealmObject {
         cloned.setDataRegistrazionTimestamp(userProfileModel.getDataRegistrazionTimestamp());
         cloned.setRefreshToken(userProfileModel.getRefreshToken());
         cloned.setAccessToken(userProfileModel.getAccessToken());
+        cloned.setUrlToAttestation(userProfileModel.getUrlToAttestation());
 
         return cloned;
+    }
+
+    public String getUrlToAttestation() {
+        return urlToAttestation;
+    }
+
+    public void setUrlToAttestation(String urlToAttestation) {
+        this.urlToAttestation = urlToAttestation;
     }
 
     public int getRealmId() {

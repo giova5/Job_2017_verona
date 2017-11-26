@@ -66,7 +66,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     case AUTHENTICATION_SUCCESS:
                         loginProgressBar.setVisibility(View.GONE);
                         Intent mainActivityIntent = new Intent(context, MainActivity.class);
+//                        mainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        mainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(mainActivityIntent);
+                        finish();
                         break;
                     case AUTHENTICATION_FAILURE:
                         //Error during last getUserProfile

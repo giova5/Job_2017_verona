@@ -179,6 +179,7 @@ public class ServerManagerService extends IntentService {
                     getAttestationResponse = checkIfInitResponse(getAttestationResponse);
                     if(getAttestationResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
                         String attestationLink = parseGetAttestationResponse(getAttestationResponse);
+                        RealmUtils.setUserAttestationUrl(attestationLink);
                         sendCallbackToListener(UserProfilePage.ResponseReceiver.LOCAL_ACTION, GET_ATTESTATION_SUCCESS, getAttestationResponse);
                     }else{
                         //TODO: !200ok

@@ -21,9 +21,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.emis.job2017.R;
 import com.emis.job2017.ServerOperations;
 import com.emis.job2017.models.UserProfileModel;
@@ -34,6 +37,11 @@ import com.google.android.gms.common.UserRecoverableException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.Date;
+
+import io.realm.internal.Util;
 
 import static com.emis.job2017.ServerManagerService.GET_ATTESTATION_FAILURE;
 import static com.emis.job2017.ServerManagerService.GET_ATTESTATION_SUCCESS;
@@ -46,11 +54,13 @@ import static com.emis.job2017.services.GPSTracker.TEST_LONGITUDE;
 
 public class UserProfilePage extends AppCompatActivity implements View.OnClickListener{
 
-    TextView userProfileTopText;
-    Button userFavouritesButton;
-    Button userTicketButton;
-    Button userAttestationButton;
+    private TextView userProfileTopText;
+    private Button userFavouritesButton;
+    private Button userTicketButton;
+    private Button userAttestationButton;
+    private ProgressBar userProfileProgressBar;
     Context context;
+
 
     private GPSTracker gps;
     private ResponseReceiver receiver;
@@ -79,7 +89,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                 case GET_ATTESTATION_SUCCESS:
                     try {
                         attestationLink = parseGetAttestationResponse(new JSONObject(body));
-
+                        userProfileProgressBar.setVisibility(View.GONE);
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(attestationLink));
                         startActivity(browserIntent);
 
@@ -88,6 +98,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                     }
                     break;
                 case GET_ATTESTATION_FAILURE:
+                    userProfileProgressBar.setVisibility(View.GONE);
                     break;
             }
 
@@ -104,6 +115,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
         userFavouritesButton = (Button) findViewById(R.id.user_favourites_button);
         userTicketButton = (Button) findViewById(R.id.user_ticket_button);
         userAttestationButton = (Button) findViewById(R.id.user_attestation_button);
+        userProfileProgressBar = (ProgressBar) findViewById(R.id.user_profile_pb);
 
         UserProfileModel userProfileModel = RealmUtils.getUser();
 
@@ -157,30 +169,80 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
     private void startGpsLogic(){
         gps = new GPSTracker(this);
 
-        if (gps.canGetLocation()) {
+        Date currentTime = Calendar.getInstance().getTime();
+        Calendar currentCalendar = Utils.toCalendar(currentTime);
+        int currentDay = currentCalendar.get(Calendar.DAY_OF_MONTH);
+        int currentMonth = currentCalendar.get(Calendar.MONTH) + 1;
 
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
+        if(RealmUtils.getUser().getUrlToAttestation() == null) {
+            if (gps.canGetLocation()) {
 
-            // \n is for new line
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                double latitude = gps.getLatitude();
+                double longitude = gps.getLongitude();
 
-            double distanceInMeters = Utils.distance(latitude, longitude, TEST_LATITUDE, TEST_LONGITUDE);
+                // \n is for new line
+                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
-            if(distanceInMeters <= 200){
-                //TODO: show webview attestato
-                ServerOperations.sendGetAttestation(this);
-            }else{
-                //TODO: Popup impossibile effettuare il check - in
+                double distanceInMeters = Utils.distance(latitude, longitude, TEST_LATITUDE, TEST_LONGITUDE);
+
+                if (distanceInMeters <= 200 && checkCalendarForAttestation(currentDay, currentMonth)) {
+                    //Show webview attestato
+                    userProfileProgressBar.setVisibility(View.VISIBLE);
+                    userProfileProgressBar.bringToFront();
+                    ServerOperations.sendGetAttestation(this);
+                } else {
+                    //Popup impossibile effettuare il check - in
+                    showErrorDialog("Per ottenere l'attestato è necessario essere all'interno della fiera.");
+                }
+
+            } else {
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                //TODO: testare
+                showErrorDialog("Abilitare il GPS per ottenere l'attestato.");
             }
-
-        } else {
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
-            //TODO: testare
-            gps.showSettingsAlert();
+        }else{
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(RealmUtils.getUser().getUrlToAttestation()));
+            startActivity(browserIntent);
         }
+    }
+
+    private boolean checkCalendarForAttestation(int currentDay, int currentMonth){
+
+        boolean checkFirstDay = false;
+        boolean checkSecondDay = false;
+        boolean checkThirdDay = false;
+
+        if(currentDay == 30 && currentMonth == 11)
+            checkFirstDay = true;
+
+        if(currentDay == 1 && currentMonth == 12)
+            checkSecondDay = true;
+
+        if(currentDay == 2 && currentMonth == 12)
+            checkThirdDay = true;
+
+        return (checkFirstDay || checkSecondDay || checkThirdDay);
+
+    }
+
+    private void showErrorDialog(String message){
+        new AwesomeErrorDialog(this)
+                .setTitle(R.string.title_popup_app)
+                .setMessage(message)
+                .setColoredCircle(R.color.colorYellow)
+                .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
+                .setCancelable(true).setButtonText(getString(R.string.dialog_ok_button))
+                .setButtonBackgroundColor(R.color.colorYellow)
+                .setButtonText(getString(R.string.dialog_ok_button))
+                .setErrorButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        // click
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -209,7 +271,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startGpsLogic();
                 } else {
-                    //TODO: disable camera (popup)
+                    showErrorDialog("Per ottenere l'attestato è necessario accettare il permesso di accedere alla propria posizione. Per abilitarlo accedere alle impostazioni dell'app Job&Orienta.");
                 }
             }
         }

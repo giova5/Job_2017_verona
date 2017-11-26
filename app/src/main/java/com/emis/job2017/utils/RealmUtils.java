@@ -269,6 +269,21 @@ public class RealmUtils {
         realm.close();
     }
 
+    public static void setUserAttestationUrl(String attestationUrl){
+        UserProfileModel userProfileModel = getUser();
+        if(userProfileModel == null)
+            userProfileModel = new UserProfileModel();
+
+        userProfileModel.setUrlToAttestation(attestationUrl);
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(userProfileModel);
+        realm.commitTransaction();
+        realm.close();
+    }
+
+
     public static void saveAccessToken(String accessToken){
 
         UserProfileModel userProfileModel = getUser();

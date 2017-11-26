@@ -82,7 +82,7 @@ public class CalendarAdapter extends ArrayAdapter<CalendarEventModel> {
 
         Calendar dateCalendar = Utils.toCalendar(firstDate);
 
-        String dateForTesting = String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(dateCalendar.get(Calendar.MONTH) + "-" + String.valueOf(dateCalendar.get(Calendar.YEAR)));
+        String dateForTesting = String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(dateCalendar.get(Calendar.MONTH) + 1) + "-" + String.valueOf(dateCalendar.get(Calendar.YEAR));
         String calendarDate = dateForTesting + " --- " + startTime + " - " + endTime;
 
         holder.dateTimestamp.setText(calendarDate);

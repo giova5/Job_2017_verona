@@ -119,7 +119,7 @@ public class QRCodeReader extends Fragment implements ZXingScannerView.ResultHan
             } else {
                 //startFragment(Integer.valueOf(idEsp));
                 mScannerView.stopCamera();
-                startFragment(60);
+                startFragment(Integer.valueOf(idEsp));
             }
         }else{
             //Link does not contain job2017
@@ -131,7 +131,7 @@ public class QRCodeReader extends Fragment implements ZXingScannerView.ResultHan
     }
 
     private boolean checkJobLink(Uri link){
-        return (link.getHost().equals(HOST_JOB));
+        return (link.toString().contains(HOST_JOB));
     }
 
     private void startFragment(int exhibID){

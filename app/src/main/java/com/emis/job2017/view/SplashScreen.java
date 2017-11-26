@@ -110,7 +110,10 @@ public class SplashScreen extends Activity {
 
     private void startMainActivity(){
         Intent mainActIntent = new Intent(this, MainActivity.class);
+//        mainActIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        mainActIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainActIntent);
+//        finish();
     }
 
 }

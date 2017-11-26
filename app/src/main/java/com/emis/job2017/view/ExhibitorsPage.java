@@ -103,7 +103,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
         ExhibitorDetailPage fragment2 = ExhibitorDetailPage.newInstance(exhibID, false);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment2);
+        fragmentTransaction.add(R.id.container, fragment2);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

@@ -154,6 +154,9 @@ public class ServerRequestController {
 
             conn = getHTTPConnectionObject(new URL(getUrl));
 
+            if (accessToken != null)
+                conn.setRequestProperty("Authorization", accessToken);
+
             conn.setRequestMethod(method);
             conn.setConnectTimeout(8000);
             conn.setReadTimeout(5000);

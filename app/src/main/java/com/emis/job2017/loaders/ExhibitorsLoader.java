@@ -87,7 +87,7 @@ public class ExhibitorsLoader extends BaseAsyncLoader<List<ExhibitorsModel>> {
                 exhibitorsModel.setStandCoordinates(current.getString("stand_coordinate"));
                 exhibitorsModel.setWebSite(current.getString("sito"));
                 exhibitorsModel.setPhoneNumber(current.getString("contatto_telefonico"));
-                JSONObject temp = getExhibitorsResponse.optJSONObject("contatti_email");
+                JSONObject temp = current.optJSONObject("contatti_email");
                 exhibitorsModel.setEmail1((temp == null) ? "---" : temp.getString("email1"));
                 exhibitorsModel.setEmail2((temp == null) ? "---" : temp.getString("email2"));
                 exhibitorsModel.setEmail3((temp == null) ? "---" : temp.getString("email3"));

@@ -58,12 +58,12 @@ public class GeneralWebView extends Fragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-//            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
             super.onPageStarted(view, url, favicon);
         }
 
         public void onPageFinished(WebView view, String url) {
-//            progressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
         }
 
         @Override
