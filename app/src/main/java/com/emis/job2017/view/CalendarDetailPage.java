@@ -65,9 +65,12 @@ public class CalendarDetailPage extends Fragment{
 
         CalendarEventModel currentEvent = RealmUtils.getCalendarPrograms(calendarID);
 
-        eventTitle.setText(Html.fromHtml(currentEvent.getTitle().replace("\n", "<br>")));
+        String eventTitleContent = (!currentEvent.getTitle().isEmpty()) ? currentEvent.getTitle() : "Nessuna informazione";
+        String eventPositionContent = (!currentEvent.getLocation().isEmpty()) ? currentEvent.getLocation() : "Nessuna informazione";
+
+        eventTitle.setText(Html.fromHtml(eventTitleContent.replace("\n", "<br>")));
         eventDescription.setText(Html.fromHtml(currentEvent.getDescription().replace("\n", "<br>")));
-        eventPosition.setText(currentEvent.getLocation());
+        eventPosition.setText(eventPositionContent);
 
         Calendar startDate = Utils.toCalendar(new Date(currentEvent.getStartTime() * 1000));
         Calendar endDate = Utils.toCalendar(new Date(currentEvent.getEndTime() * 1000));

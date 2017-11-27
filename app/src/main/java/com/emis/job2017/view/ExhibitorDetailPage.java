@@ -80,13 +80,18 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
 
         ExhibitorsModel currentDealer = RealmUtils.getExhibitor(exhibID);
 
-        dealerName.setText(Html.fromHtml(currentDealer.getName()));
-        dealerDescription.setText(Html.fromHtml(currentDealer.getDescription().replace("\n", "<br>")));
-        dealerMassima.setText(currentDealer.getMassima());
-        //TODO: email 2?
-        dealerEmail.setText(currentDealer.getEmail1());
-        dealerWebsite.setText(currentDealer.getWebSite());
-        String stand = "Stand numero " + currentDealer.getStandNumber();
+        String dealerNameContent = (!currentDealer.getName().isEmpty()) ? currentDealer.getName() : "Nessuna informazione";
+        String dealerDescriptionContent = currentDealer.getDescription();
+        String dealerMassimaContent = (!currentDealer.getMassima().isEmpty()) ? currentDealer.getMassima() : "Nessuna informazione";
+        String dealerEmailContent = (!currentDealer.getEmail1().isEmpty()) ? currentDealer.getEmail1() : "Nessuna informazione";
+        String dealerWebSiteContent = (!currentDealer.getWebSite().isEmpty()) ? currentDealer.getWebSite() : "Nessuna informazione";
+        String stand = (!currentDealer.getStandNumber().isEmpty()) ? "Stand numero " + currentDealer.getStandCoordinates() : "Nessuna informazione";
+
+        dealerName.setText(Html.fromHtml(dealerNameContent));
+        dealerDescription.setText(Html.fromHtml(dealerDescriptionContent.replace("\n", "<br>")));
+        dealerMassima.setText(Html.fromHtml(dealerMassimaContent.replace("\n", "<br>")));
+        dealerEmail.setText(dealerEmailContent);
+        dealerWebsite.setText(dealerWebSiteContent);
         dealerPosition.setText(stand);
 
         Picasso.with(getContext())
