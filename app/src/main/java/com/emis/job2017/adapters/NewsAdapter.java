@@ -2,6 +2,7 @@ package com.emis.job2017.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class NewsAdapter extends ArrayAdapter<NewsModel> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.news_list_item, parent, false);
             holder = new NewsViewHolder();
             holder.title = (TextView) convertView.findViewById(R.id.news_title);
+            holder.content = (TextView) convertView.findViewById(R.id.news_desc);
             convertView.setTag(holder);
         } else {
             holder = (NewsViewHolder) convertView.getTag();
@@ -67,7 +69,8 @@ public class NewsAdapter extends ArrayAdapter<NewsModel> {
 
         final NewsModel item = items.get(position);
 
-        holder.title.setText(item.getTitle());
+        holder.title.setText(Html.fromHtml(item.getTitle().replace("\n", "<br>")));
+        holder.content.setText(Html.fromHtml(item.getContent().replace("\n", "<br>")));
 
         return convertView;
 

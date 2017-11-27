@@ -17,6 +17,7 @@ import com.emis.job2017.models.CalendarEventModel;
 import com.emis.job2017.models.ExhibitorsModel;
 import com.emis.job2017.utils.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -88,7 +89,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarEventModel> implements
 
         Calendar dateCalendar = Utils.toCalendar(firstDate);
 
-        String dateForTesting = String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(dateCalendar.get(Calendar.MONTH) + 1) + "-" + String.valueOf(dateCalendar.get(Calendar.YEAR));
+        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+        String dateForTesting = format1.format(dateCalendar.getTime());
+
         String calendarDate = dateForTesting + " ore " + startTime + " - " + endTime;
 
         holder.dateTimestamp.setText(calendarDate);

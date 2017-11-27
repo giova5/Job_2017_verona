@@ -142,9 +142,12 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                 startActivity(ticketIntent);
                 break;
             case R.id.user_attestation_button:
-                //check e fai vedere webview
-                if(!checkPermissions()) {
-                    startGpsLogic();
+                if(Utils.isNetworkAvailable(this)) {
+                    if (!checkPermissions()) {
+                        startGpsLogic();
+                    }
+                }else{
+                    showErrorDialog(getResources().getString(R.string.title_no_internet_popup));
                 }
                 break;
         }

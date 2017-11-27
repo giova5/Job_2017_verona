@@ -78,7 +78,6 @@ public class OtherNewsAdapter extends ArrayAdapter<NewsModel> {
 
         holder.title.setText(item.getTitle());
         Calendar dateCalendar = Utils.toCalendar(new Date(item.getDate()));
-//        String otherNewsDate = String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(dateCalendar.get(Calendar.MONTH) + "-" + String.valueOf(dateCalendar.get(Calendar.YEAR)));
 
         SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
         holder.date.setText(format1.format(dateCalendar.getTime()));

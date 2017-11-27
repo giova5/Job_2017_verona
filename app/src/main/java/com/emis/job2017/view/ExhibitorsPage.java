@@ -1,6 +1,7 @@
 package com.emis.job2017.view;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -95,6 +97,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        closeKeyboard();
         ExhibitorsModel exhibitorsModel = exhibitorsAdapter.getListFiltered().get(position);
         startFragment(exhibitorsModel.getIdExhibitor());
     }
@@ -106,6 +109,14 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
         fragmentTransaction.add(R.id.container, fragment2);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    private void closeKeyboard(){
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void setUpTextChangedListener(){

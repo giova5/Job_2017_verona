@@ -61,12 +61,17 @@ public class SplashScreen extends Activity {
 
         setContentView(R.layout.activity_splash_screen);
         context = this;
-        //TODO: check why popup is not showed (Needs a timer!?)
-        if (RealmUtils.getUser() == null) {
-            startProfilingActivity();
-        } else {
-            ServerOperations.sendGetAccessToken(context);
-        }
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if (RealmUtils.getUser() == null) {
+                    startProfilingActivity();
+                } else {
+                    ServerOperations.sendGetAccessToken(context);
+                }
+            }
+        }, 2000);
     }
 
     private void showErrorDialog(String message){
