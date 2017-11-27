@@ -115,15 +115,22 @@ public class QRCodeReader extends Fragment implements ZXingScannerView.ResultHan
             if (RealmUtils.getExhibitor(Integer.valueOf(idEsp)) == null) {
                 //webview
                 mScannerView.stopCamera();
+                mScannerView.setResultHandler(this);
+                mScannerView.startCamera();
                 startGeneralWebviewFragment(result.getText());
             } else {
                 //startFragment(Integer.valueOf(idEsp));
                 mScannerView.stopCamera();
+                mScannerView.setResultHandler(this);
+                mScannerView.startCamera();
                 startFragment(Integer.valueOf(idEsp));
             }
         }else{
             //Link does not contain job2017
             //webView
+            mScannerView.stopCamera();
+            mScannerView.setResultHandler(this);
+            mScannerView.startCamera();
             startGeneralWebviewFragment(result.getText());
         }
 
