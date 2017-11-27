@@ -55,7 +55,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
 
         View view = inflater.inflate(R.layout.fragment_exhibitors_page, container, false);
         exhibitorsList = (ListView) view.findViewById(R.id.exhibitors_list);
-//        exhibitorsSearchBar = (EditText) view.findViewById(R.id.exhibitors_search_bar);
+        exhibitorsSearchBar = (EditText) view.findViewById(R.id.exhibitors_search_bar);
         exhibitorsSpinner = (ProgressBar) view.findViewById(R.id.exhibitors_progress_bar);
         exhibitorsSpinner.setVisibility(View.VISIBLE);
         exhibitorsAdapter = new ExhibitorsAdapter(null, getActivity());
@@ -63,7 +63,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
         exhibitorsList.setOnItemClickListener(this);
         exhibitorsList.setAdapter(exhibitorsAdapter);
 
-//        setUpTextChangedListener();
+        setUpTextChangedListener();
 
         return view;
     }
@@ -95,7 +95,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ExhibitorsModel exhibitorsModel = fullExhibitorsList.get(position);
+        ExhibitorsModel exhibitorsModel = exhibitorsAdapter.getListFiltered().get(position);
         startFragment(exhibitorsModel.getIdExhibitor());
     }
 
@@ -117,8 +117,7 @@ public class ExhibitorsPage extends Fragment implements LoaderManager.LoaderCall
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //When text chanes this method is called.
-//                MainActivity.this.adapter.getFilter().filter(cs);
+                //When text changes this method is called.
                 exhibitorsAdapter.getFilter().filter(s);
             }
 

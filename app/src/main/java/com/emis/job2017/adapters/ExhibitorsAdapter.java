@@ -16,6 +16,7 @@ import com.emis.job2017.R;
 import com.emis.job2017.models.ExhibitorsModel;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -105,7 +106,7 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> implements 
                     results.count = items.size();
                     results.values = items;
                 }else{
-                    List<ExhibitorsModel> resultsData = new ArrayList<>();
+                    List<ExhibitorsModel> resultsData = new LinkedList<>();
                     String searchStr = constraint.toString().toUpperCase();
 
                     for(ExhibitorsModel current : items){
@@ -122,7 +123,7 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> implements 
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                listFiltered = (ArrayList<ExhibitorsModel>) results.values;
+                listFiltered = (LinkedList<ExhibitorsModel>) results.values;
                 notifyDataSetChanged();
             }
         };
@@ -168,5 +169,9 @@ public class ExhibitorsAdapter extends ArrayAdapter<ExhibitorsModel> implements 
             default:
                 return mContext.getResources().getColor(R.color.colorGreen);
         }
+    }
+
+    public List<ExhibitorsModel> getListFiltered(){
+        return listFiltered;
     }
 }

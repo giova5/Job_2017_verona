@@ -20,6 +20,9 @@ import java.util.List;
 
 import io.realm.Realm;
 
+import static com.emis.job2017.ServerManagerService.OPERATION_SUCCESS_200_OK;
+import static com.emis.job2017.ServerManagerService.RESPONSE_CODE;
+
 /**
  * Created by jo5 on 02/11/17.
  */
@@ -55,15 +58,18 @@ public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
         ServerOperations getNews = new ServerOperations(Utils.EventType.NEWS);
         JSONObject getNewsResponse = getNews.getNews();
 
-        newsList = parseGetNewsResponse(getNewsResponse);
-
-        RealmUtils.removeAllNewsObj();
-
-        RealmUtils.saveNewsList(newsList);
-
-        //TODO:Order
-
-        return newsList;
+        try {
+            if(getNewsResponse != null && getNewsResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
+                newsList = parseGetNewsResponse(getNewsResponse);
+                RealmUtils.removeAllNewsObj();
+                RealmUtils.saveNewsList(newsList);
+                return RealmUtils.getSortedNews();
+            }else
+                return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private List<NewsModel> parseGetNewsResponse(JSONObject getNewsResponse) {
@@ -84,7 +90,7 @@ public class NewsLoader extends BaseAsyncLoader<List<NewsModel>> {
                 newsModel.setContentNoHtml(current.getString("testo_nohtml"));
                 newsModel.setPreview(current.getString("anteprima"));
                 newsModel.setAuthor(current.getString("autore"));
-                Date date = new Date(Long.valueOf(current.getString("data")) * 1000);
+                long date = Long.valueOf(current.getString("data")) * 1000;
                 newsModel.setDate(date);
                 newsModel.setLink(current.getString("link"));
 

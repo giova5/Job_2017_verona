@@ -7,11 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -38,6 +41,8 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
     private ListView calendarList;
     private ProgressBar calendarSpinner;
     private List<CalendarEventModel> fullCalendarList = new LinkedList<>();
+    private EditText calendarSearchBar;
+
 
     public CalendarPage() {
         // Required empty public constructor
@@ -57,12 +62,16 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
 
         View view = inflater.inflate(R.layout.fragment_calendar_page, container, false);
         calendarList = (ListView) view.findViewById(R.id.calendar_list);
+        calendarSearchBar = (EditText) view.findViewById(R.id.calendar_search_bar);
         calendarSpinner = (ProgressBar) view.findViewById(R.id.calendar_progress_bar);
         Log.d("Crash test", " -------- CalendarPage before create CalendarAdapter --------");
         calendarAdapter = new CalendarAdapter(null, getActivity());
         calendarList.setOnItemClickListener(this);
         Log.d("Crash test", " -------- CalendarPage before call setAdapter(...) --------");
         calendarList.setAdapter(calendarAdapter);
+
+        setUpTextChangedListener();
+
 
         return view;
     }
@@ -96,7 +105,7 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        CalendarEventModel calendarEventModel = fullCalendarList.get(position);
+        CalendarEventModel calendarEventModel = calendarAdapter.getListFiltered().get(position);
         startFragment(calendarEventModel.getIdProgram());
     }
 
@@ -107,6 +116,26 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
         fragmentTransaction.replace(R.id.container, fragment2);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    private void setUpTextChangedListener(){
+        calendarSearchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //When text changes this method is called.
+                calendarAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
 }

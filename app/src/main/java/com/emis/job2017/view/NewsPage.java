@@ -73,7 +73,7 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().getLoaderManager().initLoader(NEWS_LOADER_ID, null, this);
+        getActivity().getLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
     }
 
     @Override
@@ -86,11 +86,14 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
     public void onLoadFinished(Loader<List<NewsModel>> loader, List<NewsModel> data) {
         newsSpinner.setVisibility(View.GONE);
 
-        newsAdapter.switchItems(RealmUtils.getNotifications(true));
-        otherNewsAdapter.switchItems(RealmUtils.getNotifications(false));
+        List<NewsModel> news = RealmUtils.getNotifications(true);
+        List<NewsModel> otherNews = RealmUtils.getNotifications(false);
 
-        fullNewsList.addAll(data);
-        fullOtherNewsList.addAll(data);
+        newsAdapter.switchItems(news);
+        otherNewsAdapter.switchItems(otherNews);
+
+        fullNewsList.addAll(news);
+        fullOtherNewsList.addAll(otherNews);
     }
 
     @Override

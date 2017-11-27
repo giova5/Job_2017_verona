@@ -57,12 +57,25 @@
     tools:context="com.emis.job2017.view.CalendarPage"
     android:id="@+id/fragment_calendar_layout">
 
+    <EditText
+        android:id="@+id/exhibitors_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="Cerca"
+        android:inputType="textPersonName" />
+
     <ListView
         android:id="@+id/exhibitors_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/exhibitors_search_bar"
+        android:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/exhibitors_progress_bar"

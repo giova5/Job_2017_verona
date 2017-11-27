@@ -18,14 +18,15 @@ public class NewsModel extends RealmObject {
     private String contentNoHtml;
     private String preview;
     private String author;
-    private Date date;
+    private long date;
     private String link;
 
     public NewsModel(){
     }
 
-    public NewsModel(int idArticle, String title, String content, String contentNoHtml, String preview, String author, Date date, String link){
+    public NewsModel(int idArticle, boolean notification, String title, String content, String contentNoHtml, String preview, String author, long date, String link){
         this.idArticle = idArticle;
+        this.notification = notification;
         this.title = title;
         this.content = content;
         this.contentNoHtml = contentNoHtml;
@@ -91,11 +92,11 @@ public class NewsModel extends RealmObject {
         this.author = author;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -113,6 +114,7 @@ public class NewsModel extends RealmObject {
     public static NewsModel cloneObject(NewsModel newsModel) {
         return new NewsModel(
                 newsModel.getIdArticle(),
+                newsModel.getNotification(),
                 newsModel.getTitle(),
                 newsModel.getContent(),
                 newsModel.getContentNoHtml(),

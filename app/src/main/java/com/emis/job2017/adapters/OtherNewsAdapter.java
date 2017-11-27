@@ -16,6 +16,7 @@ import com.emis.job2017.utils.Utils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.internal.Util;
@@ -76,7 +77,7 @@ public class OtherNewsAdapter extends ArrayAdapter<NewsModel> {
         final NewsModel item = items.get(position);
 
         holder.title.setText(item.getTitle());
-        Calendar dateCalendar = Utils.toCalendar(item.getDate());
+        Calendar dateCalendar = Utils.toCalendar(new Date(item.getDate()));
 //        String otherNewsDate = String.valueOf(dateCalendar.get(Calendar.DAY_OF_MONTH)) + "-" + String.valueOf(dateCalendar.get(Calendar.MONTH) + "-" + String.valueOf(dateCalendar.get(Calendar.YEAR)));
 
         SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");

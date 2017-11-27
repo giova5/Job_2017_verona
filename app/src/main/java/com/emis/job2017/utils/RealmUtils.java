@@ -28,6 +28,7 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmMigration;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -207,7 +208,7 @@ public class RealmUtils {
         List<NewsModel> clonedList = new LinkedList<>();
 
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<NewsModel> exhibitorsModels = realm.where(NewsModel.class).equalTo("notification", isNotification).findAll();
+        RealmResults<NewsModel> exhibitorsModels = realm.where(NewsModel.class).equalTo("notification", isNotification).findAllSorted("date", Sort.DESCENDING);
 
         for(NewsModel current : exhibitorsModels){
             clonedList.add(NewsModel.cloneObject(current));
@@ -238,6 +239,18 @@ public class RealmUtils {
 
         for(ExhibitorsModel current : exhibitorsModels){
             clonedList.add(ExhibitorsModel.cloneObject(current));
+        }
+
+        return clonedList;
+    }
+
+    public static List<NewsModel> getSortedNews(){
+        List<NewsModel> clonedList = new LinkedList<>();
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<NewsModel> newsModels = realm.where(NewsModel.class).findAllSorted("date");
+        for(NewsModel current : newsModels){
+            clonedList.add(NewsModel.cloneObject(current));
         }
 
         return clonedList;
