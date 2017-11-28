@@ -72,7 +72,7 @@ public class VenuesPage extends Fragment implements View.OnClickListener{
     }
 
     private void startMaps(Context context){
-        Uri gmmIntentUri = Uri.parse("geo:" + GPSTracker.VERONA_LATIDUDE +"," + GPSTracker.VERONA_LONGITUDE + "?q=" + GPSTracker.VERONA_LATIDUDE + "," + GPSTracker.VERONA_LONGITUDE);
+        Uri gmmIntentUri = Uri.parse("geo:" + GPSTracker.VERONA_LATITUDE +"," + GPSTracker.VERONA_LONGITUDE + "?q=" + GPSTracker.VERONA_LATITUDE + "," + GPSTracker.VERONA_LONGITUDE);
         Intent intent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         intent.setPackage("com.google.android.apps.maps");
         context.startActivity(intent);

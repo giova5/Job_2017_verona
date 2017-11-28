@@ -45,8 +45,8 @@ import io.realm.internal.Util;
 
 import static com.emis.job2017.ServerManagerService.GET_ATTESTATION_FAILURE;
 import static com.emis.job2017.ServerManagerService.GET_ATTESTATION_SUCCESS;
-import static com.emis.job2017.services.GPSTracker.TEST_LATITUDE;
-import static com.emis.job2017.services.GPSTracker.TEST_LONGITUDE;
+import static com.emis.job2017.services.GPSTracker.VERONA_LATITUDE;
+import static com.emis.job2017.services.GPSTracker.VERONA_LONGITUDE;
 
 /**
  * Created by jo5 on 18/11/17.
@@ -186,7 +186,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                 // \n is for new line
                 Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
-                double distanceInMeters = Utils.distance(latitude, longitude, TEST_LATITUDE, TEST_LONGITUDE);
+                double distanceInMeters = Utils.distance(latitude, longitude, VERONA_LATITUDE, VERONA_LONGITUDE);
 
                 if (distanceInMeters <= 200 && checkCalendarForAttestation(currentDay, currentMonth)) {
                     //Show webview attestato

@@ -76,17 +76,20 @@
         android:id="@+id/dealer_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline17"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline16" />
+        app:layout_constraintTop_toTopOf="@+id/guideline16"
+        android:ellipsize="end"
+        android:maxLines="3"/>
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -237,7 +240,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/dealer_location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/dealer_location"
-            app:srcCompat="@drawable/ic_location_on_black_24dp" />
+            app:srcCompat="@drawable/ic_phone_black_24dp" />
 
         <TextView
             android:id="@+id/dealer_location"

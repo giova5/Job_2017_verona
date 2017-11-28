@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Job2017</string>
+    <string name="app_name">Job&amp;Orienta</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -16,8 +16,4 @@
     <string name="venues_mappa_padiglioni_check">Controlla la mappa dei padiglioni</string>
     <string name="venues_biglietto_title">Il tuo biglietto</string>
     <string name="venues_biglietto_text">Accedi al tuo biglietto ed entra in un mondo senza carta. Accedi alle info del tuo espositore preferito, lascia il tuo curriculum e molto altro, tutto tramite il tuo biglietto.</string>
-
-
-
-
 </resources>

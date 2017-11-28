@@ -50,7 +50,9 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline16" />
+        app:layout_constraintTop_toTopOf="@+id/guideline16"
+        android:ellipsize="end"
+        android:maxLines="3"/>
 
     <ScrollView
         android:id="@+id/scroll_view_description"

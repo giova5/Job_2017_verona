@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.crashlytics.android.Crashlytics;
 import com.emis.job2017.adapters.PagerAdapter;
 import com.emis.job2017.view.ExhibitorDetailPage;
 import com.emis.job2017.view.UserProfilePage;

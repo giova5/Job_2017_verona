@@ -85,7 +85,7 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
         String dealerMassimaContent = (!currentDealer.getMassima().isEmpty()) ? currentDealer.getMassima() : "Nessuna informazione";
         String dealerEmailContent = (!currentDealer.getEmail1().isEmpty()) ? currentDealer.getEmail1() : "Nessuna informazione";
         String dealerWebSiteContent = (!currentDealer.getWebSite().isEmpty()) ? currentDealer.getWebSite() : "Nessuna informazione";
-        String stand = (!currentDealer.getStandNumber().isEmpty()) ? "Stand numero " + currentDealer.getStandCoordinates() : "Nessuna informazione";
+        String stand = (!currentDealer.getPhoneNumber().isEmpty()) ? currentDealer.getPhoneNumber() : "Nessuna informazione";
 
         dealerName.setText(Html.fromHtml(dealerNameContent));
         dealerDescription.setText(Html.fromHtml(dealerDescriptionContent.replace("\n", "<br>")));

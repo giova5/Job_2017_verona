@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
+import com.crashlytics.android.Crashlytics;
 import com.emis.job2017.MainActivity;
 import com.emis.job2017.ProfilingActivity;
 import com.emis.job2017.R;
@@ -21,6 +22,7 @@ import com.emis.job2017.utils.Utils;
 
 import org.json.JSONObject;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.internal.Util;
 
 import static com.emis.job2017.ServerManagerService.GET_ACCESS_TOKEN_FAILURE;
@@ -60,6 +62,9 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash_screen);
+
+        Fabric.with(this, new Crashlytics());
+
         context = this;
 
         Handler handler = new Handler();

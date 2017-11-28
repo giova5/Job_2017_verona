@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<List<NewsModel>>, ListView.OnItemClickListener {
+public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<List<NewsModel>> {
 
     private static int NEWS_LOADER_ID = 2;
     private NewsAdapter newsAdapter;
@@ -59,11 +59,9 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
         newsSpinner.setVisibility(View.VISIBLE);
 
         newsAdapter = new NewsAdapter(null, getActivity());
-        newsList.setOnItemClickListener(this);
         newsList.setAdapter(newsAdapter);
 
         otherNewsAdapter = new OtherNewsAdapter(null, getActivity());
-        otherNewsList.setOnItemClickListener(this);
         otherNewsList.setAdapter(otherNewsAdapter);
 
         return view;
@@ -99,13 +97,6 @@ public class NewsPage extends Fragment implements LoaderManager.LoaderCallbacks<
     @Override
     public void onLoaderReset(Loader<List<NewsModel>> loader) {
 
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //TODO: check two adapters here
-        NewsModel newsEventModel = fullNewsList.get(position);
-        startFragment(newsEventModel.getIdArticle());
     }
 
     private void startFragment(int newsID){

@@ -64,9 +64,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_job);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title)
+                .setSmallIcon(R.mipmap.ic_launcher_job).setContentTitle(title)
                 .setContentText(body)
                 .setContentIntent(pendingIntent);
 
