@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/logo_job"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true">
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />

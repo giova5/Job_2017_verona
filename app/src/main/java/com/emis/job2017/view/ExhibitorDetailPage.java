@@ -103,6 +103,10 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
         dealerWebsite.setText(dealerWebSiteContent);
         dealerPosition.setText(stand);
 
+        if(currentDealer.getStandCoordinates().isEmpty()){
+            dealerLocationToWebView.setVisibility(View.GONE);
+        }
+
         Picasso.with(getContext())
                 .load(currentDealer.getLogoPath())
                 .placeholder(R.drawable.logo_job)
