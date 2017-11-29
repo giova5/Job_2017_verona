@@ -134,7 +134,8 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
 
         switch (v.getId()){
             case R.id.user_favourites_button:
-                ServerOperations.sendGetFavoritesList(this);
+                Intent favoritesIntent = new Intent(UserProfilePage.this, FavoritesPage.class);
+                startActivity(favoritesIntent);
                 break;
             case R.id.user_ticket_button:
                 //genera qrCode da link

@@ -18,6 +18,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -254,6 +256,29 @@ public class RealmUtils {
         }
 
         return clonedList;
+    }
+
+    public static List<ExhibitorsModel> getFavoritesFromIDs(List<String> dealersID){
+
+        List<ExhibitorsModel> favoritesList = new ArrayList<>();
+
+        Realm realm = Realm.getDefaultInstance();
+
+        for(String current : dealersID){
+            ExhibitorsModel exhibitorsModel = realm.where(ExhibitorsModel.class).equalTo("idExhibitor", Integer.valueOf(current)).findFirst();
+            favoritesList.add(ExhibitorsModel.cloneObject(exhibitorsModel));
+        }
+
+        Collections.sort(favoritesList, new Comparator<ExhibitorsModel>()
+        {
+            @Override
+            public int compare(ExhibitorsModel text1, ExhibitorsModel text2)
+            {
+                return text1.getName().compareToIgnoreCase(text2.getName());
+            }
+        });
+
+        return favoritesList;
     }
 
 //    public static void getUsers(){

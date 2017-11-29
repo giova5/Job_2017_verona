@@ -29,6 +29,7 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
 
     public static final String EXHIB_ID = "EXHIB_ID";
     public static final String QR_CODE_READER = "QR_CODE_READER";
+    public static final String IS_FAVORITES = "IS_FAVORITES";
 
     private TextView dealerName;
     private TextView dealerDescription;
@@ -42,6 +43,7 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
 
     private int exhibID;
     private boolean qrCodeReader;
+    private boolean isFavorites;
     private ExhibitorsModel currentDealer;
 
     public ExhibitorDetailPage(){
@@ -54,6 +56,7 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
 
         exhibID = getArguments().getInt(EXHIB_ID, -1);
         qrCodeReader = getArguments().getBoolean(QR_CODE_READER, false);
+        isFavorites = getArguments().getBoolean(IS_FAVORITES, false);
     }
 
     @Override
@@ -111,12 +114,13 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
  * @param qrCodeReader boolean that indicates if ExhibitorFragmen is open from QrCodeFragment or not.
  *
  * */
-    public static ExhibitorDetailPage newInstance(int exhibID, boolean qrCodeReader){
+    public static ExhibitorDetailPage newInstance(int exhibID, boolean qrCodeReader, boolean isFavorites){
         ExhibitorDetailPage exhibDetailPage = new ExhibitorDetailPage();
 
         Bundle args = new Bundle();
         args.putInt(EXHIB_ID, exhibID);
         args.putBoolean(QR_CODE_READER, qrCodeReader);
+        args.putBoolean(IS_FAVORITES, isFavorites);
         exhibDetailPage.setArguments(args);
         return exhibDetailPage;
     }
@@ -135,11 +139,20 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
     }
 
     private void startGeneralWebviewFragment(String link){
-        GeneralWebView fragment2 = GeneralWebView.newInstance(link);
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.container, fragment2);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        if(!isFavorites) {
+            GeneralWebView fragment2 = GeneralWebView.newInstance(link);
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.container, fragment2);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else{
+            GeneralWebView fragment2 = GeneralWebView.newInstance(link);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.fragment_container, fragment2);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
     }
 }

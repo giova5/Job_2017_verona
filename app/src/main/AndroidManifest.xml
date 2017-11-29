@@ -95,6 +95,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".view.FavoritesPage"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
     </application>
 

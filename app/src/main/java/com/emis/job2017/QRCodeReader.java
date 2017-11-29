@@ -148,7 +148,7 @@ public class QRCodeReader extends Fragment implements ZXingScannerView.ResultHan
     }
 
     private void startFragment(int exhibID){
-        ExhibitorDetailPage fragment2 = ExhibitorDetailPage.newInstance(exhibID, true);
+        ExhibitorDetailPage fragment2 = ExhibitorDetailPage.newInstance(exhibID, true, false);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment2);
