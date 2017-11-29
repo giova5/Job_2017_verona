@@ -9,8 +9,6 @@ import io.realm.RealmObject;
 
 public class CalendarEventModel extends RealmObject {
 
-    //TODO: implement model
-
     private int idProgram;
     private long startTime;
     private long endTime;

@@ -3,6 +3,8 @@ package com.emis.job2017.view;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,11 +36,13 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
     private TextView dealerEmail;
     private TextView dealerWebsite;
     private TextView dealerPosition;
+    private TextView dealerLocationToWebView;
 
     private ImageView dealerIcon;
 
     private int exhibID;
     private boolean qrCodeReader;
+    private ExhibitorsModel currentDealer;
 
     public ExhibitorDetailPage(){
 
@@ -66,8 +70,10 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
         dealerEmail = (TextView) view.findViewById(R.id.dealer_email);
         dealerWebsite = (TextView) view.findViewById(R.id.dealer_website);
         dealerPosition = (TextView) view.findViewById(R.id.dealer_location);
-
         dealerIcon = (ImageView) view.findViewById(R.id.dealer_icon);
+        dealerLocationToWebView = (TextView) view.findViewById(R.id.position_button);
+
+        dealerLocationToWebView.setOnClickListener(this);
 
         return view;
     }
@@ -78,7 +84,7 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
 
         ServerOperations.sendGetExhibitorsWithParams(getActivity(), String.valueOf(exhibID));
 
-        ExhibitorsModel currentDealer = RealmUtils.getExhibitor(exhibID);
+        currentDealer = RealmUtils.getExhibitor(exhibID);
 
         String dealerNameContent = (!currentDealer.getName().isEmpty()) ? currentDealer.getName() : "Nessuna informazione";
         String dealerDescriptionContent = currentDealer.getDescription();
@@ -118,7 +124,22 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        Log.d("FRAGMENT", "ONCLICK");
 
+        switch (v.getId()){
+            case R.id.position_button:
+                String link = "http://job2017.webiac.it/index.php?s=31&app=1&idesp=" + currentDealer.getIdExhibitor() + "#mapplic";
+                startGeneralWebviewFragment(link);
+                break;
+        }
+
+    }
+
+    private void startGeneralWebviewFragment(String link){
+        GeneralWebView fragment2 = GeneralWebView.newInstance(link);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.container, fragment2);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

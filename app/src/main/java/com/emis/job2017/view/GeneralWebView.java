@@ -21,6 +21,8 @@ public class GeneralWebView extends Fragment {
 
     private String generalUrl;
     private static final String QR_CODE_LINK = "QR_CODE_LINK";
+    private static final String LATITUDE = "LATITUDE";
+    private static final String LONGITUDE = "LONGITUDE";
     private WebView webView;
     private ProgressBar progressBar;
 
@@ -81,4 +83,14 @@ public class GeneralWebView extends Fragment {
         generalWebView.setArguments(args);
         return generalWebView;
     }
+
+//    public static GeneralWebView newInstance(String link, String latitude, String longitude){
+//        GeneralWebView generalWebView = new GeneralWebView();
+//        Bundle args = new Bundle();
+//        args.putString(QR_CODE_LINK, link);
+//        args.putString(LATITUDE, latitude);
+//        args.putString(LONGITUDE, longitude);
+//        generalWebView.setArguments(args);
+//        return generalWebView;
+//    }
 }

@@ -40,7 +40,6 @@ public class QRCodeReader extends Fragment implements ZXingScannerView.ResultHan
      * this fragment using the provided parameters.
      * @return A new instance of fragment QRCodeReader.
      */
-    // TODO: Rename and change types and number of parameters
     public static QRCodeReader newInstance(String param1, String param2) {
         QRCodeReader fragment = new QRCodeReader();
         return fragment;

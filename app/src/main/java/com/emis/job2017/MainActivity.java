@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView ticketBtn;
     private ImageView profileBtn;
 
-    //TODO: change images.
     private int[] imageResId = {
             R.drawable.news,
             R.drawable.espositori,

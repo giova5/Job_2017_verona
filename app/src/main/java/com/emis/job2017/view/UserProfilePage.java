@@ -183,9 +183,6 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                 double latitude = gps.getLatitude();
                 double longitude = gps.getLongitude();
 
-                // \n is for new line
-                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
                 double distanceInMeters = Utils.distance(latitude, longitude, VERONA_LATITUDE, VERONA_LONGITUDE);
 
                 if (distanceInMeters <= 200 && checkCalendarForAttestation(currentDay, currentMonth)) {

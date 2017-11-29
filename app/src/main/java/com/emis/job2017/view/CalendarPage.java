@@ -87,7 +87,6 @@ public class CalendarPage extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<List<CalendarEventModel>> onCreateLoader(int id, Bundle args) {
-        //TODO: put start spinner rotation
         calendarSpinner.setVisibility(View.VISIBLE);
         return new CalendarLoader(getActivity());
     }
