@@ -8,8 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
@@ -75,7 +78,16 @@ public class RegistrationPage extends Fragment {
     private void setupWebview(){
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.setWebViewClient(new WebViewClientImpl());
+        webView.setWebChromeClient(new WebChromeClient(){
+            public void onProgressChanged(WebView view, int progress) {
+                if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
+                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                }
+                if(progress == 100) {
+                    progressBar.setVisibility(ProgressBar.GONE);
+                }
+            }
+        });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.loadUrl(registrationUrl);
@@ -86,23 +98,28 @@ public class RegistrationPage extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private class WebViewClientImpl extends android.webkit.WebViewClient {
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            progressBar.setVisibility(View.VISIBLE);
-            super.onPageStarted(view, url, favicon);
-        }
-
-        public void onPageFinished(WebView view, String url) {
-            progressBar.setVisibility(View.GONE);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            // When user clicks a hyperlink, load in the existing WebView
-            view.loadUrl(url);
-            return true;
-        }
-    }
+//    private class WebViewClientImpl extends android.webkit.WebViewClient {
+//
+//        @Override
+//        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//            progressBar.setVisibility(View.VISIBLE);
+//            super.onPageStarted(view, url, favicon);
+//        }
+//
+//        public void onPageFinished(WebView view, String url) {
+//            progressBar.setVisibility(View.GONE);
+//        }
+//
+//        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//            // When user clicks a hyperlink, load in the existing WebView
+//            view.loadUrl(url);
+//            return true;
+//        }
+//
+//        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+//            Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 }

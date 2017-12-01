@@ -15,6 +15,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.emis.job2017.ServerManagerService.OPERATION_SUCCESS_200_OK;
+import static com.emis.job2017.ServerManagerService.RESPONSE_CODE;
+
 /**
  * Created by jo5 on 29/11/17.
  */
@@ -45,9 +48,16 @@ public class FavoritesLoader extends BaseAsyncLoader<List<ExhibitorsModel>> {
         ServerOperations getExhibitors = new ServerOperations(Utils.EventType.PREFERITI_ELENCO);
         JSONObject getFavoritesResponse = getExhibitors.getFavoritesList();
 
-        List<String> dealersID = parseGetFavorites(getFavoritesResponse);
-
-        return RealmUtils.getFavoritesFromIDs(dealersID);
+        try {
+            if(getFavoritesResponse != null && getFavoritesResponse.getString(RESPONSE_CODE).equals(OPERATION_SUCCESS_200_OK)) {
+                List<String> dealersID = parseGetFavorites(getFavoritesResponse);
+                return RealmUtils.getFavoritesFromIDs(dealersID);
+            }else
+                return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private List<String> parseGetFavorites(JSONObject getFavoritesResponse){

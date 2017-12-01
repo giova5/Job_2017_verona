@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
@@ -76,7 +77,16 @@ public class AlreadyHaveTicketPage extends Fragment {
     private void setupWebview(){
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.setWebViewClient(new WebViewClientImpl());
+        webView.setWebChromeClient(new WebChromeClient(){
+            public void onProgressChanged(WebView view, int progress) {
+                if(progress < 100 && progressBar.getVisibility() == ProgressBar.GONE){
+                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                }
+                if(progress == 100) {
+                    progressBar.setVisibility(ProgressBar.GONE);
+                }
+            }
+        });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.loadUrl(alreadyHaveTicketUrl);

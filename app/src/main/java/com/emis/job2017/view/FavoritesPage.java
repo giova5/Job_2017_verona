@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.emis.job2017.R;
 import com.emis.job2017.adapters.ExhibitorsAdapter;
 import com.emis.job2017.loaders.ExhibitorsLoader;
@@ -68,8 +70,11 @@ public class FavoritesPage extends FragmentActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<List<ExhibitorsModel>> loader, List<ExhibitorsModel> data) {
         exhibitorsSpinner.setVisibility(View.GONE);
-        exhibitorsAdapter.switchItems(data);
-        fullExhibitorsList.addAll(data);
+        if(data != null) {
+            exhibitorsAdapter.switchItems(data);
+            fullExhibitorsList.addAll(data);
+        }else
+            showErrorDialog(getResources().getString(R.string.title_no_internet_popup));
     }
 
     @Override
@@ -81,6 +86,25 @@ public class FavoritesPage extends FragmentActivity implements LoaderManager.Loa
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ExhibitorsModel exhibitorsModel = exhibitorsAdapter.getListFiltered().get(position);
         startFragment(exhibitorsModel.getIdExhibitor());
+    }
+
+    private void showErrorDialog(String message){
+        new AwesomeErrorDialog(this)
+                .setTitle(R.string.title_popup_app)
+                .setMessage(message)
+                .setColoredCircle(R.color.colorYellow)
+                .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
+                .setCancelable(true).setButtonText(getString(R.string.dialog_ok_button))
+                .setButtonBackgroundColor(R.color.colorYellow)
+                .setButtonText(getString(R.string.dialog_ok_button))
+                .setErrorButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        // click
+                        onBackPressed();
+                    }
+                })
+                .show();
     }
 
     private void startFragment(int exhibID){
