@@ -98,6 +98,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                     }
                     break;
                 case GET_ATTESTATION_FAILURE:
+                    showErrorDialogSuccess("Attestato generato con successo, accedi al sito http://job2017.webiac.it dal computer per stamparlo.");
                     userProfileProgressBar.setVisibility(View.GONE);
                     break;
             }
@@ -234,6 +235,24 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                 .setMessage(message)
                 .setColoredCircle(R.color.colorYellow)
                 .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
+                .setCancelable(true).setButtonText(getString(R.string.dialog_ok_button))
+                .setButtonBackgroundColor(R.color.colorYellow)
+                .setButtonText(getString(R.string.dialog_ok_button))
+                .setErrorButtonClick(new Closure() {
+                    @Override
+                    public void exec() {
+                        // click
+                    }
+                })
+                .show();
+    }
+
+    private void showErrorDialogSuccess(String message){
+        new AwesomeErrorDialog(this)
+                .setTitle(R.string.title_popup_app)
+                .setMessage(message)
+                .setColoredCircle(R.color.colorYellow)
+                .setDialogIconAndColor(R.drawable.ic_success, R.color.white)
                 .setCancelable(true).setButtonText(getString(R.string.dialog_ok_button))
                 .setButtonBackgroundColor(R.color.colorYellow)
                 .setButtonText(getString(R.string.dialog_ok_button))

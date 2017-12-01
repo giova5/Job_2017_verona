@@ -182,7 +182,7 @@ public class ServerManagerService extends IntentService {
                         RealmUtils.setUserAttestationUrl(attestationLink);
                         sendCallbackToListener(UserProfilePage.ResponseReceiver.LOCAL_ACTION, GET_ATTESTATION_SUCCESS, getAttestationResponse);
                     }else{
-                        //TODO: !200ok
+                        sendCallbackToListener(UserProfilePage.ResponseReceiver.LOCAL_ACTION, GET_ATTESTATION_FAILURE, getAttestationResponse);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
