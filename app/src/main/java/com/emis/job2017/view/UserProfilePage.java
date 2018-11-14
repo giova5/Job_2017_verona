@@ -60,7 +60,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
     private TextView userProfileTopText;
     private Button userFavouritesButton;
     private Button userTicketButton;
-    private Button userAttestationButton;
+//    private Button userAttestationButton;
     private ProgressBar userProfileProgressBar;
     Context context;
 
@@ -121,7 +121,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
         userProfileTopText = (TextView) findViewById(R.id.user_profile_top_text);
         userFavouritesButton = (Button) findViewById(R.id.user_favourites_button);
         userTicketButton = (Button) findViewById(R.id.user_ticket_button);
-        userAttestationButton = (Button) findViewById(R.id.user_attestation_button);
+//        userAttestationButton = (Button) findViewById(R.id.user_attestation_button);
         userProfileProgressBar = (ProgressBar) findViewById(R.id.user_profile_pb);
 
         UserProfileModel userProfileModel = RealmUtils.getUser();
@@ -132,7 +132,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
 
         userFavouritesButton.setOnClickListener(this);
         userTicketButton.setOnClickListener(this);
-        userAttestationButton.setOnClickListener(this);
+//        userAttestationButton.setOnClickListener(this);
 
     }
 
@@ -149,15 +149,15 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                 Intent ticketIntent = new Intent(UserProfilePage.this, UserTicketPage.class);
                 startActivity(ticketIntent);
                 break;
-            case R.id.user_attestation_button:
-                if(Utils.isNetworkAvailable(this)) {
-                    if (!checkPermissions()) {
-                        startGpsLogic();
-                    }
-                }else{
-                    showErrorDialog(getResources().getString(R.string.title_no_internet_popup));
-                }
-                break;
+//            case R.id.user_attestation_button:
+//                if(Utils.isNetworkAvailable(this)) {
+//                    if (!checkPermissions()) {
+//                        startGpsLogic();
+//                    }
+//                }else{
+//                    showErrorDialog(getResources().getString(R.string.title_no_internet_popup));
+//                }
+//                break;
         }
 
     }
