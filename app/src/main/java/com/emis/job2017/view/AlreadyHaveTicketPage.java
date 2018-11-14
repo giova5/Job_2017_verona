@@ -28,7 +28,7 @@ public class AlreadyHaveTicketPage extends Fragment {
 
     private WebView webView;
     private ProgressBar progressBar;
-    private static final String alreadyHaveTicketUrl = "http://job2017.webiac.it/index.php?s=85";
+    private static final String alreadyHaveTicketUrl = "http://job2018.webiac.it/index.php?s=85";
     public static final String ALREADY_HAVE_TICKET_ID = "ALREADY_HAVE_TICKET_ID";
 
     public AlreadyHaveTicketPage(){

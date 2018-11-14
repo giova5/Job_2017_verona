@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -38,6 +40,7 @@ import com.google.android.gms.common.UserRecoverableException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -60,6 +63,9 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
     private Button userAttestationButton;
     private ProgressBar userProfileProgressBar;
     Context context;
+
+    int PERMISSION_ALL = 1;
+    String[] PERMISSIONS = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_SMS, Manifest.permission.CAMERA};
 
 
     private GPSTracker gps;
@@ -98,7 +104,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                     }
                     break;
                 case GET_ATTESTATION_FAILURE:
-                    showErrorDialogSuccess("Attestato generato con successo, accedi al sito http://job2017.webiac.it dal computer per stamparlo.");
+                    showErrorDialogSuccess("Attestato generato con successo, accedi al sito http://job2018.webiac.it dal computer per stamparlo.");
                     userProfileProgressBar.setVisibility(View.GONE);
                     break;
             }
@@ -296,6 +302,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
+
 
     private boolean checkPermissions() {
 

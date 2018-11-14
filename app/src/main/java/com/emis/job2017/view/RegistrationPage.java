@@ -27,7 +27,7 @@ public class RegistrationPage extends Fragment {
 
     private WebView webView;
     private ProgressBar progressBar;
-    private static final String registrationUrl = "http://job2017.webiac.it/index.php?s=83";
+    private static final String registrationUrl = "http://job2018.webiac.it/index.php?s=83";
 
     public RegistrationPage(){
 
