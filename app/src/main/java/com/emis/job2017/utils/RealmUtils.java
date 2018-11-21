@@ -75,6 +75,16 @@ public class RealmUtils {
         realm.close();
     }
 
+    public static void removeUser(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        RealmResults<UserProfileModel> userProfileModels = realm.where(UserProfileModel.class).findAll();
+        userProfileModels.deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();
+    }
+
     public static void saveCalendarList(List<CalendarEventModel> calendarList){
 
         Realm realm = Realm.getDefaultInstance();

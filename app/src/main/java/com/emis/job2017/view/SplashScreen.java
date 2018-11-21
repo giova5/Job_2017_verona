@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
@@ -65,6 +66,14 @@ public class SplashScreen extends Activity {
 
         Fabric.with(this, new Crashlytics());
 
+        SharedPreferences prefs = getSharedPreferences("preferenceDefault", Context.MODE_PRIVATE);
+        final boolean is2017Update = prefs.getBoolean("IS_2017_UPDATE", true);
+        if(is2017Update){
+            RealmUtils.removeUser();
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("IS_2017_UPDATE", false);
+            editor.apply();
+        }
         context = this;
 
         Handler handler = new Handler();
