@@ -67,41 +67,41 @@
         <activity
             android:name=".view.UserProfilePage"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.UserTicketPage"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="stateHidden|adjustPan"
-        android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.MapPage"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="stateHidden|adjustPan"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ProfilingActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="stateHidden|adjustPan"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.FavoritesPage"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="stateHidden|adjustPan"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
             android:screenOrientation="portrait"/>
 
     </application>
