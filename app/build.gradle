@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.emis.job2017"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 7
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
