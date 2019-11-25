@@ -135,7 +135,7 @@ public class ExhibitorDetailPage extends Fragment implements View.OnClickListene
 
         switch (v.getId()){
             case R.id.position_button:
-                String link = "http://job2018.webiac.it/index.php?s=31&app=1&idesp=" + currentDealer.getIdExhibitor() + "#mapplic";
+                String link = "http://job2019.webiac.it/index.php?s=31&app=1&idesp=" + currentDealer.getIdExhibitor() + "#mapplic";
                 startGeneralWebviewFragment(link);
                 break;
         }

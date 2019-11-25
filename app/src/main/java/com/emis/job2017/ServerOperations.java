@@ -33,7 +33,7 @@ import static com.emis.job2017.ServerRequestController.RETRIES;
 public class ServerOperations {
 
     private URL url;
-    private static String urlHeaderAsString = "http://job2018.webiac.it/access/";
+    private static String urlHeaderAsString = "http://job2019.webiac.it/access/";
     private static String ACORGPROFILO = "acvisprofilo/";
     private static String ACVISLOGIN = "acvislogin/";
     private static String ACVISPROGRAMMA = "acvisprogramma/";

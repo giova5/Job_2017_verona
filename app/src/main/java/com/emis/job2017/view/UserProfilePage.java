@@ -104,7 +104,7 @@ public class UserProfilePage extends AppCompatActivity implements View.OnClickLi
                     }
                     break;
                 case GET_ATTESTATION_FAILURE:
-                    showErrorDialogSuccess("Attestato generato con successo, accedi al sito http://job2018.webiac.it dal computer per stamparlo.");
+                    showErrorDialogSuccess("Attestato generato con successo, accedi al sito http://job2019.webiac.it dal computer per stamparlo.");
                     userProfileProgressBar.setVisibility(View.GONE);
                     break;
             }

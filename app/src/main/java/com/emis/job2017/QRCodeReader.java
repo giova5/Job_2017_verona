@@ -29,7 +29,7 @@ public class QRCodeReader extends Fragment implements ZXingScannerView.ResultHan
 
     private ZXingScannerView mScannerView;
     private LinearLayout qrCameraLayout;
-    private static final String HOST_JOB = "job2018.webiac.it";
+    private static final String HOST_JOB = "job2019.webiac.it";
 
     public QRCodeReader() {
         // Required empty public constructor

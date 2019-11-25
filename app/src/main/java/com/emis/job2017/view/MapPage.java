@@ -27,7 +27,7 @@ public class MapPage extends Activity {
 
     private WebView webView;
     private ProgressBar progressBar;
-    private static final String mapUrl = "http://job2018.webiac.it/access/acvisespmappa/mappa_mobile.php?app=1";
+    private static final String mapUrl = "http://job2019.webiac.it/access/acvisespmappa/mappa_mobile.php?app=1";
 
     public MapPage(){
 
