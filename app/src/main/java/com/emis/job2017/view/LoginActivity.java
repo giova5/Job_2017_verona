@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -38,7 +39,7 @@ import static com.emis.job2017.ServerManagerService.OPERATION_FAILURE_401;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextInputEditText textViewEmail;
-    private TextView textViewPassword;
+    private AppCompatEditText textViewPassword;
     private Button buttonLogin;
     private ProgressBar loginProgressBar;
 
@@ -121,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         textViewEmail = (TextInputEditText) findViewById(R.id.login_email);
-        textViewPassword = (TextInputEditText) findViewById(R.id.login_password);
+        textViewPassword = (AppCompatEditText) findViewById(R.id.login_password);
         buttonLogin = (Button) findViewById(R.id.login_button);
         loginProgressBar = (ProgressBar) findViewById(R.id.login_progress_bar);
 

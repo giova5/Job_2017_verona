@@ -63,7 +63,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
             android:noHistory="true"
-            android:excludeFromRecents="true"/>
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
 
         <activity
             android:name=".view.UserProfilePage"
