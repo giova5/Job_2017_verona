@@ -9,8 +9,8 @@ android {
         applicationId "com.emis.job2017"
         minSdkVersion android_minSdkVersion
         targetSdkVersion android_targetSdkVersion
-        versionCode 7
-        versionName "1.0"
+        versionCode 8
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
